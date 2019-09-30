@@ -37,5 +37,51 @@ class Inscriptions
      */
     private $dateInscription;
 
+    /**
+     * @return int
+     */
+    public function getSortiesNoSortie(): int
+    {
+        return $this->sortiesNoSortie;
+    }
 
+    /**
+     * @param int $sortiesNoSortie
+     */
+    public function setSortiesNoSortie(int $sortiesNoSortie)
+    {
+        $this->sortiesNoSortie = $sortiesNoSortie;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParticipantsNoParticipant(): int
+    {
+        return $this->participantsNoParticipant;
+    }
+
+    /**
+     * @param int $participantsNoParticipant
+     */
+    public function setParticipantsNoParticipant(int $participantsNoParticipant)
+    {
+        $this->participantsNoParticipant = $participantsNoParticipant;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateInscription(): \DateTime
+    {
+        return $this->dateInscription;
+    }
+
+    /**
+     * @param \DateTime $dateInscription
+     */
+    public function setDateInscription(\DateTime $dateInscription)
+    {
+        $this->dateInscription = $dateInscription;
+    }
 }

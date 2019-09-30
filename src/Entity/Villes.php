@@ -35,5 +35,51 @@ class Villes
      */
     private $codePostal;
 
+    /**
+     * @return int
+     */
+    public function getNoVille(): int
+    {
+        return $this->noVille;
+    }
 
+    /**
+     * @param int $noVille
+     */
+    public function setNoVille(int $noVille)
+    {
+        $this->noVille = $noVille;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNomVille(): string
+    {
+        return $this->nomVille;
+    }
+
+    /**
+     * @param string $nomVille
+     */
+    public function setNomVille(string $nomVille)
+    {
+        $this->nomVille = $nomVille;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCodePostal(): string
+    {
+        return $this->codePostal;
+    }
+
+    /**
+     * @param string $codePostal
+     */
+    public function setCodePostal(string $codePostal)
+    {
+        $this->codePostal = $codePostal;
+    }
 }
