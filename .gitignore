@@ -71,3 +71,7 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+
+# file: ~/.gitignore_global
+.DS_Store
+.idea
