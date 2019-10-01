@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class VillesFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load( ObjectManager $manager )
     {
         $faker = \Faker\Factory::create( 'fr_FR' );
         $json_source = file_get_contents( 'public/data/villes.json' );
@@ -17,7 +17,8 @@ class VillesFixtures extends Fixture
             $ville = new Villes();
             $ville -> setNomVille( $city['nom'] );
             $ville -> setCodePostal( $city['code_postal'] );
-            $manager->flush();
+            $manager->persist( $ville );
         }
+        $manager-> flush();
     }
 }
