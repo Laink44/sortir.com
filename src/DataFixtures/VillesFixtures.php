@@ -13,12 +13,21 @@ class VillesFixtures extends Fixture
         $faker = \Faker\Factory::create( 'fr_FR' );
         $json_source = file_get_contents( 'public/data/villes.json' );
         $json_data = json_decode( $json_source, true );
+
+        $index = 1;
+        
         foreach( $json_data as $city ){
             $ville = new Ville();
             $ville -> setNomVille( $city['Nom_commune'] );
             $ville -> setCodePostal( $city['Code_postal'] );
             $manager->persist( $ville );
+
+            if( $index % 1000 === 0 ) {
+                $manager -> flush();
+                $manager -> clear();
+                unset( $ville );
+            }
+            $index++;
         }
-        $manager-> flush();
     }
 }
