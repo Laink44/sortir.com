@@ -1,0 +1,34 @@
+[
+   {
+      "nom": "Quimper",
+      "code_postal": 29000
+   },
+   {
+      "nom": "Rennes",
+      "code_postal": 35000
+   },
+   {
+      "nom": "Laval",
+      "code_postal": 53000
+   },
+   {
+      "nom": "Le mans",
+      "code_postal": 72000
+   },
+   {
+      "nom": "Angers",
+      "code_postal": 49000
+   },
+   {
+      "nom": "Nantes",
+      "code_postal": 44000
+   },
+   {
+      "nom": "La Roche-sur-Yon",
+      "code_postal": 85000
+   },
+   {
+      "nom": "Niort",
+      "code_postal": 79000
+   }
+]
