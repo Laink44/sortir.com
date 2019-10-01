@@ -1,0 +1,8 @@
+services:
+  - mysql:latest
+
+variables:
+  # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: "sortir"
+  MYSQL_ROOT_PASSWORD: "sortir_user"
+  
