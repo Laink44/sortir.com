@@ -17,7 +17,7 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
-
+/.idea
 /.idea/workspace.xml
 # Cache and logs (Symfony2)
 /app/cache/*
@@ -75,3 +75,4 @@
 # file: ~/.gitignore_global
 .DS_Store
 .idea
+composer.lock
