@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Etats;
+use App\Entity\Etat;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
