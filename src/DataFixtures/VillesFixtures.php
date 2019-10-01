@@ -15,8 +15,8 @@ class VillesFixtures extends Fixture
         $json_data = json_decode( $json_source, true );
         foreach( $json_data as $city ){
             $ville = new Villes();
-            $ville -> setNomVille( $city['nom'] );
-            $ville -> setCodePostal( $city['code_postal'] );
+            $ville -> setNomVille( $city['Nom_commune'] );
+            $ville -> setCodePostal( $city['Code_postal'] );
             $manager->persist( $ville );
         }
         $manager-> flush();
