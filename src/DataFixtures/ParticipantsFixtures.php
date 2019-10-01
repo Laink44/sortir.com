@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Participants;
+use App\Entity\Participant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,7 +20,7 @@ class ParticipantsFixtures extends Fixture
 
         $faker = \Faker\Factory::create('fr_FR');
         for ($nbpart=1; $nbpart<=5; $nbpart ++) {
-            $participant = new Participants();
+            $participant = new Participant();
             // ATTENTION : on s'assure de l'unicité
             $pseudo = $faker->unique()->userName;
             $participant -> setPseudo( $pseudo);
