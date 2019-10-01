@@ -14,7 +14,7 @@ class EtatsFixtures extends Fixture
         $json_source = file_get_contents( 'public/data/etats.json' );
         $json_data = json_decode( $json_source, true );
         foreach( $json_data as $states ){
-            $etat = new Etats();
+            $etat = new Etat();
             $etat -> setLibelle( $states['libelle'] );
             $manager->persist( $etat );
         }
