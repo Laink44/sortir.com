@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block main %}
+    <h1>Connexion</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey | trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <form method="post">
+        <label>Identifiant</label>
+        <input type="text" class="form-control" placeholder="Votre identifiant"
+               name="_username" required value="{{ last_username }}">
+        <label>Mot de passe</label>
+        <input type="password" class="form-control" placeholder="Votre mot de passe"
+               name="_password" required>
+        <label>Se souvenir de moi</label>
+        <input type="radio" name="memorise">
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+    </form>
+{% endblock %}

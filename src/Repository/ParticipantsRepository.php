@@ -8,8 +8,10 @@ use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class ParticipantsRepository extends ServiceEntityRepository
+class ParticipantsRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -28,4 +30,17 @@ class ParticipantsRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Loads the user for the given username.
+     *
+     * This method must return null if the user is not found.
+     *
+     * @param string $username The username
+     *
+     * @return UserInterface|null
+     */
+    public function loadUserByUsername($username)
+    {
+        // TODO: Implement loadUserByUsername() method.
+    }
 }
