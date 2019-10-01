@@ -15,8 +15,8 @@ class InscriptionsFixtures extends Fixture
         $inscription = new Inscription();
         $partitipants = new Participant();
         $inscription->setDateInscription($faker->dateTimeBetween('-6 months'));
-        $idParticipant = $partitipants->getNoParticipant();
-        $inscription->setParticipantsNoParticipant();
+        //$idParticipant = $partitipants->getNoParticipant();
+        //$inscription->setParticipantsNoParticipant();
 
 
         // $manager->persist($product);
