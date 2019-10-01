@@ -22,10 +22,12 @@ class ParticipantsFixtures extends Fixture
         for ($nbpart=1; $nbpart<=5; $nbpart ++) {
             $participant = new Participants();
             // ATTENTION : on s'assure de l'unicité
-            $participant -> setPseudo( strtolower( substr($faker->unique()->firstName,2).(substr($faker->unique()->lastName,3))));
+            $pseudo = $faker->unique()->userName;
+            $participant -> setPseudo( $pseudo);
             $participant -> setNom( $faker->lastName);
             $participant -> setPrenom($faker ->firstName);
-            $participant -> setTelephone(substr(($faker->unique()->phoneNumber),0,10));
+            $phoneFr = $faker->numerify("06########");
+            $participant -> setTelephone($phoneFr);
             $participant -> setMail(($faker->unique()->email));
             $password = $this->encoder->encodePassword($participant,'pass_1234"');
             $participant ->setMotDePasse($password);
