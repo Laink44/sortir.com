@@ -16,6 +16,7 @@ class SitesFixtures extends Fixture
         foreach( $json_data as $location ){
             $site = new Sites();
             $site -> setNomSite( $location['nom'] );
+            $manager->persist( $site );
         }
         $manager-> flush();
     }
