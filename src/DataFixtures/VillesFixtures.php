@@ -20,5 +20,8 @@ class VillesFixtures extends Fixture
             $manager->persist( $ville );
         }
         $manager-> flush();
+        //unset
+
+        // php -d memory_limit=-1 doctrine:fixtures:load --no-debug
     }
 }
