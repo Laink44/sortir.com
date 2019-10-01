@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Site;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class SitesFixtures extends Fixture
+class SitesFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load( ObjectManager $manager )
     {
@@ -20,5 +21,10 @@ class SitesFixtures extends Fixture
 
         }
         $manager-> flush();
+    }
+
+    public function getOrder()
+    {
+        return 5;
     }
 }

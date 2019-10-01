@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class VillesFixtures extends Fixture
+class VillesFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load( ObjectManager $manager )
     {
@@ -29,5 +30,11 @@ class VillesFixtures extends Fixture
             }
             $index++;
         }
+    }
+
+
+    public function getOrder()
+    {
+        return 1;
     }
 }

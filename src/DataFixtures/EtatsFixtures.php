@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Etat;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class EtatsFixtures extends Fixture
+class EtatsFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load( ObjectManager $manager )
     {
@@ -19,5 +20,10 @@ class EtatsFixtures extends Fixture
             $manager->persist( $etat );
         }
         $manager-> flush();
+    }
+
+    public function getOrder()
+    {
+        return 3;
     }
 }

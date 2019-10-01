@@ -4,10 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Participant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ParticipantsFixtures extends Fixture
+class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
 {
     private $encoder;
     public function __construct(UserPasswordEncoderInterface $encoder) {
@@ -46,5 +47,10 @@ class ParticipantsFixtures extends Fixture
         // $manager->persist($product);
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 4;
     }
 }

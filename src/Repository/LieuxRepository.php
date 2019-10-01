@@ -5,6 +5,7 @@ namespace App\Repository;
 
 
 
+use App\Entity\Lieu;
 use App\Entity\Ville;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -17,11 +18,11 @@ use Doctrine\ORM\NonUniqueResultException;
  * @method Test[]    findAll()
  * @method Test[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VillesRepository extends ServiceEntityRepository
+class LieuxRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Ville::class);
+        parent::__construct($registry, Lieu::class);
     }
 
 
