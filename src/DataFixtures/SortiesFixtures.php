@@ -51,25 +51,34 @@ class SortiesFixtures extends Fixture implements OrderedFixtureInterface
     public function load( ObjectManager $manager )
     {
         $faker = \Faker\Factory::create( 'fr_FR' );
+        $ville = $this->villesRepository->findOneBy([]);
+        $villeId = ( $ville -> getNoVille() ) + rand ( 1 , 500 );
+        $participant = $this->participantsRepository->findOneBy([]);
+        $participantId = $participant -> getNoParticipant() ;
+        $lieu = $this->lieuxRepository->findOneBy([]);
+        $lieuId = $lieu -> getNoLieu() ;
+        $etat = $this->etatsRepository->findOneBy([]);
+        $etatId = $etat -> getNoEtat() ;
+
         for ($nbpart=1; $nbpart<=5; $nbpart ++) {
             $sortie = new Sortie();
-
-            $ville = $this->villesRepository->findOneBy([]);
-            $participant = $this->participantsRepository->findOneBy([]);
-            $lieu = $this->lieuxRepository->findOneBy([]);
-            $etat = $this->etatsRepository->findOneBy([]);
-
-            $sortie->setNom("Sortie à ".$ville->getNomVille());
+            $newVille = $this->villesRepository->find( $villeId );
+            $sortie->setNom("Sortie à ".$newVille->getNomVille());
             $sortie->setDatedebut($faker->dateTime);
             $sortie->setDatecloture($faker->dateTimeBetween($sortie->getDatedebut(), "+3 months"));
             $sortie->setDescriptioninfos($faker->paragraph(1));
             $sortie->setDuree($faker->randomDigitNotNull());
             $sortie->setNbinscriptionsmax($faker->randomDigitNotNull());
 
-            $sortie->setOrganisateur($participant->getNoParticipant());
-            $sortie->setLieuxNoLieu($lieu->getNoLieu());
-            $sortie->setEtatsNoEtat($etat->getNoEtat());
+            $sortie->setOrganisateur( $participantId );
+            $sortie->setLieuxNoLieu( $lieuId );
+            $sortie->setEtatsNoEtat( $etatId );
             $manager->persist( $sortie );
+
+            $villeId = $villeId + rand ( 1 , 20 );
+            $lieuId++;
+            $etatId++;
+            $participantId++;
         }
         $manager-> flush();
     }
