@@ -31,7 +31,7 @@ class LieuxFixtures extends Fixture
             $lieu = new Lieu();
             $lieu -> setNomLieu( $faker -> company );
             $lieu -> setLongitude( $faker -> longitude );
-            $lieu -> setLatitude( $faker -> longitude );
+            $lieu -> setLatitude( $faker -> latitude );
             $lieu -> setVillesNoVille( $allVillesDraw[ $index ] -> getNoVille );
         }
 
