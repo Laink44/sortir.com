@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sites
+ * Site
  *
  * @ORM\Table(name="sites")
  * @ORM\Entity
  */
-class Sites
+class Site
 {
     /**
      * @var int
@@ -24,7 +24,7 @@ class Sites
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_site", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nom_site", type="string", length=255, nullable=false)
      */
     private $nomSite;
 

@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Participants
+ * Participant
  *
  * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="pseudo", columns={"pseudo"})})
  * @ORM\Entity
  */
-class Participants implements UserInterface
+class Participant implements UserInterface
 {
     /**
      * @var int

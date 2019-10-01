@@ -2,22 +2,21 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Site;
+use App\Entity\Etats;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class SitesFixtures extends Fixture
+class EtatsFixtures extends Fixture
 {
     public function load( ObjectManager $manager )
     {
         $faker = \Faker\Factory::create( 'fr_FR' );
-        $json_source = file_get_contents( 'public/data/sites.json' );
+        $json_source = file_get_contents( 'public/data/etats.json' );
         $json_data = json_decode( $json_source, true );
-        foreach( $json_data as $location ){
-            $site = new Site();
-            $site -> setNomSite( $location['nom'] );
-            $manager->persist( $site );
-
+        foreach( $json_data as $states ){
+            $etat = new Etats();
+            $etat -> setLibelle( $states['libelle'] );
+            $manager->persist( $etat );
         }
         $manager-> flush();
     }
