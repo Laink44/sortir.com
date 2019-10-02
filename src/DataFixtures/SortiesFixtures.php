@@ -60,7 +60,7 @@ class SortiesFixtures extends Fixture implements OrderedFixtureInterface
         $etat = $this->etatsRepository->findOneBy([]);
         $etatId = $etat -> getId() ;
 
-        for ($nbpart=1; $nbpart<=5; $nbpart ++) {
+        for ($nbpart=1; $nbpart<=20; $nbpart ++) {
             $sortie = new Sortie();
             $newVille = $this->villesRepository->find( $villeId );
             $sortie->setNom("Sortie à ".$newVille->getNomVille());

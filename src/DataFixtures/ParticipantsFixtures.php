@@ -20,7 +20,7 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
     {
 
         $faker = \Faker\Factory::create('fr_FR');
-        for ($nbpart=1; $nbpart<=5; $nbpart ++) {
+        for ($nbpart=1; $nbpart<=20; $nbpart ++) {
             $participant = new Participant();
             // ATTENTION : on s'assure de l'unicité
             $pseudo = $faker->unique()->userName;
@@ -30,7 +30,7 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
             $phoneFr = $faker->numerify("06########");
             $participant -> setTelephone($phoneFr);
             $participant -> setMail(($faker->unique()->email));
-            $password = $this->encoder->encodePassword($participant,'pass_1234"');
+            $password = $this->encoder->encodePassword($participant,'pass_1234');
             $participant ->setMotDePasse($password);
             $participant -> setActif($faker->boolean);
             $participant -> setAdministrateur($faker->boolean);

@@ -27,7 +27,7 @@ class InscriptionsFixtures extends Fixture implements  OrderedFixtureInterface
     /**
      * SortiesFixtures constructor.
      * @param ParticipantsRepository $participantsRepository
-     * @param SortiesRepository $villesRepository
+     * @param SortiesRepository $sortiesRepository
      */
     public function __construct(ParticipantsRepository $participantsRepository,
                                 SortiesRepository $sortiesRepository
@@ -39,17 +39,23 @@ class InscriptionsFixtures extends Fixture implements  OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-      /*  $faker = \Faker\Factory::create( 'fr_FR' );
-        $inscription = new Inscription();
-        $inscription->setDateInscription($faker->dateTimeBetween('-3 months'));
+
         $participant = $this->participantsRepository->findOneBy([]);
         $sortie = $this->sortiesRepository->findOneBy([]);
-
-        $inscription->setParticipantsNoParticipant($participant->getNoParticipant());
-        $inscription->setSortiesNoSortie($sortie->getNoSortie());
-        $manager->persist($inscription);
-
-        $manager->flush();*/
+        $sortie->setId($sortie->getId()+1);
+        for ($nbpart=1; $nbpart<=10; $nbpart ++) {
+            $participant = $this->participantsRepository->find($participant->getId());
+            $sortie = $this->sortiesRepository->find($sortie->getId());
+            $faker = \Faker\Factory::create('fr_FR');
+            $inscription = new Inscription();
+            $inscription->setDate($faker->dateTimeBetween('-3 months'));
+            $inscription->setParticipant($participant);
+            $inscription->setSortie($sortie);
+            $manager->persist($inscription);
+            $sortie->setId($sortie->getId()+1);
+            $participant->setId($participant->getId()+1);
+        }
+        $manager->flush();
     }
 
     /**
