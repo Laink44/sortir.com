@@ -1,3 +1,11 @@
+:root {
+    --blanc: white;
+    --noir: black;
+    --gris-sombre: #212529;
+    --gris-moyen: rgba(20, 20, 20, 0.63);
+    --gris-clair: lightgray;
+    --bleu-turquoise: rgba(0, 206, 212, 0.84);
+}
 
 body,html{
     height: 100%;
@@ -14,4 +22,23 @@ body,html{
     border: none;
     outline: none;
     box-shadow: none;
+}
+
+.search-form {
+    width: 500px;
+}
+
+.btn-common {
+    border: 2px solid var(--gris-sombre);
+    font-weight: bold;
+    background-color: var(--gris-sombre);
+    color: var(--blanc);
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+.btn-common-disabled {
+    background-color: var(--gris-clair);
+    border: 2px solid var(--gris-clair);
+    cursor: default;
 }
