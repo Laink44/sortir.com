@@ -24,14 +24,14 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
             $participant = new Participant();
             // ATTENTION : on s'assure de l'unicité
             $pseudo = $faker->unique()->userName;
-            $participant -> setPseudo( $pseudo);
+            $participant -> setUsername( $pseudo);
             $participant -> setNom( $faker->lastName);
             $participant -> setPrenom($faker ->firstName);
             $phoneFr = $faker->numerify("06########");
             $participant -> setTelephone($phoneFr);
             $participant -> setMail(($faker->unique()->email));
             $password = $this->encoder->encodePassword($participant,'pass_1234');
-            $participant ->setMotDePasse($password);
+            $participant ->setPassword($password);
             $participant -> setActif($faker->boolean);
             $participant -> setAdministrateur($faker->boolean);
             $participant -> setSitesNoSite($faker->randomDigit);
