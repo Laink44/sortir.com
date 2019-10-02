@@ -1,0 +1,35 @@
+<div id="table-site" class="col-md-12">
+    <table>
+        <thead>
+        <tr>
+            <th>SITE</th>
+            <th>ACTION</th>
+        </tr>
+        </thead>
+        {% for site in allSites %}
+            <tr class="row">
+                <td class="col">{{ site.nomSite }}</td>
+                <td class="col">
+                    {#                                <button class="btn-common btn-edit-site" data-id="{{ site.id }}" data-url="{{ path( 'site_edit',{ id : site.id } ) }}">#}
+                    <button class="btn-common btn-edit-site" data-id="{{ site.id }}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-common btn-remove-site" id="btn-remove-site" data-url="{{ path( 'site_remove',{ id : site.id } ) }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <input type="text" id="inpt-add-site">
+            </td>
+            <td>
+                {#                          <button class="btn-common btn-add-site" data-id="{{ site.id }}" data-url="{{ path( 'site_add',{ id : site.id } ) }}">#}
+                <button class="btn-common btn-add-site" id="btn-add-site" data-url="{{ path( 'site_add' ) }}">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>

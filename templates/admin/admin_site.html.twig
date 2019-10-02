@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <form action="" class="search-form">
                     <form class="card card-sm">
                         <div class="card-body row no-gutters align-items-center">
@@ -28,52 +28,17 @@
                             </div>
                             <!--end of col-->
                             <div class="col-auto">
-                                <button class="btn btn-info" type="submit">GO !</button>
+                                <button class="btn btn-common" type="submit">GO !</button>
                             </div>
                             <!--end of col-->
                         </div>
                     </form>
                 </form>
             </div>
-            <div class="col-md-6">
-            </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>VILLE</th>
-                        <th>ACTION</th>
-                    </tr>
-                    </thead>
-                    {% for site in allSites %}
-                        <tr class="row">
-                            <td class="col">{{ site.nomSite }}</td>
-                            <td class="col">
-{#                                <button class="btn-common btn-edit-site" data-id="{{ site.id }}" data-url="{{ path( 'site_edit',{ id : site.id } ) }}">#}
-                                <button class="btn-common btn-edit-site" data-id="{{ site.id }}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-{#                                <button class="btn-common btn-remove-site" data-id="{{ site.id }}" data-url="{{ path( 'site_remove',{ id : site.id } ) }}">#}
-                                <button class="btn-common btn-remove-site" data-id="{{ site.id }}">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    <tr>
-                        <td>
-                            <input type="text">
-                        </td>
-                        <td>
-{#                          <button class="btn-common btn-add-site" data-id="{{ site.id }}" data-url="{{ path( 'site_add',{ id : site.id } ) }}">#}
-                            <button class="btn-common btn-add-site">
-                                <i class="fas fa-plus-square"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
+            <div id="table-site" class="col-md-12">
+                {% include 'admin/admin_site_table.html.twig' %}
             </div>
         </div>
     </div>
