@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Participant
@@ -27,49 +28,55 @@ class Participant implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=30, nullable=false)
+     * @ORM\Column(name="pseudo", type="string", length=30, unique=true)
+     * @Assert\NotBlank()
      */
     private $pseudo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=30, nullable=false)
+     * @ORM\Column(name="nom", type="string", length=30)
+     * @Assert\NotBlank()
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="prenom", type="string", length=30, nullable=false)
+     * @ORM\Column(name="prenom", type="string", length=30)
+     * @Assert\NotBlank()
      */
     private $prenom;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="telephone", type="string", length=10, nullable=true)
+     * @ORM\Column(name="telephone", type="string", length=10)
      */
     private $telephone;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail", type="string", length=255, nullable=false)
+     * @ORM\Column(name="mail", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $mail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mot_de_passe", type="string", length=255, nullable=false)
+     * @ORM\Column(name="mot_de_passe", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $motDePasse;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="administrateur", type="boolean", nullable=false)
+     * @ORM\Column(name="administrateur", type="boolean")
+     * @Assert\NotBlank()
      */
     private $administrateur;
 
@@ -77,6 +84,7 @@ class Participant implements UserInterface
      * @var bool
      *
      * @ORM\Column(name="actif", type="boolean", nullable=false)
+     * @Assert\NotBlank()
      */
     private $actif;
 
@@ -116,7 +124,7 @@ class Participant implements UserInterface
     /**
      * @return string
      */
-    public function getPseudo(): string
+    public function getPseudo(): ?string
     {
         return $this->pseudo;
     }
@@ -132,7 +140,7 @@ class Participant implements UserInterface
     /**
      * @return string
      */
-    public function getNom(): string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
@@ -148,7 +156,7 @@ class Participant implements UserInterface
     /**
      * @return string
      */
-    public function getPrenom(): string
+    public function getPrenom(): ?string
     {
         return $this->prenom;
     }
@@ -164,7 +172,7 @@ class Participant implements UserInterface
     /**
      * @return string|null
      */
-    public function getTelephone(): string
+    public function getTelephone(): ?string
     {
         return $this->telephone;
     }
@@ -180,7 +188,7 @@ class Participant implements UserInterface
     /**
      * @return string
      */
-    public function getMail(): string
+    public function getMail(): ?string
     {
         return $this->mail;
     }
@@ -196,7 +204,7 @@ class Participant implements UserInterface
     /**
      * @return string
      */
-    public function getMotDePasse(): string
+    public function getMotDePasse(): ?string
     {
         return $this->motDePasse;
     }
@@ -212,7 +220,7 @@ class Participant implements UserInterface
     /**
      * @return bool
      */
-    public function isAdministrateur(): bool
+    public function isAdministrateur(): ?bool
     {
         return $this->administrateur;
     }
@@ -228,7 +236,7 @@ class Participant implements UserInterface
     /**
      * @return bool
      */
-    public function isActif(): bool
+    public function isActif(): ?bool
     {
         return $this->actif;
     }
@@ -244,7 +252,7 @@ class Participant implements UserInterface
     /**
      * @return int
      */
-    public function getSitesNoSite(): int
+    public function getSitesNoSite(): ?int
     {
         return $this->sitesNoSite;
     }
