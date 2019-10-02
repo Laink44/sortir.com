@@ -17,7 +17,7 @@ class SiteController extends Controller
      */
     public function adminSite()
     {
-        $siteRepository = $this->getDoctrine()->getRepository(Site::class);
+        $siteRepository = $this -> getDoctrine() -> getRepository( Site::class );
         $allSites = $siteRepository ->findAll();
 
         return $this->render('admin/admin_site.html.twig', [
