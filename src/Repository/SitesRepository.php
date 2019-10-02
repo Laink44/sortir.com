@@ -11,7 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  * @method Test[]    findAll()
  * @method Test[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VillesRepository extends ServiceEntityRepository
+class SitesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
