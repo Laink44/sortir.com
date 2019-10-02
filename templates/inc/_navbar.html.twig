@@ -10,24 +10,21 @@
                 <a class="nav-link" href="">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">Test</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">Articles</a>
+                <a class="nav-link" href="">Sorties</a>
             </li>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="">Créer un article</a>
+                    <a class="nav-link" href="">Créer une sortie</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Se déconnecter {{ app.user.username }}</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="">Se connecter</a>
+                    <a class="nav-link" href={{ path("participant_login") }}>Se connecter</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">S'inscrire</a>
+                    <a class="nav-link" href={{ path("participant_register") }}>S'inscrire</a>
                 </li>
             {% endif %}
         </ul>
