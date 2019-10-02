@@ -36,3 +36,9 @@ body,html{
     border-radius: 0px;
     cursor: pointer;
 }
+
+.btn-common-disabled {
+    background-color: var(--gris-clair);
+    border: 2px solid var(--gris-clair);
+    cursor: default;
+}

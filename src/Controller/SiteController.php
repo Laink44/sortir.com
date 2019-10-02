@@ -59,6 +59,25 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @Route(
+     * "/admin/site/editer/{id}/nom/{nomSite}",
+     * name="site_edit",
+     * methods={"GET"}
+     * )
+     */
+    public function editSite( $id = '', $nomSite = '' )
+    {
+        $siteToEdit = $this -> getRepo() -> find( $id );
+        $siteToEdit -> setNomSite( $nomSite );
+        $this -> getEm() -> persist( $siteToEdit );
+        $this -> getEm() -> flush();
+
+        return $this->render('admin/admin_site_table.html.twig', [
+            'allSites' => $this -> getAllSites()
+        ]);
+    }
+
     public function getAllSites()
     {
         $siteRepository = $this -> getDoctrine() -> getRepository( Site::class );
