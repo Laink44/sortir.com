@@ -78,3 +78,23 @@
             // alert( 'alway' );
         });
     }
+
+// SEARCH
+    $('body').on( 'change', '#inpt-site-search', searchSite );
+
+    function searchSite( event ){
+        debugger;
+        let inptSearch = $(this);
+        let url = inptSearch.attr( 'data-url' ) + '/' + inptSearch.val();
+
+        $.get( url, function(){
+            // alert( 'success' );
+        }).done( function( response ){
+            debugger;
+            $( '#table-site' ).html( response );
+        }).fail( function( response ){
+            // alert( 'fail' );
+        }).always( function( response ){
+            // alert( 'alway' );
+        });
+    }

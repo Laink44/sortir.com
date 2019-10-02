@@ -78,9 +78,28 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @Route(
+     * "/admin/site/search/nom/{nomSite}",
+     * name="site_search",
+     * methods={"GET"}
+     * )
+     */
+    public function searchSite( $nomSite = '' )
+    {
+        $foundSites = $this -> getRepo() -> getBySiteName( $nomSite, 0, 5 );
+
+        foreach( $foundSites as $site ){
+            echo $site ;
+        }
+
+        return $this->render('admin/admin_site_table.html.twig', [
+            'allSites' => $foundSites
+        ]);
+    }
+
     public function getAllSites()
     {
-        $siteRepository = $this -> getDoctrine() -> getRepository( Site::class );
         return $this -> getRepo() -> findAll();
     }
 
