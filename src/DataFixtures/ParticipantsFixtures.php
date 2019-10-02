@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Participant;
+use App\Repository\SitesRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -11,8 +12,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
 {
     private $encoder;
-    public function __construct(UserPasswordEncoderInterface $encoder) {
+    /**
+     * @var SitesRepository
+     */
+    private $sitesRepository;
+
+    public function __construct(SitesRepository $sitesRepository, UserPasswordEncoderInterface $encoder) {
         $this->encoder = $encoder;
+        $this->sitesRepository = $sitesRepository;
     }
 
     //Génère des participants fictifs
@@ -34,7 +41,8 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
             $participant ->setPassword($password);
             $participant -> setActif($faker->boolean);
             $participant -> setAdministrateur($faker->boolean);
-            $participant -> setSitesNoSite($faker->randomDigit);
+            $idSite = $this->sitesRepository->findOneBy([])->getId() + rand ( 1 , 7 );
+            $participant -> setSite($this->sitesRepository->find($idSite));
             $manager->persist($participant);
 
 
@@ -51,6 +59,6 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
 
     public function getOrder()
     {
-        return 4;
+        return 5;
     }
 }

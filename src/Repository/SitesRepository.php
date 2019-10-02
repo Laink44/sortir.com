@@ -1,7 +1,8 @@
 <?php
 namespace App\Repository;
 
-use App\Entity\Ville;
+
+use App\Entity\Site;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -15,7 +16,7 @@ class SitesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Ville::class);
+        parent::__construct($registry, Site::class);
     }
 
 

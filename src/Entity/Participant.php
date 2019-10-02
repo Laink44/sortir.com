@@ -87,21 +87,29 @@ class Participant implements UserInterface
      */
     private $actif;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Site")
-     * @ORM\Column(name="sites_no_site", type="integer", nullable=false)
-     */
-    private $sitesNoSite;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="participant", orphanRemoval=true)
      */
     private $inscriptions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="participants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
+
+
     }
+
+
+
 
     /**
      * @return int
@@ -112,12 +120,13 @@ class Participant implements UserInterface
     }
 
     /**
-     * @param int $id
+     * @return int
      */
-    public function setId(int $id)
+    public function setId(): int
     {
-        $this->id = $id;
+        return $this->id;
     }
+
 
     public function getUsername(): ?string
     {
@@ -229,21 +238,7 @@ class Participant implements UserInterface
         $this->actif = $actif;
     }
 
-    /**
-     * @return int
-     */
-    public function getSitesNoSite(): ?int
-    {
-        return $this->sitesNoSite;
-    }
 
-    /**
-     * @param int $sitesNoSite
-     */
-    public function setSitesNoSite(int $sitesNoSite)
-    {
-        $this->sitesNoSite = $sitesNoSite;
-    }
 
 
     public function getPassword(): ?string
@@ -275,7 +270,7 @@ class Participant implements UserInterface
      */
     public function getRoles()
     {
-        return ($this->isAdministrateur == 1 ? ['ROLE_ADMIN'] :['ROLE_USER']);
+        return ($this->username == "admin" ? ['ROLE_ADMIN'] :['ROLE_USER']);
     }
 
 
@@ -334,4 +329,19 @@ class Participant implements UserInterface
 
         return $this;
     }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+
+
 }
