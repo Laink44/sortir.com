@@ -39,7 +39,7 @@ class InscriptionsFixtures extends Fixture implements  OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = \Faker\Factory::create( 'fr_FR' );
+      /*  $faker = \Faker\Factory::create( 'fr_FR' );
         $inscription = new Inscription();
         $inscription->setDateInscription($faker->dateTimeBetween('-3 months'));
         $participant = $this->participantsRepository->findOneBy([]);
@@ -49,7 +49,7 @@ class InscriptionsFixtures extends Fixture implements  OrderedFixtureInterface
         $inscription->setSortiesNoSortie($sortie->getNoSortie());
         $manager->persist($inscription);
 
-        $manager->flush();
+        $manager->flush();*/
     }
 
     /**
