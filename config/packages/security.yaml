@@ -5,13 +5,26 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        #in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\Participant
+                #property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            switch_user: true
             anonymous: true
+            logout_on_user_change: true
+            provider: app_user_provider
+            form_login:
+                login_path: participant_login
+                check_path: participant_login
+            logout:
+                path: participant_logout
+                target: participant_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
