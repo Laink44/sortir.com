@@ -15,11 +15,11 @@ class Site
     /**
      * @var int
      *
-     * @ORM\Column(name="no_site", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noSite;
+    private $id;
 
     /**
      * @var string
@@ -31,17 +31,17 @@ class Site
     /**
      * @return int
      */
-    public function getNoSite(): int
+    public function getId(): int
     {
-        return $this->noSite;
+        return $this->id;
     }
 
     /**
-     * @param int $noSite
+     * @param int $id
      */
-    public function setNoSite(int $noSite)
+    public function setId(int $id)
     {
-        $this->noSite = $noSite;
+        $this->id = $id;
     }
 
     /**

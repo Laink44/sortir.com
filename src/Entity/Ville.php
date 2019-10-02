@@ -15,11 +15,11 @@ class Ville
     /**
      * @var int
      *
-     * @ORM\Column(name="no_ville", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noVille;
+    private $id;
 
     /**
      * @var string
@@ -38,17 +38,17 @@ class Ville
     /**
      * @return int
      */
-    public function getNoVille(): int
+    public function getId(): int
     {
-        return $this->noVille;
+        return $this->id;
     }
 
     /**
-     * @param int $noVille
+     * @param int $Id
      */
-    public function setNoVille(int $noVille)
+    public function setId(int $Id)
     {
-        $this->noVille = $noVille;
+        $this->id = $Id;
     }
 
     /**

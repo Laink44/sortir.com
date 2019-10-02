@@ -52,13 +52,13 @@ class SortiesFixtures extends Fixture implements OrderedFixtureInterface
     {
         $faker = \Faker\Factory::create( 'fr_FR' );
         $ville = $this->villesRepository->findOneBy([]);
-        $villeId = ( $ville -> getNoVille() ) + rand ( 1 , 500 );
+        $villeId = ( $ville -> getId() ) + rand ( 1 , 500 );
         $participant = $this->participantsRepository->findOneBy([]);
-        $participantId = $participant -> getNoParticipant() ;
+        $participantId = $participant -> getId() ;
         $lieu = $this->lieuxRepository->findOneBy([]);
-        $lieuId = $lieu -> getNoLieu() ;
+        $lieuId = $lieu -> getId() ;
         $etat = $this->etatsRepository->findOneBy([]);
-        $etatId = $etat -> getNoEtat() ;
+        $etatId = $etat -> getId() ;
 
         for ($nbpart=1; $nbpart<=5; $nbpart ++) {
             $sortie = new Sortie();

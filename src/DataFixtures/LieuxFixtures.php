@@ -23,7 +23,7 @@ class LieuxFixtures extends Fixture implements OrderedFixtureInterface
     public function load( ObjectManager $manager ){
         $faker = \Faker\Factory::create( 'fr_FR' );
         $ville = $this -> villesRepository -> findOneBy( [] );
-        $villeId = ( $ville -> getNoVille() ) + rand ( 1 , 500 );
+        $villeId = ( $ville -> getId() ) + rand ( 1 , 500 );
 
         for( $index = 0; $index < 20; $index++ ) {
             $lieu = new Lieu();

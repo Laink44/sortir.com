@@ -16,11 +16,11 @@ class Participant implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="no_participant", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noParticipant;
+    private $id;
 
     /**
      * @var string
@@ -88,17 +88,17 @@ class Participant implements UserInterface
     /**
      * @return int
      */
-    public function getNoParticipant(): int
+    public function getId(): int
     {
-        return $this->noParticipant;
+        return $this->id;
     }
 
     /**
-     * @param int $noParticipant
+     * @param int $id
      */
-    public function setNoParticipant(int $noParticipant)
+    public function setId(int $id)
     {
-        $this->noParticipant = $noParticipant;
+        $this->id = $id;
     }
 
     /**

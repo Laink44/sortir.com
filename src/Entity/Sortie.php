@@ -15,11 +15,11 @@ class Sortie
     /**
      * @var int
      *
-     * @ORM\Column(name="no_sortie", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noSortie;
+    private $Id;
 
     /**
      * @var string
@@ -101,17 +101,17 @@ class Sortie
     /**
      * @return int
      */
-    public function getNoSortie(): int
+    public function getId(): int
     {
-        return $this->noSortie;
+        return $this->Id;
     }
 
     /**
-     * @param int $noSortie
+     * @param int $Id
      */
-    public function setNoSortie(int $noSortie)
+    public function setId(int $Id)
     {
-        $this->noSortie = $noSortie;
+        $this->Id = $Id;
     }
 
     /**

@@ -15,11 +15,11 @@ class Lieu
     /**
      * @var int
      *
-     * @ORM\Column(name="no_lieu", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noLieu;
+    private $id;
 
     /**
      * @var string
@@ -59,17 +59,17 @@ class Lieu
     /**
      * @return int
      */
-    public function getNoLieu(): int
+    public function getId(): int
     {
-        return $this->noLieu;
+        return $this->id;
     }
 
     /**
      * @param int $noLieu
      */
-    public function setNoLieu(int $noLieu)
+    public function setId(int $id)
     {
-        $this->noLieu = $noLieu;
+        $this->id = $id;
     }
 
     /**

@@ -15,11 +15,11 @@ class Etat
     /**
      * @var int
      *
-     * @ORM\Column(name="no_etat", type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $noEtat;
+    private $id;
 
     /**
      * @var string
@@ -31,17 +31,17 @@ class Etat
     /**
      * @return int
      */
-    public function getNoEtat(): int
+    public function getId(): int
     {
-        return $this->noEtat;
+        return $this->id;
     }
 
     /**
      * @param int $noEtat
      */
-    public function setNoEtat(int $noEtat)
+    public function setId(int $id)
     {
-        $this->noEtat = $noEtat;
+        $this->id = $id;
     }
 
     /**
