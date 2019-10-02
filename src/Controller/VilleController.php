@@ -17,7 +17,7 @@ class VilleController extends Controller
      */
     public function adminVille()
     {
-        $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
+        $villeRepository = $this -> getDoctrine() -> getRepository( Ville::class );
         return $this->render('admin/admin_ville.html.twig', [
 //            'controller_name' => 'ParticipantController',
         ]);
