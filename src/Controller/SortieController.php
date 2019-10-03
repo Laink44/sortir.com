@@ -26,7 +26,7 @@ class SortieController extends Controller
     public function index(EntityManagerInterface $em,
                              Request $request)
     {
-
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $sortie = new Sortie();
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
 
@@ -61,6 +61,7 @@ class SortieController extends Controller
     public function post(EntityManagerInterface $em,
                           Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $sortie = new Sortie();
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
         $sortieForm->submit();
