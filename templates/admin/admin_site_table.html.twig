@@ -15,7 +15,7 @@
                     <button id="btn-edit-site-{{ site.id }}" class="btn-common btn-edit-site" data-id="{{ site.id }}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button id="btn-remove-site-{{ site.id }}"  class="btn-common btn-remove-site"data-url="{{ path( 'site_remove',{ id : site.id } ) }}">
+                    <button id="btn-remove-site-{{ site.id }}"  class="btn-common btn-remove-site" data-url="{{ path( 'site_remove',{ id : site.id } ) }}">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                     <button id="btn-save-site-{{ site.id }}" class="btn-common btn-save-site btn-common-disabled" data-id="{{ site.id }}" data-url="{{ path( 'site_edit',{ id : site.id } ) }}" disabled="true">
@@ -25,4 +25,7 @@
             </tr>
         {% endfor %}
     </table>
+    <div class="pagination">
+        {{ knp_pagination_render( allSites ) }}
+    </div>
 </div>

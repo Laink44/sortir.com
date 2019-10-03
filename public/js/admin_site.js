@@ -1,3 +1,5 @@
+    const tableSite = '#table-site';
+
 // ADD
     $('body').on('click', '#btn-add-site', addSite );
 
@@ -11,7 +13,7 @@
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( '#table-site' ).html( response );
+            $( tableSite ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
@@ -29,7 +31,7 @@
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( '#table-site' ).html( response );
+            $( tableSite ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
@@ -67,7 +69,7 @@
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( '#table-site' ).html( response );
+            $( tableSite ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
@@ -91,7 +93,7 @@
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( '#table-site' ).html( response );
+            $( tableSite ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){

@@ -32,7 +32,6 @@ class VillesFixtures extends Fixture implements OrderedFixtureInterface
         }
     }
 
-
     public function getOrder()
     {
         return 1;
