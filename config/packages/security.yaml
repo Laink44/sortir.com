@@ -22,6 +22,7 @@ security:
             form_login:
                 login_path: participant_login
                 check_path: participant_login
+                default_target_path: site_add
             logout:
                 path: participant_logout
                 target: participant_login
@@ -37,3 +38,4 @@ security:
     access_control:
 #         - { path: ^/admin, roles: ROLE_ADMIN }
 #         - { path: ^/profile, roles: ROLE_USER }
+

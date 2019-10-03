@@ -41,6 +41,10 @@ class ParticipantsRepository extends ServiceEntityRepository implements UserLoad
      */
     public function loadUserByUsername($username)
     {
-        // TODO: Implement loadUserByUsername() method.
+        $qb = $this->createQueryBuilder('p');
+        $qb->where('p.username = :username OR p.mail = :mail');
+        $qb->setParameter('username', $username);
+        $qb->setParameter('mail', $username);
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

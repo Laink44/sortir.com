@@ -31,7 +31,7 @@ class LieuxFixtures extends Fixture implements OrderedFixtureInterface
             $lieu -> setLongitude( $faker -> longitude );
             $lieu -> setLatitude( $faker -> latitude );
             $lieu -> setRue( $faker -> streetName );
-            $lieu -> setVillesNoVille( $villeId );
+            $lieu -> setVille($this ->villesRepository->find($villeId));
             $manager -> persist( $lieu );
             $villeId++;
         }

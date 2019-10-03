@@ -5,14 +5,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Participant
- *
- * @ORM\Table(name="participants", uniqueConstraints={@ORM\UniqueConstraint(name="pseudo", columns={"pseudo"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ParticipantsRepository")
+ * @ORM\Table(name="participants")
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"mail"})
  */
 class Participant implements UserInterface
 {
@@ -26,12 +28,11 @@ class Participant implements UserInterface
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pseudo", type="string", length=30, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\Length(max=50, maxMessage="{{ limit }} car&actères maxi")
      * @Assert\NotBlank()
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @var string
@@ -50,9 +51,9 @@ class Participant implements UserInterface
     private $prenom;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="telephone", type="string", length=10)
+     * @Assert\Length(min=10, minMessage="{{ limit }} caractères min",max="10",maxMessage="{{ limit }} caractères maxi")
      */
     private $telephone;
 
@@ -65,45 +66,50 @@ class Participant implements UserInterface
     private $mail;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mot_de_passe", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255, maxMessage="{{ limit }} caractères maxi")
      * @Assert\NotBlank()
      */
-    private $motDePasse;
+    private $password;
 
     /**
      * @var bool
+     *  @ORM\Column(type="boolean", nullable=false)
      *
-     * @ORM\Column(name="administrateur", type="boolean")
-     * @Assert\NotBlank()
      */
     private $administrateur;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="actif", type="boolean", nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="boolean", nullable=false)
+     *
      */
     private $actif;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="sites_no_site", type="integer", nullable=false)
-     */
-    private $sitesNoSite;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="participant", orphanRemoval=true)
      */
     private $inscriptions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="participants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
+
+
     }
+
+
+
 
     /**
      * @return int
@@ -114,27 +120,24 @@ class Participant implements UserInterface
     }
 
     /**
-     * @param int $id
+     * @return int
      */
-    public function setId(int $id)
+    public function setId(): int
     {
-        $this->id = $id;
+        return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getPseudo(): ?string
+
+    public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    /**
-     * @param string $pseudo
-     */
-    public function setPseudo(string $pseudo)
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -201,21 +204,7 @@ class Participant implements UserInterface
         $this->mail = $mail;
     }
 
-    /**
-     * @return string
-     */
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
 
-    /**
-     * @param string $motDePasse
-     */
-    public function setMotDePasse(string $motDePasse)
-    {
-        $this->motDePasse = $motDePasse;
-    }
 
     /**
      * @return bool
@@ -249,21 +238,21 @@ class Participant implements UserInterface
         $this->actif = $actif;
     }
 
-    /**
-     * @return int
-     */
-    public function getSitesNoSite(): ?int
+
+
+
+    public function getPassword(): ?string
     {
-        return $this->sitesNoSite;
+        return $this->password;
     }
 
-    /**
-     * @param int $sitesNoSite
-     */
-    public function setSitesNoSite(int $sitesNoSite)
+    public function setPassword(string $password): self
     {
-        $this->sitesNoSite = $sitesNoSite;
+        $this->password = $password;
+
+        return $this;
     }
+
 
     /**
      * Returns the roles granted to the user.
@@ -281,21 +270,9 @@ class Participant implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return ($this->isAdministrateur() ? ['ROLE_ADMIN'] :['ROLE_USER']);
     }
 
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string|null The encoded password if any
-     */
-    public function getPassword()
-    {
-        // TODO: Implement getPassword() method.
-    }
 
     /**
      * Returns the salt that was originally used to encode the password.
@@ -306,18 +283,10 @@ class Participant implements UserInterface
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return null;
     }
 
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-        // TODO: Implement getUsername() method.
-    }
+
 
     /**
      * Removes sensitive data from the user.
@@ -360,4 +329,19 @@ class Participant implements UserInterface
 
         return $this;
     }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+
+
 }
