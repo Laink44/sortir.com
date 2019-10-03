@@ -50,10 +50,35 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
 
         }
 
+        $participant = new Participant();
+        $participant -> setUsername( "admin");
+        $participant -> setNom( "admin");
+        $participant -> setPrenom("admin");
 
-        // $product = new Product();
-        // $manager->persist($product);
+        $participant -> setTelephone("3615");
+        $participant -> setMail("admin@sortir.com");
+        $password = $this->encoder->encodePassword($participant,'pass_1234');
+        $participant ->setPassword($password);
+        $participant -> setActif(true);
+        $participant -> setAdministrateur(true);
+        $idSite = $this->sitesRepository->findOneBy([])->getId() + rand ( 1 , 7 );
+        $participant -> setSite($this->sitesRepository->find($idSite));
+        $manager->persist($participant);
 
+        $participant = new Participant();
+        $participant -> setUsername( "user");
+        $participant -> setNom( "user");
+        $participant -> setPrenom("user");
+
+        $participant -> setTelephone("3615");
+        $participant -> setMail("user@sortir.com");
+        $password = $this->encoder->encodePassword($participant,'pass_1234');
+        $participant ->setPassword($password);
+        $participant -> setActif(true);
+        $participant -> setAdministrateur(false);
+        $idSite = $this->sitesRepository->findOneBy([])->getId() + rand ( 1 , 7 );
+        $participant -> setSite($this->sitesRepository->find($idSite));
+        $manager->persist($participant);
         $manager->flush();
     }
 

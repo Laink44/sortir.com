@@ -21,25 +21,25 @@ class RegisterType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => 'Pseudo',
                 'attr' => [
-                    'placeholder' => "votre pseudo"
+                    'placeholder' => "Votre pseudo"
                 ]
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
                 'attr' => [
-                    'placeholder' => "votre prénom"
+                    'placeholder' => "Votre prénom"
                 ]
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => "votre Nom"
+                    'placeholder' => "Votre Nom"
                 ]
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Téléphone',
                 'attr' => [
-                    'placeholder' => "votre téléphone"
+                    'placeholder' => "Votre téléphone"
                 ]
             ])
             ->add('mail', EmailType::class, [

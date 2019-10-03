@@ -14,19 +14,19 @@ body,html{
     padding: 0;
 }
 
-.form-control-borderless {
-    border: none;
-}
+/*.form-control-borderless {*/
+/*    border: none;*/
+/*}*/
 
-.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
-    border: none;
-    outline: none;
-    box-shadow: none;
-}
+/*.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {*/
+/*    border: none;*/
+/*    outline: none;*/
+/*    box-shadow: none;*/
+/*}*/
 
-.search-form {
-    width: 500px;
-}
+/*.search-form {*/
+/*    width: 500px;*/
+/*}*/
 
 .btn-common {
     border: 2px solid var(--gris-sombre);
