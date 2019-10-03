@@ -22,7 +22,7 @@ security:
             form_login:
                 login_path: participant_login
                 check_path: participant_login
-                default_target_path: index_sortie
+                default_target_path: home_index
             logout:
                 path: participant_logout
                 target: home_index

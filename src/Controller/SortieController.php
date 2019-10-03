@@ -15,7 +15,7 @@ class SortieController extends Controller
 {
     /**
      * @Route(
-     * "/sortie",
+     * "/create_sortie",
      * name="index_sortie",
      * methods={"GET"}
      * )
@@ -50,7 +50,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/sortie_add",
+     * "/create_sortie",
      * name="create_sortie",
      * methods={"POST"}
      * )
