@@ -16,7 +16,7 @@ class SortiesRepositorieTest  extends TestCase{
     {
 
     }
-     /*public function testAdd()
+     public function testAdd()
     {
         $employee = new Employee();
         $employee->setSalary(1000);
@@ -42,5 +42,5 @@ class SortiesRepositorieTest  extends TestCase{
 
       //  $salaryCalculator = new SalaryCalculator($objectManager);
         //$this->assertEquals(2100, $salaryCalculator->calculateTotalSalary(1));
-    } */
+    }
 }

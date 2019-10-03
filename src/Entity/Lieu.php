@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Lieu
  *
- * @ORM\Table(name="lieux", indexes={@ORM\Index(name="villes_no_ville", columns={"villes_no_ville"})})
+ * @ORM\Table(name="lieux")
  * @ORM\Entity
  */
 class Lieu
@@ -50,11 +50,11 @@ class Lieu
     private $longitude;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="villes_no_ville", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ville", inversedBy="lieus")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $villesNoVille;
+    private $ville;
+
 
     /**
      * @return int
@@ -136,19 +136,17 @@ class Lieu
         $this->longitude = $longitude;
     }
 
-    /**
-     * @return int
-     */
-    public function getVillesNoVille(): int
+    public function getVille(): ?Ville
     {
-        return $this->villesNoVille;
+        return $this->ville;
     }
 
-    /**
-     * @param int $villesNoVille
-     */
-    public function setVillesNoVille(int $villesNoVille)
+    public function setVille(?Ville $ville): self
     {
-        $this->villesNoVille = $villesNoVille;
+        $this->ville = $ville;
+
+        return $this;
     }
+
+
 }

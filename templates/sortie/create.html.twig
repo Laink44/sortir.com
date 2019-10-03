@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Les sorties {% endblock %}
+
+{% block main %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center">
+					Crée une sortie
+				</h3>
+			</div>
+		</div>
+
+		{{ form_start(form,  { 'attr': {'class': 'row'} }) }}
+		<div class="my-custom-class-for-errors">
+			{{ form_errors(form) }}
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				{{ form_row(form.nom) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.datedebut) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.datecloture) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.nbinscriptionsmax) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.duree) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.descriptioninfos) }}
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="vileOrganisatrice">Ville organisatrice</label>
+				<input class="form-control" type="text" placeholder="Nantes" readonly name="vileOrganisatrice">
+			</div>
+			<div class="form-group">
+				{{ form_row(form.lieuxNoLieu) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.lieuxNoLieu) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.duree) }}
+			</div>
+			<div class="form-group">
+				{{ form_row(form.descriptioninfos) }}
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+
+		<div class="row">
+			<div class="col-md-4">
+
+				<button type="button" class="btn btn-success btn-block">
+					Button
+				</button>
+			</div>
+			<div class="col-md-4">
+
+				<button type="button" class="btn btn-success btn-block">
+					Button
+				</button>
+			</div>
+			<div class="col-md-4">
+
+				<button type="button" class="btn btn-success btn-block">
+					Button
+				</button>
+			</div>
+		</div>
+	</div>
+{% endblock %}

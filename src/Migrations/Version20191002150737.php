@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190930145550 extends AbstractMigration
+final class Version20191002150737 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,9 @@ final class Version20190930145550 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE participants CHANGE telephone telephone VARCHAR(10) DEFAULT NULL, CHANGE mail mail VARCHAR(255) NOT NULL, CHANGE password password VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE participants CHANGE sites_no_site site_id INT NOT NULL');
+        $this->addSql('ALTER TABLE participants ADD CONSTRAINT FK_71697092F6BD1646 FOREIGN KEY (site_id) REFERENCES sites (id)');
+        $this->addSql('CREATE INDEX IDX_71697092F6BD1646 ON participants (site_id)');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +32,8 @@ final class Version20190930145550 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE participants CHANGE telephone telephone VARCHAR(15) DEFAULT NULL COLLATE utf8mb4_unicode_ci, CHANGE mail mail VARCHAR(20) NOT NULL COLLATE utf8mb4_unicode_ci, CHANGE password password VARCHAR(20) NOT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('ALTER TABLE participants DROP FOREIGN KEY FK_71697092F6BD1646');
+        $this->addSql('DROP INDEX IDX_71697092F6BD1646 ON participants');
+        $this->addSql('ALTER TABLE participants CHANGE site_id sites_no_site INT NOT NULL');
     }
 }
