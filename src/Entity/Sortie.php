@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Sortie
- *
+ *@ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
  * @ORM\Table(name="sorties", indexes={@ORM\Index(name="organisateur", columns={"organisateur"}), @ORM\Index(name="etats_no_etat", columns={"etats_no_etat"})})
  * @ORM\Entity
  */
@@ -129,7 +129,7 @@ class Sortie
     /**
      * @return string
      */
-    public function getNom(): string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
@@ -145,7 +145,7 @@ class Sortie
     /**
      * @return \DateTime
      */
-    public function getDatedebut(): \DateTime
+    public function getDatedebut(): ?\DateTime
     {
         return $this->datedebut;
     }
@@ -161,7 +161,7 @@ class Sortie
     /**
      * @return int|null
      */
-    public function getDuree(): int
+    public function getDuree(): ?int
     {
         return $this->duree;
     }
@@ -177,7 +177,7 @@ class Sortie
     /**
      * @return \DateTime
      */
-    public function getDatecloture(): \DateTime
+    public function getDatecloture(): ?\DateTime
     {
         return $this->datecloture;
     }
@@ -193,7 +193,7 @@ class Sortie
     /**
      * @return int
      */
-    public function getNbinscriptionsmax(): int
+    public function getNbinscriptionsmax(): ?int
     {
         return $this->nbinscriptionsmax;
     }
@@ -209,7 +209,7 @@ class Sortie
     /**
      * @return string|null
      */
-    public function getDescriptioninfos(): string
+    public function getDescriptioninfos(): ?string
     {
         return $this->descriptioninfos;
     }
@@ -225,7 +225,7 @@ class Sortie
     /**
      * @return int|null
      */
-    public function getEtatsortie(): int
+    public function getEtatsortie(): ?int
     {
         return $this->etatsortie;
     }
@@ -241,7 +241,7 @@ class Sortie
     /**
      * @return string|null
      */
-    public function getUrlphoto(): string
+    public function getUrlphoto(): ?string
     {
         return $this->urlphoto;
     }
@@ -257,7 +257,7 @@ class Sortie
     /**
      * @return int
      */
-    public function getOrganisateur(): int
+    public function getOrganisateur(): ?int
     {
         return $this->organisateur;
     }
@@ -273,7 +273,7 @@ class Sortie
     /**
      * @return int
      */
-    public function getLieuxNoLieu(): int
+    public function getLieuxNoLieu(): ?int
     {
         return $this->lieuxNoLieu;
     }
@@ -289,7 +289,7 @@ class Sortie
     /**
      * @return int
      */
-    public function getEtatsNoEtat(): int
+    public function getEtatsNoEtat(): ?int
     {
         return $this->etatsNoEtat;
     }

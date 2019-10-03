@@ -7,14 +7,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="">Home</a>
+                <a class="nav-link" href={{ path("home_index") }}>Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">Sorties</a>
+                <a class="nav-link" href="/sorties">Sorties</a>
             </li>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="">Créer une sortie</a>
+                    <a class="nav-link" href={{ path("create_sortie") }}>Créer une sortie</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href={{ path("participant_logout") }}>Se déconnecter {{ app.user.username }}</a>
