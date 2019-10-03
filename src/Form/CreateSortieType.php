@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,6 +31,17 @@ class CreateSortieType extends AbstractType
             ->add('descriptioninfos',TextareaType::class,[
                 'label' => 'Description et Info'
             ])
+
+            ->add('lieuxNoLieu', EntityType::class, [
+                'class'=> 'App\Entity\Lieu',
+                'choice_label' => 'Ville',
+                'placeholder' => 'Choisir une ville',
+//              'expanded' => true,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l');
+                }
+            ])
+
             ->add('lieuxNoLieu', EntityType::class, [
                 'class'=> 'App\Entity\Lieu',
                 'choice_label' => 'nom_lieu',
@@ -38,9 +50,9 @@ class CreateSortieType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('l');
                 }
-            ])
+            ]);
 
-        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
