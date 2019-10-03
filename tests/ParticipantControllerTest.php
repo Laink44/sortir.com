@@ -3,32 +3,44 @@
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\BrowserKit\Cookie;
 
 class ParticipantControllerTest extends WebTestCase
 {
     public function testHomePage()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler =   $this->client->request('GET', '/');
 
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200,  $this->client->getResponse()->getStatusCode());
         $this->assertContains('Connexion', $crawler->filter('h1')->text());
     }
 
+    private $client = null;
 
+    public function setUp()
+    {
+        $this->client = static::createClient();
+    }
+
+    public function testSecuredHello()
+    {
+        $this->logIn();
+
+        $crawler = $this->client->request('GET', '/admin/site');
+
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+      //  $this->assertGreaterThan(0, $crawler->filter('html:contains("Admin Dashboard")')->count());
+    }
     private function logIn()
     {
         $session = $this->client->getContainer()->get('session');
 
-        $firewallName = 'main';
-        // if you don't define multiple connected firewalls, the context defaults to the firewall name
-        // See https://symfony.com/doc/current/reference/configuration/security.html#firewall-context
-        $firewallContext = 'secured_area';
+        // the firewall context (defaults to the firewall name)
+        $firewall = 'main';
 
-        // you may need to use a different token class depending on your application.
-        // for example, when using Guard authentication you must instantiate PostAuthenticationGuardToken
-        $token = new UsernamePasswordToken('admin', null, $firewallName, ['ROLE_ADMIN']);
-        $session->set('_security_'.$firewallContext, serialize($token));
+        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
+        $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());
