@@ -6,8 +6,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use phpDocumentor\Reflection\Types\Mixed_;
-use PhpParser\Node\Expr\Array_;
 
 /**
  * @method Test|null find($id, $lockMode = null, $lockVersion = null)

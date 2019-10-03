@@ -1,19 +1,22 @@
-    const tableSite = '#table-site';
+    const tableVille = '#table-ville';
 
 // ADD
-    $('body').on('click', '#btn-add-site', addSite );
+    $('body').on('click', '#btn-add-ville', addVille );
 
-    function addSite( event ){
-        let inputSite = $( '#inpt-add-site' );
-        let inputSiteValue = inputSite.val();
+    function addVille( event ){
+        let inputVille = $( '#inpt-add-ville' );
+        let inputVilleValue = inputVille.val();
+
+        let inputCodePostal = $( '#inpt-add-cp' );
+        let inputCodePostalValue = inputCodePostal.val();
 
         let btnAdd = $( this );
-        let url = btnAdd.attr( 'data-url' ) + '/' + inputSiteValue;
+        let url = btnAdd.attr( 'data-url' ) + '/ajouter/ville/' + inputVilleValue + '/cp/' + inputCodePostalValue;
 
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( tableSite ).html( response );
+            $( tableVille ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
@@ -22,16 +25,16 @@
     }
 
 // REMOVE
-    $('body').on('click', '.btn-remove-site', removeSite );
+    $('body').on('click', '.btn-remove-ville', removeVille );
 
-    function removeSite( event ){
+    function removeVille( event ){
         let btnRemove = $( this );
         let url = btnRemove.attr( 'data-url' );
 
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( tableSite ).html( response );
+            $( tableVille ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
@@ -41,35 +44,40 @@
 
 
 // EDIT
-    $('body').on('click', '.btn-edit-site', editSite );
+    $('body').on('click', '.btn-edit-ville', editVille );
 
-    function editSite( event ){
+    function editVille( event ){
         let btnEdit = $( this );
         btnEdit.prop( 'disabled', true );
         btnEdit.addClass( 'btn-common-disabled' );
 
-        let siteId = btnEdit.attr( 'data-id' );
-        let inputToEnable = $( '#inpt-' + siteId );
-        inputToEnable.prop( 'disabled', false );
+        let villeId = btnEdit.attr( 'data-id' );
+        let inputCity = $( '#inpt-' + villeId );
+        inputCity.prop( 'disabled', false );
 
-        let btnSave = $( '#btn-save-site-' + siteId );
+        let inputZipCode = $( '#inpt-cp-' + villeId );
+        inputZipCode.prop( 'disabled', false );
+
+        let btnSave = $( '#btn-save-ville-' + villeId );
         btnSave.removeClass( 'btn-common-disabled' );
         btnSave.prop( 'disabled', false );
     }
 
 // SAVE
-    $('body').on('click', '.btn-save-site', saveSite );
+    $('body').on('click', '.btn-save-ville', saveVille );
 
-    function saveSite( event ){
+    function saveVille( event ){
         let btnSave = $( this );
-        let siteId = btnSave.attr( 'data-id' );
-        let inputSite = $( '#inpt-' + siteId );
-        let url = btnSave.attr( 'data-url' ) + '/' + inputSite.val();
-
+        let villeId = btnSave.attr( 'data-id' );
+        let inputVille = $( '#inpt-' + villeId );
+        let inputCodePostal = $( '#inpt-cp-' + villeId );
+        let btnAdd = $( this );
+        let url = btnAdd.attr( 'data-url' ) + '/editer/' + villeId + '/nom/' + inputVille.val() + '/code-postal/' + inputCodePostal.val();
+        debugger;
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( tableSite ).html( response );
+            $( tableVille ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
@@ -78,9 +86,9 @@
     }
 
 // SEARCH
-    $('body').on( 'input', '#inpt-site-search', searchSite );
+    $('body').on( 'input', '#inpt-ville-search', searchVille );
 
-    function searchSite( event ){
+    function searchVille( event ){
         debugger;
         let inptSearch = $(this);
         let stringToSearch = inptSearch.val();
@@ -94,7 +102,7 @@
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            $( tableSite ).html( response );
+            $( tableVille ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
         }).always( function( response ){
