@@ -14,12 +14,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class ParticipantController extends Controller
 {
     /**
-     * @Route("/participant", name="participant")
+     * @Route("/", name="participant")
      */
-    public function index()
+    public function index(AuthenticationUtils $authenticationUtils)
     {
-        return $this->render('participant/index.html.twig', [
-            'controller_name' => 'ParticipantController',
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render("participant/login.html.twig", [
+            'error' => $error,
+            'last_username' => $lastUsername
         ]);
     }
 
