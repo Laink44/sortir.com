@@ -53,6 +53,7 @@ class Participant implements UserInterface
     /**
      *
      * @ORM\Column(name="telephone", type="string", length=10)
+     * @Assert\Length(min=10, minMessage="{{ limit }} caractères min",max="10",maxMessage="{{ limit }} caractères maxi")
      */
     private $telephone;
 
@@ -73,17 +74,16 @@ class Participant implements UserInterface
 
     /**
      * @var bool
+     *  @ORM\Column(type="boolean", nullable=false)
      *
-     * @ORM\Column(name="administrateur", type="boolean")
-     * @Assert\NotBlank()
      */
     private $administrateur;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="actif", type="boolean", nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="boolean", nullable=false)
+     *
      */
     private $actif;
 
@@ -270,7 +270,7 @@ class Participant implements UserInterface
      */
     public function getRoles()
     {
-        return ($this->username == "admin" ? ['ROLE_ADMIN'] :['ROLE_USER']);
+        return ($this->isAdministrateur() ? ['ROLE_ADMIN'] :['ROLE_USER']);
     }
 
 
