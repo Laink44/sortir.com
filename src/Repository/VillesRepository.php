@@ -4,6 +4,8 @@ namespace App\Repository;
 use App\Entity\Ville;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Test|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,5 +20,42 @@ class VillesRepository extends ServiceEntityRepository
         parent::__construct($registry, Ville::class);
     }
 
+    public function getByVilleName(
+        $villeName       = null,
+        $currentPage    = 0,
+        $maxResults     = 5
+    ){
+        $qb = $this ->createQueryBuilder( 's' );
+        if( $villeName != null ) {
+            $qb
+                ->setParameter( 'nom_ville', '%' . $villeName . '%' )
+                ->andWhere( 's.nomVille LIKE :nom_ville' );
+        }
+        $query =
+            $qb
+                ->orderBy( 's.nomVille', 'DESC' )
+                ->setFirstResult( $currentPage )
+                ->setMaxResults( $maxResults )
+                ->getQuery();
 
+        return $query -> getResult();
+    }
+
+    /** @return array */
+    public function findAllVilles() : array
+    {
+        return $this -> findAllQuery() -> getResult();
+    }
+
+    /** @return Query */
+    public function findAllQuery() : Query
+    {
+        return $this -> findAllQueryBuilder() -> getQuery();
+    }
+
+    /** @return QueryBuilder */
+    public function findAllQueryBuilder() : QueryBuilder
+    {
+        return $this -> createQueryBuilder( 's' ) -> orderBy( 's.nomVille', 'ASC' );
+    }
 }

@@ -22,28 +22,23 @@
                             <i class="fas fa-search"></i>
                         </div>
                     </div>
-                    <input
-                        id="inpt-site-search"
-                        type="text" class="form-control"
-                        placeholder="Chercher un site"
-                        aria-label="Chercher un site"
-                        aria-describedby="basic-addon1"
-                        data-url="{{ path( 'site_search' ) }}"
-                    >
+                    <input id="inpt-site-search" type="text" class="form-control" placeholder="Chercher un site" aria-label="Chercher un site" aria-describedby="basic-addon1" data-url="{{ path( 'site_search' ) }}">
                 </div>
                 </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" id="inpt-add-site" placeholder="Ajouter un site">
+                <button class="btn-common btn-add-site" id="btn-add-site" data-url="{{ path( 'site_add' ) }}">
+                    <i class="fas fa-plus-square"></i>
+                </button>
             </div>
         </div>
         <div class="row">
             <div id="table-site" class="col-md-12">
                 {% include 'admin/admin_site_table.html.twig' %}
             </div>
-        </div>
-        <div class="row">
-            <input type="text" id="inpt-add-site">
-            <button class="btn-common btn-add-site" id="btn-add-site" data-url="{{ path( 'site_add' ) }}">
-                <i class="fas fa-plus-square"></i>
-            </button>
         </div>
     </div>
 {% endblock %}

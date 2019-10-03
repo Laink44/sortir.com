@@ -5,6 +5,9 @@ variables:
   MYSQL_PASSWORD: sortir_user
   MYSQL_DATABASE: sortir
   DB_HOST: mysql
+stages:
+  - test
+  - deploy
 
 test:
   stage: test
@@ -20,3 +23,8 @@ test:
     #- php artisan key:generate
     #- php artisan migrate:refresh --seed
     #- ./vendor/phpunit/phpunit/phpunit -v --coverage-text --colors=never --stderr
+
+deploy:
+  stage: deploy
+  script:
+    - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master --force
