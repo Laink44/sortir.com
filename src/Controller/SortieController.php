@@ -26,6 +26,7 @@ class SortieController extends Controller
     public function index(EntityManagerInterface $em,
                              Request $request)
     {
+
         $sortie = new Sortie();
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
 
@@ -49,7 +50,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/sortie",
+     * "/sortie_add",
      * name="create_sortie",
      * methods={"POST"}
      * )
