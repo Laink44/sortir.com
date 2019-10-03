@@ -89,8 +89,9 @@ class SiteController extends Controller
     {
         $foundSites = $this -> getRepo() -> getBySiteName( $nomSite, 0, 5 );
 
-        foreach( $foundSites as $site ){
-            echo $site ;
+        if( $nomSite === 'empty' )
+        {
+            $foundSites = $this -> getAllSites();
         }
 
         return $this->render('admin/admin_site_table.html.twig', [

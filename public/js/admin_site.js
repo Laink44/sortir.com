@@ -2,7 +2,6 @@
     $('body').on('click', '#btn-add-site', addSite );
 
     function addSite( event ){
-        debugger;
         let inputSite = $( '#inpt-add-site' );
         let inputSiteValue = inputSite.val();
 
@@ -24,7 +23,6 @@
     $('body').on('click', '.btn-remove-site', removeSite );
 
     function removeSite( event ){
-        debugger;
         let btnRemove = $( this );
         let url = btnRemove.attr( 'data-url' );
 
@@ -44,7 +42,6 @@
     $('body').on('click', '.btn-edit-site', editSite );
 
     function editSite( event ){
-        debugger;
         let btnEdit = $( this );
         btnEdit.prop( 'disabled', true );
         btnEdit.addClass( 'btn-common-disabled' );
@@ -62,7 +59,6 @@
     $('body').on('click', '.btn-save-site', saveSite );
 
     function saveSite( event ){
-        debugger;
         let btnSave = $( this );
         let siteId = btnSave.attr( 'data-id' );
         let inputSite = $( '#inpt-' + siteId );
@@ -80,17 +76,21 @@
     }
 
 // SEARCH
-    $('body').on( 'change', '#inpt-site-search', searchSite );
+    $('body').on( 'input', '#inpt-site-search', searchSite );
 
     function searchSite( event ){
-        debugger;
         let inptSearch = $(this);
-        let url = inptSearch.attr( 'data-url' ) + '/' + inptSearch.val();
+        let stringToSearch = inptSearch.val();
+
+        if( stringToSearch == null || stringToSearch == '' ) {
+            stringToSearch = 'empty';
+        }
+
+        let url = inptSearch.attr( 'data-url' ) + '/' + stringToSearch;
 
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
-            debugger;
             $( '#table-site' ).html( response );
         }).fail( function( response ){
             // alert( 'fail' );
