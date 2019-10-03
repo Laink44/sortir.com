@@ -26,7 +26,7 @@ class CreateSortieType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date limite d\'inscription'
             ])
-            ->add('nbinscriptionsmax',)
+            ->add('nbinscriptionsmax')
             ->add('descriptioninfos',TextareaType::class,[
                 'label' => 'Description et Info'
             ])
