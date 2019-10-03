@@ -39,6 +39,8 @@ class ParticipantController extends Controller
 
         $registerForm->handleRequest($request);
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
+            $user->setAdministrateur(false);
+            $user->setActif(true);
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             $em->persist($user);

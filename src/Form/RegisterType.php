@@ -58,7 +58,7 @@ class RegisterType extends AbstractType
                     'label' => 'Confirmation du mot de passe'
                 ]
             ])
-            ->add('sitesNoSite', EntityType::class, [
+            ->add('site', EntityType::class, [
                 'class'=> 'App\Entity\Site',
                 'choice_label' => 'nom_site',
                 'placeholder' => 'Choisir une ville',
