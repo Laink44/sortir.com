@@ -41,6 +41,26 @@ class VillesRepository extends ServiceEntityRepository
         return $query -> getResult();
     }
 
+    public function getByVilleNameStartingWith(
+        $villeName       = null,
+        $currentPage    = 0,
+        $maxResults     = 5
+    ){
+        $qb = $this ->createQueryBuilder( 's' );
+        if( $villeName != null ) {
+            $qb
+                ->setParameter( 'nom_ville', $villeName . '%' )
+                ->andWhere( 's.nomVille LIKE :nom_ville' );
+        }
+        $query =
+            $qb
+                ->orderBy( 's.nomVille', 'ASC' )
+                ->setFirstResult( $currentPage )
+                ->setMaxResults( $maxResults )
+                ->getQuery();
+
+        return $query -> getResult();
+    }
 
     public function findVilleByLieuId($lieuId = 1) {
         $qb = $this->createQueryBuilder('v')->select('v')
@@ -50,8 +70,7 @@ class VillesRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
-
-    /** @return array */
+   /** @return array */
     public function findAllVilles() : array
     {
         return $this -> findAllQuery() -> getResult();

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
  * @ORM\Table(name="lieux")
  * @ORM\Entity
- *
+ * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
  */
 class Lieu  implements \JsonSerializable
 {
