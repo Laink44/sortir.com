@@ -100,10 +100,16 @@ class Participant implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur")
+     */
+    private $sorties;
+
 
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
 
 
     }
@@ -338,6 +344,37 @@ class Participant implements UserInterface
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        if ($this->sorties->contains($sorty)) {
+            $this->sorties->removeElement($sorty);
+            // set the owning side to null (unless already changed)
+            if ($sorty->getOrganisateur() === $this) {
+                $sorty->setOrganisateur(null);
+            }
+        }
 
         return $this;
     }

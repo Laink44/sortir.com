@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class CreateSortieType extends AbstractType
 {
@@ -28,11 +29,11 @@ class CreateSortieType extends AbstractType
                 'label' => 'Date limite d\'inscription'
             ])
             ->add('nbinscriptionsmax')
-            ->add('descriptioninfos',TextareaType::class,[
+            ->add('descriptioninfos',CKEditorType::class,[
                 'label' => 'Description et Info'
             ])
 
-            ->add('lieuxNoLieu', EntityType::class, [
+            ->add('lieu', EntityType::class, [
                 'class'=> 'App\Entity\Lieu',
                 'choice_label' => 'Ville',
                 'placeholder' => 'Choisir une ville',
@@ -42,7 +43,7 @@ class CreateSortieType extends AbstractType
                 }
             ])
 
-            ->add('lieuxNoLieu', EntityType::class, [
+            ->add('lieu', EntityType::class, [
                 'class'=> 'App\Entity\Lieu',
                 'choice_label' => 'nom_lieu',
                 'placeholder' => 'Choisir un lieu',

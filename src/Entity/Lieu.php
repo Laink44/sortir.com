@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Lieu
- *
+ * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
  * @ORM\Table(name="lieux")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
  */
-class Lieu
+class Lieu  implements \JsonSerializable
 {
     /**
      * @var int
@@ -56,9 +60,20 @@ class Lieu
      */
     private $ville;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="Lieu")
+     */
+    private $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
+
 
     /**
      * @return int
+     * @Groups("group1")
      */
     public function getId(): int
     {
@@ -75,6 +90,7 @@ class Lieu
 
     /**
      * @return string
+     * @Groups("group1")
      */
     public function getNomLieu(): string
     {
@@ -149,5 +165,50 @@ class Lieu
         return $this;
     }
 
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
 
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->setLieu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        if ($this->sorties->contains($sorty)) {
+            $this->sorties->removeElement($sorty);
+            // set the owning side to null (unless already changed)
+            if ($sorty->getLieu() === $this) {
+                $sorty->setLieu(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+           'id'=>$this->getId(),
+            'libelle'=>$this->getNomLieu()
+       ];
+    }
 }

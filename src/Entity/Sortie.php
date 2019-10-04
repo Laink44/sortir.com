@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sortie
  *@ORM\Entity(repositoryClass="App\Repository\SortiesRepository")
- * @ORM\Table(name="sorties", indexes={@ORM\Index(name="organisateur", columns={"organisateur"}), @ORM\Index(name="etats_no_etat", columns={"etats_no_etat"})})
+ * @ORM\Table(name="sorties")
  * @ORM\Entity
  */
 class Sortie
@@ -65,12 +65,7 @@ class Sortie
      */
     private $descriptioninfos;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="etatsortie", type="integer", nullable=true)
-     */
-    private $etatsortie;
+
 
     /**
      * @var string|null
@@ -79,31 +74,30 @@ class Sortie
      */
     private $urlphoto;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="organisateur", type="integer", nullable=false)
-     */
-    private $organisateur;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="lieux_no_lieu", type="integer", nullable=false)
-     */
-    private $lieuxNoLieu;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="etats_no_etat", type="integer", nullable=false)
-     */
-    private $etatsNoEtat;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="sortie", orphanRemoval=true)
      */
     private $inscriptions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etat", inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Lieu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Participant", inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
 
     public function __construct()
     {
@@ -222,22 +216,7 @@ class Sortie
         $this->descriptioninfos = $descriptioninfos;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
-
-    /**
-     * @param int|null $etatsortie
-     */
-    public function setEtatsortie(int $etatsortie)
-    {
-        $this->etatsortie = $etatsortie;
-    }
-
+    
     /**
      * @return string|null
      */
@@ -254,53 +233,6 @@ class Sortie
         $this->urlphoto = $urlphoto;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrganisateur(): ?int
-    {
-        return $this->organisateur;
-    }
-
-    /**
-     * @param int $organisateur
-     */
-    public function setOrganisateur(int $organisateur)
-    {
-        $this->organisateur = $organisateur;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLieuxNoLieu(): ?int
-    {
-        return $this->lieuxNoLieu;
-    }
-
-    /**
-     * @param int $lieuxNoLieu
-     */
-    public function setLieuxNoLieu(int $lieuxNoLieu)
-    {
-        $this->lieuxNoLieu = $lieuxNoLieu;
-    }
-
-    /**
-     * @return int
-     */
-    public function getEtatsNoEtat(): ?int
-    {
-        return $this->etatsNoEtat;
-    }
-
-    /**
-     * @param int $etatsNoEtat
-     */
-    public function setEtatsNoEtat(int $etatsNoEtat)
-    {
-        $this->etatsNoEtat = $etatsNoEtat;
-    }
 
     /**
      * @return Collection|Inscription[]
@@ -329,6 +261,42 @@ class Sortie
                 $inscription->setSortie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->Lieu;
+    }
+
+    public function setLieu(?Lieu $Lieu): self
+    {
+        $this->Lieu = $Lieu;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }

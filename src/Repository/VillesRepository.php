@@ -62,7 +62,15 @@ class VillesRepository extends ServiceEntityRepository
         return $query -> getResult();
     }
 
-    /** @return array */
+    public function findVilleByLieuId($lieuId = 1) {
+        $qb = $this->createQueryBuilder('v')->select('v')
+        ->join("v.lieus","l","WITH", "l.ville = v")
+        ->Where('l.id = :lid')
+            ->setParameter('lid', $lieuId);
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+   /** @return array */
     public function findAllVilles() : array
     {
         return $this -> findAllQuery() -> getResult();

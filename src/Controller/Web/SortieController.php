@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Web;
 
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,10 +63,16 @@ class SortieController extends Controller
                           Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $sortie = new Sortie();
+              $sortie = new Sortie();
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
         $sortieForm->submit();
         $sortieForm->handleRequest($request);
-        return $this->render('sortie/create.html.twig', ["form" => $sortieForm]);
+        return $this->render('sortie/create.html.twig', [
+
+
+
+        ]);
     }
+
+
 }
