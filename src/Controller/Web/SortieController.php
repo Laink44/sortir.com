@@ -2,15 +2,18 @@
 
 namespace App\Controller\Web;
 
+use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
-
+use App\Repository\SortiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class SortieController extends Controller
 {
@@ -74,5 +77,46 @@ class SortieController extends Controller
         ]);
     }
 
+    /**
+     * @Route(
+     * "/sorties",
+     * name="sorties",
+     * methods={"GET"}
+     * )
+     * @param PaginatorInterface $paginator
+     * @param SortiesRepository $sortiesRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function sorties( PaginatorInterface $paginator,SortiesRepository $sortiesRepository, Request $request){
 
+        $allSorties = $sortiesRepository->findAllJoinInscriptionParticipant($this->getUser());
+        dump($allSorties);
+        return $this->render('sortie/index.html.twig', [
+            'allSorties'
+                => $this->getPaginatedList($allSorties, $paginator, $request )
+            ]);
+    }
+
+    public function getPaginatedList( Array $listOfObjectsToPaginate, PaginatorInterface $paginator, Request $request )
+    {
+        $paginatedObjects = $paginator -> paginate(
+            $listOfObjectsToPaginate,
+            $request -> query -> getInt( 'page', 1 ),
+            10
+        );
+
+        $paginatedObjects -> setTemplate( 'pagination/twitter_bootstrap_v4_pagination.html.twig' );
+        $paginatedObjects -> setUsedRoute( 'sorties' );
+
+        return $paginatedObjects;
+    }
+
+    public function getEm() {
+        return $this -> getDoctrine() -> getManager();
+    }
+    public function getRepo($class)
+    {
+        return $this -> getDoctrine() -> getRepository( $class );
+    }
 }

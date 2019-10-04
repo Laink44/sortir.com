@@ -38,6 +38,7 @@ class ParticipantsRepository extends ServiceEntityRepository implements UserLoad
      * @param string $username The username
      *
      * @return UserInterface|null
+     * @throws NonUniqueResultException
      */
     public function loadUserByUsername($username)
     {

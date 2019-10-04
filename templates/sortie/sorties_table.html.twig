@@ -1,0 +1,62 @@
+
+
+<div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+    <table class="table table-bordered table-striped mb-0">
+        <thead>
+        <tr>
+            <th scope="col">Nom de la sortie</th>
+            <th scope="col">Date de la sortie</th>
+            <th scope="col">Clôture</th>
+            <th scope="col">Inscrits/places</th>
+            <th scope="col">Etat</th>
+            <th scope="col">Inscrit</th>
+            <th scope="col">Organisateur</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sortie in allSorties %}
+
+            <tr>
+                <th scope="row">
+                    {{ sortie.nom }}
+                </th>
+                <td scope="row">
+                    {{ sortie.datedebut |date("m/d/Y")}}
+                </td>
+                <td scope="row">
+                    {{ sortie.datecloture |date("m/d/Y")}}
+                </td>
+                <td scope="row">
+                     {{ sortie.nbinscriptionsmax }}
+                </td>
+
+                <td scope="row">
+                    {{ sortie.etat.libelle }}
+                </td>
+                <td scope="row">
+                    {% if sortie.inscriptions |length %}
+                        <i class="fas fa-thumbs-up " style="color:green"></i>
+                    {% endif %}
+
+                </td>
+                <td scope="row">
+                    {{ sortie.organisateur.nom }}
+                </td>
+                <td scope="row">
+                    <a href="">Afficher</a>
+                    {% if sortie.inscriptions |length %}
+                        - <a href="">Se désister</a>
+                    {% endif %}
+
+                    {% if sortie.organisateur.id == app.user.id  %}
+                        - <a href="">Annuler</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

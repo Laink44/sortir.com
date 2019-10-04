@@ -2,6 +2,23 @@
 
 {% block title %}Accueil - Les sorties {% endblock %}
 
-{% block body %}
-
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 align="right">Date du jour : {{ "now"|date("m/d/Y") }}</h2>
+                <h2 align="right">Participant : {{ app.user.prenom ~ " " ~ app.user.nom| slice(0, 1) |upper ~ '.'  }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div id="table-ville" class="col-md-12">
+                {% include 'sortie/sorties_table.html.twig' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagination col-md-12">
+                {{ knp_pagination_render( allSorties) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

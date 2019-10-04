@@ -10,7 +10,7 @@
                 <a class="nav-link" href={{ path("home_index") }}>Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/sorties">Sorties</a>
+                <a class="nav-link" href={{ path("sorties") }}>Sorties</a>
             </li>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="nav-item">
