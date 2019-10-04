@@ -1,29 +1,33 @@
-<table>
-    <thead>
-    <tr>
-        <th>SITE</th>
-        <th>ACTION</th>
-    </tr>
-    </thead>
-    {% for site in allSites %}
-        <tr class="row">
-            <td class="col">
-                <input id="inpt-{{ site.id }}" class="form-control form-control-sm form-control-borderless" type="search" value="{{ site.nomSite }}" disabled="true">
+{#TABLE DES SITES#}
+    <table>
+        {# Ajouter un site #}
+        <tr>
+            <td>
+                <input type="text" id="inpt-add-site" class="add" placeholder="Ajouter un site">
             </td>
-            <td class="col">
-                <button id="btn-edit-site-{{ site.id }}" class="btn-common btn-edit-site" data-id="{{ site.id }}">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button id="btn-remove-site-{{ site.id }}"  class="btn-common btn-remove-site" data-url="{{ path( 'site_remove',{ id : site.id } ) }}">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-                <button id="btn-save-site-{{ site.id }}" class="btn-common btn-save-site btn-common-disabled" data-id="{{ site.id }}" data-url="{{ path( 'site_edit',{ id : site.id } ) }}" disabled="true">
-                    <i class="fas fa-save"></i>
+            <td>
+                <button class="btn-common  add btn-add-site" id="btn-add-site" data-url="{{ path( 'site_add' ) }}">
+                    <i class="fas fa-plus-square"></i>
                 </button>
             </td>
         </tr>
-    {% endfor %}
-</table>
-<div class="pagination">
-    {{ knp_pagination_render( allSites ) }}
-</div>
+        {# liste des sites #}
+        {% for site in allSites %}
+            <tr class="row">
+                <td class="col">
+                    <input id="inpt-{{ site.id }}" class="form-control form-control-sm form-control-borderless" type="search" value="{{ site.nomSite }}" disabled="true">
+                </td>
+                <td class="col">
+                    <button id="btn-edit-site-{{ site.id }}" class="btn-common btn-edit-site" data-id="{{ site.id }}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button id="btn-remove-site-{{ site.id }}"  class="btn-common btn-remove-site" data-url="{{ path( 'site_remove',{ id : site.id } ) }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button id="btn-save-site-{{ site.id }}" class="btn-common btn-save-site btn-common-disabled" data-id="{{ site.id }}" data-url="{{ path( 'site_edit',{ id : site.id } ) }}" disabled="true">
+                        <i class="fas fa-save"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
