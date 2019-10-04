@@ -30,6 +30,9 @@ class CreateSortieType extends AbstractType
             ])
             ->add('nbinscriptionsmax')
             ->add('descriptioninfos',CKEditorType::class,[
+                'config' => array(
+                    'toolbar' => 'standard',
+                                   ),
                 'label' => 'Description et Info'
             ])
 
