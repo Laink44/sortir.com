@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="lieux")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\LieuxRepository")
  */
 class Lieu
 {

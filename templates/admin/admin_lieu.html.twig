@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des lieux{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center"> Gérer les lieux </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3> Filtrer les lieux </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div id="table-site" class="col-md-12">
+                {% include 'admin/admin_lieu_table.html.twig' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagination col-md-12">
+                {{ knp_pagination_render( allLieux ) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

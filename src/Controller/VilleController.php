@@ -6,6 +6,7 @@ use App\Entity\Ville;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class VilleController extends Controller
@@ -108,6 +109,38 @@ class VilleController extends Controller
         return $this->render('admin/admin_ville_table.html.twig', [
             'allVilles' => $this -> getPaginatedList( $foundCities, $paginator, $request )
         ]);
+    }
+
+    /**
+     * @Route(
+     * "/admin/ville/search/json/nom/{nomVille}",
+     * name="ville_search_json",
+     * methods={"GET"}
+     * )
+     */
+    public function searchVilleAsJson( $nomVille = '' )
+    {
+        $foundCities = $this -> getRepo() -> getByVilleNameStartingWith( $nomVille, 0, 5 );
+
+        if( $nomVille === 'empty' )
+        {
+            $foundCities = $this -> getRepo() -> findAllVilles();
+        }
+
+        $cities = [];
+
+        foreach( $foundCities as $city ) {
+            array_push( $cities, $city -> getNomVille() .  ', ' . $city -> getCodePostal() );
+        }
+        $json_response = json_encode( $cities );
+        dump( $json_response );
+
+        $response = new Response();
+        $response -> setContent( $json_response );
+
+        $response -> headers -> set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     public function getAllVilles()
