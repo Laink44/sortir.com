@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Repository\EtatsRepository;
 use App\Repository\LieuxRepository;
@@ -70,17 +71,20 @@ class SortiesFixtures extends Fixture implements OrderedFixtureInterface
             $sortie->setDuree($faker->randomDigitNotNull());
             $sortie->setNbinscriptionsmax($faker->randomDigitNotNull());
 
-            $sortie->setOrganisateur( $participantId );
-            $sortie->setLieuxNoLieu( $lieuId );
-            $sortie->setEtatsNoEtat( $etatId );
-            $manager->persist( $sortie );
+            $sortie->setOrganisateur($this->participantsRepository->find($participant->getId()));
 
+            $sortie->setLieu($this->lieuxRepository->find($lieu->getId()));
+
+            $sortie->setEtat($this->etatsRepository->find($etat->getId()));
+            //var_dump($sortie);
+            $manager->persist( $sortie );
+            $manager-> flush();
             $villeId = $villeId + rand ( 1 , 20 );
-            $lieuId++;
-            $etatId++;
-            $participantId++;
+
+            $etat->setId($etatId + rand ( 1 , 5 ));
+            $lieu->setId($lieuId++);
+            $participant->setId($participantId++);
         }
-        $manager-> flush();
     }
 
     public function getOrder()
