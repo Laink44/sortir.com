@@ -14,7 +14,7 @@ Symfony project
     - php bin/console doctrine:fixtures:load
     
 ### Database migration
-  - php bin/console doctrine:migrations:migrate
+    - php bin/console doctrine:migrations:migrate
 
 ### Connection string
-  - DATABASE_URL= in .env file
+    - DATABASE_URL= in .env file
