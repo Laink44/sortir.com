@@ -9,13 +9,25 @@
             <li class="nav-item">
                 <a class="nav-link" href={{ path("home_index") }}>Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href={{ path("sorties") }}>Sorties</a>
-            </li>
+
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <li class="nav-item">
+                    <a class="nav-link" href={{ path("sorties") }}>Voir les Sorties</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href={{ path("create_sortie") }}>Créer une sortie</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN')%}
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ path("gestion_ville") }}>Editer Ville</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ path("gestion_site") }}>Editer Site</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ path("gestion_lieu") }}>Editer lieu</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href={{ path("participant_logout") }}>Se déconnecter {{ app.user.username }}</a>
                 </li>
@@ -27,6 +39,7 @@
                     <a class="nav-link" href={{ path("participant_register") }}>S'inscrire</a>
                 </li>
             {% endif %}
+
         </ul>
     </div>
 </nav>
