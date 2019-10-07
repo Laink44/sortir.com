@@ -23,6 +23,7 @@ class SortiesRepository extends ServiceEntityRepository
 
     /**
      * @param $participant
+     * @return array
      */
     public function findAllJoinInscriptionParticipant($participant): array
     {
