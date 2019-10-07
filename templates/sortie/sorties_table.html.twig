@@ -29,17 +29,18 @@
                     {{ sortie.datecloture |date("m/d/Y")}}
                 </td>
                 <td scope="row">
-                     {{ sortie.nbinscriptionsmax }}
+                    {{ sortie.inscriptions |length }} / {{ sortie.nbinscriptionsmax }}
                 </td>
 
                 <td scope="row">
                     {{ sortie.etat.libelle }}
                 </td>
                 <td scope="row">
-                    {% if sortie.inscriptions |length %}
-                        <i class="fas fa-thumbs-up " style="color:green"></i>
-                    {% endif %}
-
+                    {% for inscription in sortie.inscriptions %}
+                        {%  if inscription in app.user.inscriptions %}
+                            <i class="fas fa-thumbs-up " style="color:green"></i>
+                        {% endif %}
+                    {% endfor %}
                 </td>
                 <td scope="row">
                     {{ sortie.organisateur.nom }}
@@ -49,7 +50,6 @@
                     {% if sortie.inscriptions |length %}
                         - <a href="">Se désister</a>
                     {% endif %}
-
                     {% if sortie.organisateur.id == app.user.id  %}
                         - <a href="">Annuler</a>
                     {% endif %}

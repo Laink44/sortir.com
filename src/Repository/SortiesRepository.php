@@ -21,20 +21,6 @@ class SortiesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    /**
-     * @param $participant
-     * @return array
-     */
-    public function findAllJoinInscriptionParticipant($participant): array
-    {
-        return $this -> createQueryBuilder( 's' )
-            ->select("s")
-            ->leftJoin("s.inscriptions", 'i', 'WITH', 'i.sortie = s and i.participant = :participant')
-            ->addSelect("i")
-            ->setParameter("participant", $participant)
-            ->getQuery()
-           ->getResult();
-    }
 
 
     /** @return array */

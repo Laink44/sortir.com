@@ -5,6 +5,7 @@ namespace App\Controller\Web;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
+use App\Repository\InscriptionRepository;
 use App\Repository\SortiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -88,13 +89,13 @@ class SortieController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function sorties( PaginatorInterface $paginator,SortiesRepository $sortiesRepository, Request $request){
+    public function sorties(PaginatorInterface $paginator, SortiesRepository $sortiesRepository, Request $request){
 
-        $allSorties = $sortiesRepository->findAllJoinInscriptionParticipant($this->getUser());
-        dump($allSorties);
+        $allSorties = $sortiesRepository->findAll();
+
         return $this->render('sortie/index.html.twig', [
             'allSorties'
-                => $this->getPaginatedList($allSorties, $paginator, $request )
+                => $this->getPaginatedList($allSorties, $paginator, $request ),
             ]);
     }
 
