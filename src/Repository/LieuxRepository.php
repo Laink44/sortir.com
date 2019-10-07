@@ -30,7 +30,7 @@ class LieuxRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getByLieuName(
+    public function getByLocationName(
         $lieuName       = null,
         $currentPage    = 0,
         $maxResults     = 5

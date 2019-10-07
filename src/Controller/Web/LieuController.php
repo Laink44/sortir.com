@@ -32,23 +32,38 @@ class LieuController extends Controller
 
     /**
      * @Route(
-     * "/admin/lieu/ajouter/{nomSite}",
+     * "/admin/lieu/ajouter/{nomLieu}/{rue}/{latitude}/{longitude}/{villeId}",
      * name="lieu_add",
      * methods={"GET"}
      * )
      */
-    public function addLieu( $nomLieu = '', PaginatorInterface $paginator, Request $request )
-    {
-//        $newSite = new Site();
-//        $newSite -> setNomSite( $nomSite );
-//        $this -> getEm() -> persist( $newSite );
-//        $this -> getEm() -> flush();
-//
-//        $allSites = $this -> getRepo() -> findAllSites();
-//
-//        return $this->render('admin/admin_site_table.html.twig', [
-//            'allSites' => $this -> getPaginatedList( $allSites, $paginator, $request )
-//        ]);
+    public function addLieu(
+        $nomLieu = '',
+        $rue = '',
+        $latitude = 0.0,
+        $longitude = 0.0,
+        $villeId = '',
+        PaginatorInterface $paginator,
+        Request $request,
+        VillesRepository $villeRepo
+    ) {
+        $ville = $villeRepo -> find( $villeId );
+
+        $newLieu = new Lieu();
+        $newLieu -> setNomLieu( $nomLieu );
+        $newLieu -> setRue( $rue );
+        $newLieu -> setLatitude( $latitude );
+        $newLieu -> setLongitude( $longitude );
+        $newLieu -> setVille( $ville );
+
+        $this -> getEm() -> persist( $newLieu );
+        $this -> getEm() -> flush();
+
+        $allLieux = $this -> getRepo() -> findAllLieux();
+
+        return $this->render('admin/admin_lieu_table.html.twig', [
+            'allLieux' => $this -> getPaginatedList( $allLieux, $paginator, $request )
+        ]);
     }
 
     /**
@@ -60,36 +75,46 @@ class LieuController extends Controller
      */
     public function removeLieu( $id = '', PaginatorInterface $paginator, Request $request )
     {
-//        $siteToRemove = $this -> getRepo() -> find( $id );
-//        $this -> getEm() -> remove( $siteToRemove );
-//        $this -> getEm() -> flush();
-//
-//        $allSites = $this -> getRepo() -> findAllSites();
-//
-//        return $this->render('admin/admin_site_table.html.twig', [
-//            'allSites' => $this -> getPaginatedList( $allSites, $paginator, $request )
-//        ]);
+        $lieuToRemove = $this -> getRepo() -> find( $id );
+        $this -> getEm() -> remove( $lieuToRemove );
+        $this -> getEm() -> flush();
+
+        $allLieux = $this -> getRepo() -> findAllLieux();
+
+        return $this->render('admin/admin_lieu_table.html.twig', [
+            'allLieux' => $this -> getPaginatedList( $allLieux, $paginator, $request )
+        ]);
     }
 
     /**
      * @Route(
-     * "/admin/lieu/editer/{id}/nom/{nomLieu}",
+     * "/admin/lieu/editer/{id}/{nomLieu}/{rue}/{latitude}/{longitude}",
      * name="lieu_edit",
      * methods={"GET"}
      * )
      */
-    public function editLieu( $id = '', $nomLieu = '', PaginatorInterface $paginator, Request $request )
-    {
-//        $siteToEdit = $this -> getRepo() -> find( $id );
-//        $siteToEdit -> setNomSite( $nomSite );
-//        $this -> getEm() -> persist( $siteToEdit );
-//        $this -> getEm() -> flush();
-//
-//        $allSites = $this -> getRepo() -> findAllSites();
-//
-//        return $this->render('admin/admin_site_table.html.twig', [
-//            'allSites' => $this -> getPaginatedList( $allSites, $paginator, $request )
-//        ]);
+    public function editLieu(
+        $id = '',
+        $nomLieu = '',
+        $rue = '',
+        $latitude = 0.0,
+        $longitude = 0.0,
+        PaginatorInterface $paginator,
+        Request $request
+    ) {
+        $lieuToEdit = $this -> getRepo() -> find( $id );
+        $lieuToEdit -> setNomLieu( $nomLieu );
+        $lieuToEdit -> setRue( $rue );
+        $lieuToEdit -> setLatitude( $latitude );
+        $lieuToEdit  -> setLongitude( floatval($longitude) );
+        $this -> getEm() -> persist( $lieuToEdit );
+        $this -> getEm() -> flush();
+
+        $allSites = $this -> getRepo() -> findAllLieux();
+
+        return $this->render('admin/admin_lieu_table.html.twig', [
+            'allLieux' => $this -> getPaginatedList( $allSites, $paginator, $request )
+        ]);
     }
 
     /**
@@ -101,19 +126,19 @@ class LieuController extends Controller
      */
     public function searchLieu( $nomLieu = '', PaginatorInterface $paginator, Request $request )
     {
-//        $foundSites = $this -> getRepo() -> getBySiteName( $nomSite, 0, 5 );
-//
-//        if( $nomSite === 'empty' )
-//        {
-//            $foundSites = $this -> getRepo() -> findAllSites();
-//        }
-//
-//        return $this->render('admin/admin_site_table.html.twig', [
-//            'allSites' => $this -> getPaginatedList( $foundSites, $paginator, $request )
-//        ]);
+        $foundLocations = $this -> getRepo() -> getByLocationName( $nomLieu, 0, 5 );
+
+        if( $nomLieu === 'empty' )
+        {
+            $foundLocations = $this -> getRepo() -> findAllLieux();
+        }
+
+        return $this->render('admin/admin_lieu_table.html.twig', [
+            'allLieux' => $this -> getPaginatedList( $foundLocations, $paginator, $request )
+        ]);
     }
 
-    public function getAllSites()
+    public function getAllLieux()
     {
         return $this -> getRepo() -> findAll();
     }

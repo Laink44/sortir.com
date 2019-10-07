@@ -3,12 +3,11 @@
         {# Ajouter un lieu #}
         <tr>
             <td>
-                <input type="text" id="inpt-add-lieu" class="inpt-table" placeholder="Nom lieu : ENI Ecole" />
-                <input type="text" id="inpt-add-rue" class="inpt-table" placeholder="Rue : Rue Franklin" />
-                <input type="text" id="inpt-add-latitude" class="inpt-table" placeholder="Latitude : 47.2267535" />
-                <input type="text" id="inpt-add-longitude" class="inpt-table" placeholder="Longitude : -1.6209101,15" />
-{#                <input type="text" id="inpt-add-ville" class="inpt-table" placeholder="Ville : Nantes">#}
-                <input type="text" id="recherche" class="inpt-table" placeholder="Ville : Toulon" data-url="{{ path( 'ville_search_json' ) }}" />
+                <input type="text" id="inpt-add-lieu" class="inpt-table" placeholder="Nom lieu : ENI Ecole" maxlength="255" />
+                <input type="text" id="inpt-add-rue" class="inpt-table" placeholder="Rue : Rue Franklin" maxlength="255" />
+                <input type="number" id="inpt-add-latitude" class="inpt-table" placeholder="Latitude : 47.2267535" maxlength="15" />
+                <input type="number" id="inpt-add-longitude" class="inpt-table" placeholder="Longitude : -1.6209101,15" maxlength="15" />
+                <input type="text" id="inpt-add-ville" class="inpt-table" placeholder="Ville : Toulon" data-url="{{ path( 'ville_search_json' ) }}"  maxlength="255" />
             </td>
             <td class="td-action">
                 <button class="btn-common add btn-add-lieu" id="btn-add-lieu" data-url="{{ path( 'gestion_lieu' ) }}">
@@ -20,11 +19,11 @@
         {% for lieu in allLieux %}
             <tr>
                 <td>
-                    <input id="inpt-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.nomLieu }}" disabled="true">
-                    <input id="inpt-rue-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.rue }}" disabled="true">
-                    <input id="inpt-latitude-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.latitude }}" disabled="true">
-                    <input id="inpt-longitude-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.longitude }}" disabled="true">
-                    <input id="inpt-ville-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.ville.nomVille }}" disabled="true">
+                    <input id="inpt-nom-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.nomLieu }}" disabled="true" />
+                    <input id="inpt-rue-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.rue }}" disabled="true" />
+                    <input id="inpt-latitude-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.latitude }}" disabled="true" />
+                    <input id="inpt-longitude-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.longitude }}" disabled="true" />
+                    <input id="inpt-ville-{{ lieu.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ lieu.ville.nomVille }}" disabled="true" />
                 </td>
                 <td>
                     <button id="btn-edit-lieu-{{ lieu.id }}" class="btn-common btn-edit-lieu" data-id="{{ lieu.id }}">

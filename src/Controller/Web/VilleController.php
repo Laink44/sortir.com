@@ -130,8 +130,14 @@ class VilleController extends Controller
         $cities = [];
 
         foreach( $foundCities as $city ) {
-            array_push( $cities, $city -> getNomVille() .  ', ' . $city -> getCodePostal() );
+            $cityToShow = array(
+                "value" => $city -> getId(),
+                "label" => $city -> getNomVille()
+            );
+
+            array_push( $cities, $cityToShow );
         }
+
         $json_response = json_encode( $cities );
         dump( $json_response );
 

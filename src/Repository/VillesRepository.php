@@ -25,18 +25,18 @@ class VillesRepository extends ServiceEntityRepository
         $currentPage    = 0,
         $maxResults     = 5
     ){
-        $qb = $this ->createQueryBuilder( 's' );
+        $qb = $this -> createQueryBuilder( 's' );
         if( $villeName != null ) {
             $qb
-                ->setParameter( 'nom_ville', '%' . $villeName . '%' )
-                ->andWhere( 's.nomVille LIKE :nom_ville' );
+                -> setParameter( 'nom_ville', '%' . $villeName . '%' )
+                -> andWhere( 's.nomVille LIKE :nom_ville' );
         }
         $query =
             $qb
-                ->orderBy( 's.nomVille', 'DESC' )
-                ->setFirstResult( $currentPage )
-                ->setMaxResults( $maxResults )
-                ->getQuery();
+                -> orderBy( 's.nomVille', 'DESC' )
+                -> setFirstResult( $currentPage )
+                -> setMaxResults( $maxResults )
+                -> getQuery();
 
         return $query -> getResult();
     }
@@ -46,20 +46,33 @@ class VillesRepository extends ServiceEntityRepository
         $currentPage    = 0,
         $maxResults     = 5
     ){
-        $qb = $this ->createQueryBuilder( 's' );
+        $qb = $this -> createQueryBuilder( 's' );
         if( $villeName != null ) {
             $qb
-                ->setParameter( 'nom_ville', $villeName . '%' )
-                ->andWhere( 's.nomVille LIKE :nom_ville' );
+                -> setParameter( 'nom_ville', $villeName . '%' )
+                -> andWhere( 's.nomVille LIKE :nom_ville' );
         }
         $query =
             $qb
-                ->orderBy( 's.nomVille', 'ASC' )
-                ->setFirstResult( $currentPage )
-                ->setMaxResults( $maxResults )
-                ->getQuery();
+                -> orderBy( 's.nomVille', 'ASC' )
+                -> setFirstResult( $currentPage )
+                -> setMaxResults( $maxResults )
+                -> getQuery();
 
         return $query -> getResult();
+    }
+
+
+    public function findByNameAndCodePostal( $codePostal = '' ) {
+        $qb = $this -> createQueryBuilder( 'c' );
+
+        if( $codePostal != null ) {
+            $qb
+                -> setParameter( 'code_postal', '%' . $codePostal . '%' )
+                -> andWhere( 'c.codePostal LIKE :code_postal' );
+        }
+
+        return $qb -> getQuery() -> getResult();
     }
 
     public function findVilleByLieuId($lieuId = 1) {
@@ -70,6 +83,7 @@ class VillesRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
+
    /** @return array */
     public function findAllVilles() : array
     {
