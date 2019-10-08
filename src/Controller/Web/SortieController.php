@@ -2,13 +2,16 @@
 
 namespace App\Controller\Web;
 
+use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
 use App\Repository\InscriptionRepository;
 use App\Repository\SortiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,12 +31,23 @@ class SortieController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function index(EntityManagerInterface $em,
+    public function create(EntityManagerInterface $em,
                              Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $sortie = new Sortie();
-        $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
+        $ParticipantEnCours = $this->getUser()->getSite()->getId();
+
+
+       $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCours)->getNomSite();
+       $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
+          'nomVille'=> $nomSiteParticicpant
+       ])->getCodePostal();
+        dump(substr($CPVilleOrganisateur,0,2));
+
+        $sortieForm = $this->createForm(CreateSortieType::class, $sortie,[
+            'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
+        ]) ;
 
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
@@ -49,7 +63,11 @@ class SortieController extends Controller
 //            return $this->redirectToRoute('article_liste');
         }
 
-        return $this->render('sortie/create.html.twig', ["form" => $sortieForm->createView()]);
+        return $this->render('sortie/create.html.twig', [
+            'siteParticipantEncours' => strtoupper($nomSiteParticicpant),
+
+
+            "form" => $sortieForm->createView()]);
     }
 
 
@@ -69,6 +87,7 @@ class SortieController extends Controller
         $this->denyAccessUnlessGranted('ROLE_USER');
               $sortie = new Sortie();
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
+
         $sortieForm->submit();
         $sortieForm->handleRequest($request);
         return $this->render('sortie/create.html.twig', [
@@ -98,6 +117,25 @@ class SortieController extends Controller
                 => $this->getPaginatedList($allSorties, $paginator, $request ),
             ]);
     }
+
+
+    /**
+     * @Route("/sortie/{id}",name="sortie_detail",requirements={"id"="\d+"}, methods={"POST","GET"})
+     */
+    public function detail($id, Request $request){
+        // récupérer la fiche Sortie dans la base de données
+        $SortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $SortieRepo->find($id);
+        if($sortie==null){
+            throw $this->createNotFoundException('La sortie n\'existe pas');
+        }
+
+        return $this->render('sortie/detail.html.twig',[
+            'sortie'=>$sortie,
+        ]);
+
+    }
+
 
     public function getPaginatedList( Array $listOfObjectsToPaginate, PaginatorInterface $paginator, Request $request )
     {

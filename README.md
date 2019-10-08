@@ -12,6 +12,9 @@ Symfony project
 
 ### Load Fixtures
     - php bin/console doctrine:fixtures:load
+	
+### Download CKEditor when Register
+	- php bin/console ckeditor:install
     
 ### Database migration
     - php bin/console doctrine:migrations:migrate

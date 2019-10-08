@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail  d'une Sortie | {{ parent() }}{% endblock %}
+
+{% block main %}
+<div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center">
+                {{sortie.nom}}
+            </h3>
+        </div>
+    </div>
+    <div >
+        <label><b>Nom de la sortie:</b> {{ sortie.nom}}</label>
+    </div>
+   <div>
+       <label><b>Date et heure de début :</b>  01/10/2019 </label>
+   </div>
+    <diV>
+        <label><b>Date limite d'inscription:</b></label>
+    </diV>
+    <div>
+        <label><b>Nombre de places:</b> {{ sortie.nbinscriptionsmax }}</label>
+    </div>
+
+    <div>
+        <label><b>Description et info:</b> {{ sortie.descriptioninfos }}</label>
+    </div>
+
+    <div> <label><b> Ville Organisatrice:</b> <span class="uppecase"> {{ sortie.organisateur.site.nomSite }} </span></label>
+    </div>
+    <div>
+        <label><b>Lieu:</b> {{ sortie.lieu.nomLieu }}</label>
+    </div>
+    <div>
+        <label><b>Rue:</b> {{ sortie.lieu.rue }}</label>
+    </div>
+    <div>
+        <label><b>Code Postal :</b> {{ sortie.lieu.ville.codePostal }}</label>
+    </div>
+
+    <div>
+        <label><b>Longitude:</b> {{ sortie.lieu.longitude }}</label>
+    </div>
+
+    <div>
+        <label><b>Latitude:</b> {{ sortie.lieu.latitude }}</label>
+
+    </div>
+
+
+</div>
+{% endblock %}
+

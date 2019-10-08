@@ -2,14 +2,17 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
@@ -17,6 +20,11 @@ class CreateSortieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+
+
+        $CPVILLE= $options['cpville'];
+        dump( $CPVILLE);
         $builder
             ->add('nom')
             ->add('datedebut',DateType::class,[
@@ -36,33 +44,62 @@ class CreateSortieType extends AbstractType
                 'label' => 'Description et Info'
             ])
 
-            ->add('lieu', EntityType::class, [
-                'class'=> 'App\Entity\Lieu',
-                'choice_label' => 'Ville',
+
+            ->add('ville', EntityType::class, [
+
+                'class'=> 'App\Entity\Ville',
+                'choice_label' => 'nom_ville',
                 'placeholder' => 'Choisir une ville',
-//              'expanded' => true,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l');
+                'mapped'=>false,
+               'query_builder'=>function(EntityRepository $er) use ($CPVILLE) {
+                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')->setParameter('cp',$CPVILLE)->groupBy('v.nomVille');
                 }
             ])
 
-            ->add('lieu', EntityType::class, [
+
+
+          ->add('lieu', EntityType::class, [
                 'class'=> 'App\Entity\Lieu',
-                'choice_label' => 'nom_lieu',
-                'placeholder' => 'Choisir un lieu',
-//              'expanded' => true,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l');
-                }
-            ]);
+                 'disabled'=>true,
+                 'choice_label' => 'nom_lieu',
+                 'placeholder' => 'Choisir une lieu',
+                 ])
+
+        ->add('rue',EntityType::class,[
+                'class'=>'App\Entity\Lieu',
+                'disabled'=>true,
+                'choice_value'=>'rue',
+                'mapped'=>false,
+                'required'=>false,
+                ]);
 
 
-    }
+
+
+
+
+
+
+
+     }
+
+
+
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Sortie::class,
+            'cpville'=> 0,
+
+
+
+
         ]);
+
     }
+
+
+
+
 }

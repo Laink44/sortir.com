@@ -8,10 +8,10 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * @method Test|null find($id, $lockMode = null, $lockVersion = null)
- * @method Test|null findOneBy(array $criteria, array $orderBy = null)
- * @method Test[]    findAll()
- * @method Test[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Ville|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Ville|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Ville[]    findAll()
+ * @method Ville[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class VillesRepository extends ServiceEntityRepository
 {
@@ -39,6 +39,19 @@ class VillesRepository extends ServiceEntityRepository
                 -> getQuery();
 
         return $query -> getResult();
+    }
+
+
+    public function getCPVilleByNameVille($nomville){
+        $qb = $this->createQueryBuilder('v');
+        $qb->select('v.codePostal')
+            ->where('v.nomVille LIKE :nomville')
+            ->setParameter('nomville',$nomville);
+        $qb-> setMaxResults(1);
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+
     }
 
     public function getByVilleNameStartingWith(

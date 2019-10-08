@@ -208,7 +208,16 @@ class Lieu  implements \JsonSerializable
     {
         return [
            'id'=>$this->getId(),
-            'libelle'=>$this->getNomLieu()
-       ];
+            'libelle'=>$this->getNomLieu(),
+            'rue' => $this->getRue(),
+            'longtitude' => $this->getLongitude(),
+            'latitude' => $this->getLatitude(),
+            'codePostal' => $this->getVille()->getCodePostal()
+
+        ];
+    }
+    public  function __toString()
+    {
+        return $this->getNomLieu();
     }
 }

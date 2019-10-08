@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - Les sorties {% endblock %}
+{% block title %}Créer une Sortie | {{ parent() }}{% endblock %}
 
 {% block main %}
 	<div class="container-fluid">
@@ -39,14 +39,26 @@
 		<div class="col-md-6">
 			<div class="form-group">
 				<label for="vileOrganisatrice">Ville organisatrice</label>
-				<input class="form-control" type="text" placeholder="Nantes" readonly name="vileOrganisatrice">
+				<input class="form-control" type="text" placeholder={{ siteParticipantEncours }} readonly name="vileOrganisatrice">
+			</div>
+			<div class="form-group">
+				{{ form_row(form.ville) }}
 			</div>
 			<div class="form-group">
 				{{ form_row(form.lieu) }}
 			</div>
 			<div class="form-group">
-				{{ form_row(form.lieu) }}
+				<label for="create_sortie[rue]">Rue</label>
+				<input class="form-control" type="text"  id="create_sortie_rue" readonly name="create_sortie[rue]">
 			</div>
+			<div class="form-group">
+				<label for="create_sortie[codePostal]">Code Postal</label>
+				<input class="form-control" type="text"  id="create_sortie_cp" readonly name="create_sortie[codePostal]">
+			</div>
+
+
+
+
 			<div class="form-group">
 				{{ form_row(form.duree) }}
 			</div>
