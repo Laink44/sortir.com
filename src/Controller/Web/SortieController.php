@@ -43,7 +43,7 @@ class SortieController extends Controller
        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
           'nomVille'=> $nomSiteParticicpant
        ])->getCodePostal();
-        dump(substr($CPVilleOrganisateur,0,2));
+    
 
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie,[
             'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
