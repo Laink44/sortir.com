@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des lieux{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">{{ actualUser.username }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div id="table-lieu" class="col-md-4">
+                <div class="text-center">
+                    <img src="/sortir.com/public/img/avatar/{{ actualUser.avatar }}" class="rounded" alt="Une image de profil">
+                </div>
+            </div>
+            <div id="table-lieu" class="col-md-4">
+                {# prénom#}
+                <div class="row">
+                    <label for="inputPrenom" class="col-sm-3 col-form-label">Prénom</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputPrenom" name="inputPrenom" placeholder="Prénom" value="{{ actualUser.prenom }}" disabled>
+                    </div>
+                </div>
+                {# nom #}
+                <div class="row">
+                    <label for="inputNom" class="col-sm-3 col-form-label">Nom</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputNom" name="inputNom" placeholder="Nom" value="{{ actualUser.nom }}" disabled>
+                    </div>
+                </div>
+                {# téléphone #}
+                <div class="row">
+                    <label for="inputTelephone" class="col-sm-3 col-form-label">Téléphone</label>
+                    <div class="col-sm-9">
+                        <input type="tel" class="form-control" id="inputTelephone" name="inputTelephone" placeholder="Téléphone" value="{{ actualUser.telephone }}" disabled>
+                    </div>
+                </div>
+                {# email #}
+                <div class="row">
+                    <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="{{ actualUser.mail }}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-1 col-sm-4">
+                        <a class="btn-common" href="{{ path( 'profil_edit' ) }}">EDITER</a>
+                    </div>
+                    <div class="offset-2 col-sm-4">
+                        <a class="btn-common" href="{{ path( 'sorties' ) }}">RETOUR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

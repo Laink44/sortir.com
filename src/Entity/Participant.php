@@ -20,7 +20,6 @@ class Participant implements UserInterface
 {
     /**
      * @var int
-     *
      * @ORM\Column(type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -36,7 +35,6 @@ class Participant implements UserInterface
 
     /**
      * @var string
-     *
      * @ORM\Column(name="nom", type="string", length=30)
      * @Assert\NotBlank()
      */
@@ -44,14 +42,12 @@ class Participant implements UserInterface
 
     /**
      * @var string
-     *
      * @ORM\Column(name="prenom", type="string", length=30)
      * @Assert\NotBlank()
      */
     private $prenom;
 
     /**
-     *
      * @ORM\Column(name="telephone", type="string", length=10)
      * @Assert\Length(min=10, minMessage="{{ limit }} caractères min",max="10",maxMessage="{{ limit }} caractères maxi")
      */
@@ -81,13 +77,9 @@ class Participant implements UserInterface
 
     /**
      * @var bool
-     *
      * @ORM\Column(type="boolean", nullable=false)
-     *
      */
     private $actif;
-
-
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="participant", orphanRemoval=true)
@@ -105,6 +97,11 @@ class Participant implements UserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Length(max=50, maxMessage="{{ limit }} caractères maxi")
+     */
+    private $avatar;
 
     public function __construct()
     {
@@ -113,9 +110,6 @@ class Participant implements UserInterface
 
 
     }
-
-
-
 
     /**
      * @return int
@@ -210,8 +204,6 @@ class Participant implements UserInterface
         $this->mail = $mail;
     }
 
-
-
     /**
      * @return bool
      */
@@ -243,9 +235,6 @@ class Participant implements UserInterface
     {
         $this->actif = $actif;
     }
-
-
-
 
     public function getPassword(): ?string
     {
@@ -279,7 +268,6 @@ class Participant implements UserInterface
         return ($this->isAdministrateur() ? ['ROLE_ADMIN'] :['ROLE_USER']);
     }
 
-
     /**
      * Returns the salt that was originally used to encode the password.
      *
@@ -291,8 +279,6 @@ class Participant implements UserInterface
     {
         return null;
     }
-
-
 
     /**
      * Removes sensitive data from the user.
@@ -379,6 +365,19 @@ class Participant implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
 
-
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar): void
+    {
+        $this->avatar = $avatar;
+    }
 }

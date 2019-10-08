@@ -1,0 +1,68 @@
+<form method="post" action="{{ path( 'profil_save' ) }}" enctype="multipart/form-data">
+    {# pseudo#}
+    <div class="form-group row">
+        <label for="inputPseudo" class="col-sm-3 col-form-label">Pseudo</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputPseudo" name="inputPseudo" placeholder="Pseudo" value="{{ actualUser.username }}">
+        </div>
+    </div>
+    {# prénom#}
+    <div class="form-group row">
+        <label for="inputPrenom" class="col-sm-3 col-form-label">Prénom</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputPrenom" name="inputPrenom" placeholder="Prénom" value="{{ actualUser.prenom }}">
+        </div>
+    </div>
+    {# nom #}
+    <div class="form-group row">
+        <label for="inputNom" class="col-sm-3 col-form-label">Nom</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="inputNom" name="inputNom" placeholder="Nom" value="{{ actualUser.nom }}">
+        </div>
+    </div>
+    {# téléphone #}
+    <div class="form-group row">
+        <label for="inputTelephone" class="col-sm-3 col-form-label">Téléphone</label>
+        <div class="col-sm-9">
+            <input type="tel" class="form-control" id="inputTelephone" name="inputTelephone" placeholder="Téléphone" value="{{ actualUser.telephone }}">
+        </div>
+    </div>
+    {# email #}
+    <div class="form-group row">
+        <label for="inputEmail" class="col-sm-3 col-form-label">Email</label>
+        <div class="col-sm-9">
+            <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="{{ actualUser.mail }}">
+        </div>
+    </div>
+    {# password #}
+    <div class="form-group row">
+        <label for="inputMotDePasse" class="col-sm-3 col-form-label">Mot de passe</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="inputMotDePasse" name="inputMotDePasse" placeholder="Mot de passe">
+        </div>
+    </div>
+    {# confirmation #}
+    <div class="form-group row">
+        <label for="inputConfirmation" class="col-sm-3 col-form-label">Confirmation</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="inputConfirmation" name="inputConfirmation"  placeholder="Confirmation">
+        </div>
+    </div>
+    {# avatar #}
+    <div class="form-group row">
+        <label for="exampleFormControlFile1" class="col-sm-3 col-form-label">Image de profil</label>
+        <div class="col-sm-9">
+            {# MAX_FILE_SIZE doit précéder le champ input de type file#}
+            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+            <input type="file" name="inputAvatar" class="form-control-file btn-common" id="exampleFormControlFile1">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-1 col-sm-4">
+            <button type="submit" class="btn btn-common fit-parent">ENREGISTRER</button>
+        </div>
+        <div class="offset-2 col-sm-4">
+            <button type="submit" id="abort" class="btn btn-common fit-parent">ANNULER</button>
+        </div>
+    </div>
+</form>

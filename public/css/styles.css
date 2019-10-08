@@ -54,6 +54,10 @@ body,html{
     width:100%;
 }
 
+.fit-parent {
+    width:100%;
+}
+
 .inpt-table {
     display: inline;
     width: 200px;

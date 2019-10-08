@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des lieux{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center"> Mon Profil </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div id="table-lieu" class="col-md-4">
+                <div class="text-center">
+                    <img src="/sortir.com/public/img/avatar/{{ actualUser.avatar }}" class="rounded" alt="Une image de profil">
+                </div>
+            </div>
+            <div id="table-lieu" class="col-md-4">
+                {% include 'participant/profil_edit_form.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

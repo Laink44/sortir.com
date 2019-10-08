@@ -6,10 +6,12 @@ use App\Entity\Participant;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Ramsey\Uuid\Uuid;
 
 class ParticipantController extends Controller
 {
@@ -66,5 +68,81 @@ class ParticipantController extends Controller
         // rien à faire
     }
 
+    /**
+     * @Route(
+     * "/profil/editer",
+     * name="profil_edit",
+     * methods={"GET"}
+     * )
+     */
+    public function editProfil( Request $request ) {
+        $actualUser = $this -> getUser();
 
+        return $this->render('participant/profil_edit.html.twig', [
+            'actualUser' => $actualUser
+        ]);
+    }
+
+    /**
+     * @Route(
+     * "/profil/consulter",
+     * name="profil_show",
+     * methods={"GET"}
+     * )
+     */
+    public function showProfil( Request $request ) {
+        $actualUser = $this -> getUser();
+
+        return $this->render('participant/profil_details.html.twig', [
+            'actualUser' => $actualUser
+        ]);
+    }
+
+    /**
+     * @Route(
+     * "/profil/sauver",
+     * name="profil_save",
+     * methods={"POST"}
+     * )
+     */
+    public function saveProfil(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $encoder
+    ) {
+        $images = $request -> files;
+        $fileName = '';
+        if( $images ) {
+            foreach ( $images as $img ) {
+                if( $img ) {
+                    $fileName = uniqid().$img->getClientOriginalName();
+                    try {
+                        $img -> move(
+                            $this->getParameter('avatar_directory'),
+                            $fileName
+                        );
+                    } catch (FileException $e) {
+                        dump( $e );
+                    }
+                }
+            }
+        }
+
+        $actualUser = $this -> getUser();
+        $actualUser -> setUserName( $request -> request -> get( 'inputPseudo' ) );
+        $actualUser -> setPrenom( $request -> request -> get( 'inputPrenom' ) );
+        $actualUser -> setNom( $request -> request -> get( 'inputPseudo' ) );
+        $actualUser -> setTelephone( $request -> request -> get( 'inputTelephone' ) );
+        $actualUser -> setMail( $request -> request -> get( 'inputEmail' ) );
+        $hash = $encoder->encodePassword( $actualUser, $request -> request -> get( 'inputMotDePasse' ) );
+        $actualUser -> setPassword( $hash );
+        $actualUser -> setAvatar( $fileName );
+
+        $em -> persist( $actualUser );
+        $em -> flush();
+
+        return $this->render('participant/profil_edit.html.twig', [
+            'actualUser' => $actualUser
+        ]);
+    }
 }
