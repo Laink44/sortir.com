@@ -3,6 +3,9 @@
 {% block title %}Créer une Sortie | {{ parent() }}{% endblock %}
 
 {% block main %}
+	<div class="my-custom-class-for-errors">
+		{{ form_errors(form) }}
+	</div>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
@@ -13,9 +16,7 @@
 		</div>
 
 		{{ form_start(form,  { 'attr': {'class': 'row'} }) }}
-		<div class="my-custom-class-for-errors">
-			{{ form_errors(form) }}
-		</div>
+
 		<div class="col-md-6">
 			<div class="form-group">
 				{{ form_row(form.nom) }}
@@ -33,7 +34,9 @@
 				{{ form_row(form.duree) }}
 			</div>
 			<div class="form-group">
+				{% autoescape false %}
 				{{ form_row(form.descriptioninfos) }}
+				{% endautoescape %}
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -47,6 +50,28 @@
 			<div class="form-group">
 				{{ form_row(form.lieu) }}
 			</div>
+
+			<div class="form-group" >
+				<label for="create_sortie[rue]">Rue</label>
+				<span class="form-control bg-light"  id="create_sortie_rue"></span>
+			</div>
+			<div class="form-group">
+				<label for="create_sortie[codePostal]">Code Postal</label>
+				<span class="form-control bg-light"  id="create_sortie_cp"></span>
+			</div>
+			<div class="form-group">
+				<label for="create_sortie[longitude]">longitude</label>
+				<span class="form-control bg-light"  id="create_sortie_lon"></span>
+			</div>
+			<div class="form-group">
+				<label for="create_sortie[latitude]">latitude</label>
+				<span class="form-control bg-light"  id="create_sortie_lat"></span>
+			</div>
+
+
+
+
+
 			<div class="form-group">
 				<label for="create_sortie[rue]">Rue</label>
 				<input class="form-control" type="text"  id="create_sortie_rue" readonly name="create_sortie[rue]">
@@ -67,27 +92,32 @@
 			</div>
 		</div>
 
-		{{ form_end(form) }}
+
+	<div class="mx-auto">
 
 		<div class="row">
 			<div class="col-md-4">
-
-				<button type="button" class="btn btn-success btn-block">
-					Button
-				</button>
+					{{ form_row(form.save) }}
 			</div>
 			<div class="col-md-4">
 
-				<button type="button" class="btn btn-success btn-block">
-					Button
-				</button>
+					{{ form_row(form.publish) }}
+
 			</div>
 			<div class="col-md-4">
 
-				<button type="button" class="btn btn-success btn-block">
-					Button
+				<button type="button" class="btn  btn-block bg-danger"  onclick="location.href='{{path('sorties')}}'">
+					Annuler
 				</button>
 			</div>
+
 		</div>
+
+
 	</div>
+
+
+	</div>
+	{{ form_end(form) }}
+
 {% endblock %}

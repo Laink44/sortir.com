@@ -2,31 +2,28 @@
 
 namespace App\Controller\Web;
 
+use App\Entity\Etat;
+use App\Entity\Inscription;
 use App\Entity\Participant;
-use App\Entity\Site;
+use App\Dto\RequestFindSeries;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
-use App\Repository\InscriptionRepository;
+use App\Form\FindSorties;
+use App\Repository\EtatsRepository;
+use App\Repository\SitesRepository;
 use App\Repository\SortiesRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+
 
 class SortieController extends Controller
 {
     /**
-     * @Route(
-     * "/create_sortie",
-     * name="index_sortie",
-     * methods={"GET"}
-     * )
+     * @Route("/create_sortie",name="create_sortie")
      * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response
@@ -36,31 +33,52 @@ class SortieController extends Controller
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $sortie = new Sortie();
-        $ParticipantEnCours = $this->getUser()->getSite()->getId();
 
+        $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
+        $ParticipantEnCours = $this->getUser();
 
-       $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCours)->getNomSite();
+       $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
           'nomVille'=> $nomSiteParticicpant
        ])->getCodePostal();
-    
 
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie,[
             'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
         ]) ;
 
         $sortieForm->handleRequest($request);
+
+
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            if($sortieForm->get('save')->isClicked()){
+                // permet de recuperer l'etat associé a un libelle
+                $etat =$em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Créée'));
+                $sortie_alert= "La sortie est sauvegardé";
+
+            }else{
+                // permet de recuperer l'etat associé a un libelle
+                $etat =$em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Ouverte'));
+                $sortie_alert= "La sortie est publié";
+
+            }
 
 
+           $escapeDescription = str_replace('<p>','',$sortie->getDescriptioninfos());
+           $sortie->setDescriptioninfos(str_replace('</p>','',$escapeDescription));
+            $sortie->setOrganisateur($ParticipantEnCours);
 
-           // $em->flush();
-            return $this->redirectToRoute("participant_login");
-//            $token = new UsernamePasswordToken($user, null,
-//                'main', $user->getRoles());
-//            $this->container->get('security.token_storage')->setToken($token);
-//            $this->container->get('session')->set('_security_main', serialize($token));
-//            return $this->redirectToRoute('article_liste');
+
+            $sortie->setEtat($etat);
+
+
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', $sortie_alert);
+            return $this->redirectToRoute('sorties',[
+
+            ]);
+
+
         }
 
         return $this->render('sortie/create.html.twig', [
@@ -70,32 +88,22 @@ class SortieController extends Controller
             "form" => $sortieForm->createView()]);
     }
 
-
     /**
-     * @Route(
-     * "/create_sortie",
-     * name="create_sortie",
-     * methods={"POST"}
-     * )
-     * @param EntityManagerInterface $em
-     * @param Request $request
+     * @Route("/sortie/{id}/edit",name="sortie_edit", requirements={"id"="\d+"},methods={"GET"})
+     * @param SortiesRepository $sortiesRepository
      * @return Response
      */
-    public function post(EntityManagerInterface $em,
-                          Request $request)
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-              $sortie = new Sortie();
-        $sortieForm = $this->createForm(CreateSortieType::class, $sortie);
+    public function edit($id, SortiesRepository $sortiesRepository){
 
-        $sortieForm->submit();
-        $sortieForm->handleRequest($request);
-        return $this->render('sortie/create.html.twig', [
+        $sortie = $sortiesRepository->find($id);
 
 
-
+        return $this->render('sortie/edit.html.twig',[
+            'sortie'=>$sortie,
         ]);
     }
+
+
 
     /**
      * @Route(
@@ -108,14 +116,62 @@ class SortieController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function sorties(PaginatorInterface $paginator, SortiesRepository $sortiesRepository, Request $request){
-
+    public function sorties(PaginatorInterface $paginator, SortiesRepository $sortiesRepository,SitesRepository $sitesRepository, Request $request){
+        $dto = new RequestFindSeries();
+        $form = $this->createForm(FindSorties::class, $dto, array(
+            'action' => $this->generateUrl($request->get('_route'))
+        ));
         $allSorties = $sortiesRepository->findAll();
-
+        $allSites = $sitesRepository->findAllSites();
         return $this->render('sortie/index.html.twig', [
-            'allSorties'
+            'allSites' => $allSites,
+            'form' => $form->createView(),
+            'allSorties' => $allSorties,
+            ]);
+    }
+
+
+    /**
+     * @Route(
+     * "/table_sorties",
+     * name="table_sorties",
+     * )
+     * @param PaginatorInterface $paginator
+     * @param SortiesRepository $sortiesRepository
+     * @param Request $request
+     * @return Response
+     */
+    public function table_sorties(PaginatorInterface $paginator, SortiesRepository $sortiesRepository,SitesRepository $sitesRepository, Request $request){
+
+
+        /*if ($request->getMethod() == 'GET') {
+            $allSorties = $sortiesRepository->findAll();
+            $allSites = $sitesRepository->findAllSites();
+            return $this->render('sortie/sorties_table.html.twig', [
+                'allSites' => $allSites,
+                'allSorties'
                 => $this->getPaginatedList($allSorties, $paginator, $request ),
             ]);
+        }*/
+        $dto = new RequestFindSeries();
+        $form = $this->createForm(FindSorties::class, $dto, array(
+            'action' => $this->generateUrl($request->get('_route'))
+        ));
+        $form->handleRequest($request);
+        $allSites = $sitesRepository->findAllSites();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $allSorties = $sortiesRepository->findAll($dto,$this->getUser());
+            return $this->render('sortie/sorties_table.html.twig', [
+                'allSites' => $allSites,
+                'allSorties' => $allSorties
+            ]);
+        }
+        $allSorties = $sortiesRepository->findAll();
+        return $this->render('sortie/sorties_table.html.twig', [
+            'allSites' => $allSites,
+            'allSorties' => $allSorties,
+        ]);
+
     }
 
 
@@ -129,10 +185,98 @@ class SortieController extends Controller
         if($sortie==null){
             throw $this->createNotFoundException('La sortie n\'existe pas');
         }
-
         return $this->render('sortie/detail.html.twig',[
             'sortie'=>$sortie,
         ]);
+
+    }
+
+
+    /**
+     * @Route("sortie/unregister",name="sortie_unregister", methods={"POST"})
+     */
+    public function Unsubscribe(Request $request, EntityManagerInterface $entityManager){
+        // récupérer la fiche Sortie dans la base de données
+        $SortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $SortieRepo->find($request->request->get("sortie"));
+        $submittedToken =$request->request->get("table_csrf_token");
+        if (!$this->isCsrfTokenValid('table_csrf_token_JFN4F4if', $submittedToken)) {
+            throw $this->createAccessDeniedException('Error unexpected');
+        }
+        if($sortie==null){
+            throw $this->createNotFoundException('La sortie n\'existe pas');
+        }
+        foreach($this->getUser()->getInscriptions() as $inscription){
+            if ($sortie->getInscriptions()->contains($inscription)){
+                $entityManager->remove($inscription);
+            }
+        }
+        if($sortie->getEtat()->getLibelle() != 'Ouverte'){
+            throw $this->createNotFoundException('La sortie ne peut être modifié dans l\'état actuel');
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute("table_sorties");
+
+    }
+
+
+    /**
+     * @Route("sortie/register",name="sortie_register", methods={"POST"})
+     */
+    public function subscribe(Request $request, EntityManagerInterface $entityManager){
+        // récupérer la fiche Sortie dans la base de données
+        $SortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $SortieRepo->find($request->request->get("sortie"));
+        $submittedToken =$request->request->get("table_csrf_token");
+        if (!$this->isCsrfTokenValid('table_csrf_token_JFN4F4if', $submittedToken)) {
+            throw $this->createAccessDeniedException('Error unexpected');
+        }
+        if($sortie==null){
+            throw $this->createNotFoundException('La sortie n\'existe pas');
+        }
+        if($sortie->getEtat()->getLibelle() != 'Ouverte'){
+            throw $this->createNotFoundException('La sortie ne peut être modifié dans l\'état actuel');
+        }
+        if($sortie->getInscriptions()->count() >= $sortie->getNbinscriptionsmax()){
+            throw $this->createNotFoundException('Le nombre maximum d\'inscription à été ateint.');
+        }
+        foreach($this->getUser()->getInscriptions() as $inscription){
+            if ($sortie->getInscriptions()->contains($inscription)){
+                $entityManager->remove($inscription);
+            }
+        }
+        $new_inscription = new Inscription();
+        $new_inscription->setSortie($sortie);
+        $new_inscription->setParticipant($this->getUser());
+        $new_inscription->setDate(new \DateTime ());
+        $sortie->addInscription($new_inscription);
+        $entityManager->flush();
+        return $this->redirectToRoute("table_sorties");
+
+    }
+
+    /**
+     * @Route("sortie/cancel",name="sortie_cancel", methods={"POST"})
+     */
+    public function Cancel(Request $request, EtatsRepository $etatsRepository, EntityManagerInterface $entityManager){
+        // récupérer la fiche Sortie dans la base de données
+        $SortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $SortieRepo->find($request->request->get("sortie"));
+        $submittedToken =$request->request->get("table_csrf_token");
+        if (!$this->isCsrfTokenValid('table_csrf_token_JFN4F4if', $submittedToken)) {
+            throw $this->createAccessDeniedException('Error unexpected');
+        }
+        $cancelState = $etatsRepository->findOneBy(array('libelle' => "Annulée"));
+        if($sortie==null){
+            throw $this->createNotFoundException('La sortie n\'existe pas');
+        }
+        if($sortie->getEtat()->getLibelle() != 'Ouverte' & $sortie->getEtat()->getLibelle() != 'Créee'){
+            throw $this->createNotFoundException('La sortie ne peut être modifié dans l\'état actuel');
+        }
+        $sortie->setEtat($cancelState);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        return $this->redirectToRoute("table_sorties");
 
     }
 
@@ -150,6 +294,8 @@ class SortieController extends Controller
 
         return $paginatedObjects;
     }
+
+
 
     public function getEm() {
         return $this -> getDoctrine() -> getManager();

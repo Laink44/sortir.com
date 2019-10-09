@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Sortie
@@ -33,34 +35,38 @@ class Sortie
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="datedebut", type="date", nullable=false)
+     * @Assert\GreaterThan("today",message="La date saisie doit etre supérieur à celle du jour")
+     *
+     * @ORM\Column(name="datedebut", type="datetime", nullable=false)
      */
     private $datedebut;
 
     /**
      * @var int|null
-     *
+     * @Assert\GreaterThan(30,message="La durée doit etre au minimum de 30  min")
      * @ORM\Column(name="duree", type="integer", nullable=true)
      */
     private $duree;
 
     /**
      * @var \DateTime
+     *@Assert\GreaterThan("today")
+     *@Assert\LessThan(propertyPath="datedebut")
      *
-     * @ORM\Column(name="datecloture", type="date", nullable=false)
+     * @ORM\Column(name="datecloture", type="datetime", nullable=false)
      */
     private $datecloture;
 
     /**
      * @var int
-     *
+     *@Assert\GreaterThan(0)
      * @ORM\Column(name="nbinscriptionsmax", type="integer", nullable=false)
      */
     private $nbinscriptionsmax;
 
     /**
      * @var string|null
-     *
+     *@Assert\NotBlank()
      * @ORM\Column(name="descriptioninfos", type="string", length=500, nullable=true)
      */
     private $descriptioninfos;
@@ -77,7 +83,7 @@ class Sortie
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="sortie", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="sortie", orphanRemoval=true,cascade={"persist"})
      */
     private $inscriptions;
 

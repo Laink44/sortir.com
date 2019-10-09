@@ -8,13 +8,17 @@ use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CreateSortieType extends AbstractType
 {
@@ -26,22 +30,49 @@ class CreateSortieType extends AbstractType
         $CPVILLE= $options['cpville'];
         dump( $CPVILLE);
         $builder
-            ->add('nom')
-            ->add('datedebut',DateType::class,[
-                'widget' => 'single_text',
-                'label' => 'Date et heure de la sortie'
+            ->add('nom',null,[
+                'label'=> "Nom de la sortie"
             ])
-            ->add('duree')
-            ->add('datecloture',DateType::class,[
+            ->add('datedebut',DateTimeType::class,[
+                'label'=>"Date de début",
                 'widget' => 'single_text',
-                'label' => 'Date limite d\'inscription'
+                'required' => false,
+                'html5' => false,
+                'attr' => [
+                    'class' => 'datepicker-here' ,
+                    'data-timepicker' =>"true",
+                    "data-language" =>'fr',
+                    'data-date-format'=>'yyyy-mm-dd'],
             ])
-            ->add('nbinscriptionsmax')
+            ->add('duree',null,[
+                'label'=>"Durée"
+            ])
+            ->add("datecloture",DateTimeType::class,[
+                'label'=>"Date limite d'enregistrement",
+                'widget' => 'single_text',
+                'required' => false,
+                'html5' => false,
+                'attr' => [
+                    'class' => 'datepicker-here' ,
+                    'data-timepicker' =>"true",
+                    "data-language" =>'fr',
+                    'data-date-format'=>'yyyy-mm-dd'],
+
+            ])
+
+            ->add('nbinscriptionsmax',null,[
+                'label'=>"Nombre de place",
+            ])
             ->add('descriptioninfos',CKEditorType::class,[
+                'label'=>"Description et infos",
                 'config' => array(
                     'toolbar' => 'standard',
-                                   ),
-                'label' => 'Description et Info'
+                    'basicEntities'=>false,
+                    'resize_enabled' => false,
+                    'entities'=>false,
+                    'entities_additional'=>'#39',
+                                                       ),
+
             ])
 
 
@@ -60,22 +91,18 @@ class CreateSortieType extends AbstractType
 
           ->add('lieu', EntityType::class, [
                 'class'=> 'App\Entity\Lieu',
-                 'disabled'=>true,
                  'choice_label' => 'nom_lieu',
                  'placeholder' => 'Choisir une lieu',
                  ])
 
-        ->add('rue',EntityType::class,[
-                'class'=>'App\Entity\Lieu',
-                'disabled'=>true,
-                'choice_value'=>'rue',
-                'mapped'=>false,
-                'required'=>false,
-                ]);
 
+           ->add('save',SubmitType::class,[
+               'label'=>'Enregistrer'
+           ])
 
-
-
+           ->add('publish',SubmitType::class,[
+                'label'=>'Publier une sortie'
+            ]);
 
 
 

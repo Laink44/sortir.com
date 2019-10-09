@@ -4,6 +4,8 @@
 namespace App\Repository;
 
 
+use App\Dto\RequestFindSeries;
+use App\Entity\Etat;
 use App\Entity\Inscription;
 use App\Entity\Participant;
 use App\Entity\Sortie;
@@ -16,18 +18,74 @@ use Doctrine\ORM\QueryBuilder;
 
 class SortiesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var EtatsRepository
+     */
+    private $etatsRepository;
+
+    public function __construct(ManagerRegistry $registry, EtatsRepository $etatsRepository)
     {
         parent::__construct($registry, Sortie::class);
+        $this->etatsRepository = $etatsRepository;
     }
 
 
-
-    /** @return array */
-    public function findAll() : array
+    /**
+     * @param RequestFindSeries|null $dto
+     * @return array
+     */
+    public function findAll(RequestFindSeries $dto = null,  Participant $participant = null) : array
     {
-        return $this -> findAllQuery() -> getResult();
+         $query = $this -> createQueryBuilder( 's' );
+         if ($dto != null) {
+             if ($dto->getSite()) {
+                 $query = $query
+                     ->join("s.organisateur","organisateur","WITH", "s.organisateur=organisateur")
+                     ->andWhere('organisateur.site = :site')
+                     ->setParameter('site', $dto->getSite());
+             }
+             if ($dto->getDateDebut() && $dto->getDateFin()) {
+                 $from = new \DateTime($dto->getDateDebut()->format("Y-m-d")." 00:00:00");
+                 $to   = new \DateTime($dto->getDateFin()->format("Y-m-d")." 23:59:59");
+                 $query = $query->andWhere('s.datedebut BETWEEN :from AND :to')
+                     ->setParameter('from', $from)
+                     ->setParameter('to', $to);
+             }
+
+             if ($dto->getKeyword() ) {
+                 $query = $query->andWhere('s.nom like :keyword')
+                     ->setParameter('keyword', '%'.$dto->getKeyword().'%');
+             }
+
+             if ($dto->isOutDatedFilter()) {
+                 $passedState = $this->etatsRepository->findOneBy(array('libelle' => "Passée"));
+                 $query = $query->andWhere('s.etat = :etat')
+                     ->setParameter('etat', $passedState);
+             }
+             if ($dto->isManagerFilter()) {
+                 $query = $query->andWhere('s.organisateur = :participant')
+                     ->setParameter('participant', $participant);
+             }
+
+             if ($dto->isRegisterFilter()) {
+                 $query = $query
+                     ->leftJoin("s.inscriptions","i")
+                     ->andWhere("i.participant = :participantInscription")
+                     ->setParameter('participantInscription', $participant);
+             }
+             else  if ($dto->isNotRegisterFilter())
+             {
+                     $query = $query
+                         ->leftJoin("s.inscriptions","i")
+                         ->andWhere("i.participant != :participantInscription")
+                         ->setParameter('participantInscription', $participant);
+             }
+         }
+         return $query->getQuery()->getResult();
     }
+
+
+
 
     /** @return Query */
     public function findAllQuery() : Query

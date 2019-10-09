@@ -210,7 +210,7 @@ class Lieu  implements \JsonSerializable
            'id'=>$this->getId(),
             'libelle'=>$this->getNomLieu(),
             'rue' => $this->getRue(),
-            'longtitude' => $this->getLongitude(),
+            'longitude' => $this->getLongitude(),
             'latitude' => $this->getLatitude(),
             'codePostal' => $this->getVille()->getCodePostal()
 

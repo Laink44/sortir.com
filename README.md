@@ -13,8 +13,10 @@ Symfony project
 ### Load Fixtures
     - php bin/console doctrine:fixtures:load
 	
-### Download CKEditor when Register
+### Download CKEditor  and Install
+    - composer require friendsofsymfony/ckeditor-bundle
 	- php bin/console ckeditor:install
+	- php bin/console assets:install public
     
 ### Database migration
     - php bin/console doctrine:migrations:migrate

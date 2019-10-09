@@ -2,7 +2,7 @@
 
 <div class="table-wrapper-scroll-y my-custom-scrollbar">
 
-    <table class="table table-bordered table-striped mb-0">
+    <table class="table table-bordered table-striped mb-0" id="table-sorties" data-csrf="{{ csrf_token('table_csrf_token_JFN4F4if') }}" >
         <thead>
         <tr>
             <th scope="col">Nom de la sortie</th>
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         {% for sortie in allSorties %}
-
+            {% set registred = 0 %}
             <tr>
                 <th scope="row">
                     {{ sortie.nom }}
@@ -46,12 +46,18 @@
                     {{ sortie.organisateur.nom }}
                 </td>
                 <td scope="row">
-                    <a href="">Afficher</a>
-                    {% if sortie.inscriptions |length %}
-                        - <a href="">Se désister</a>
+                    <a href={{ path("sortie_detail", {id: sortie.id})}}>Afficher</a>
+                    {% for inscription in sortie.inscriptions %}
+                        {%  if inscription in app.user.inscriptions and sortie.etat.libelle == 'Ouverte' %}
+                            {% set registred = 1 %}
+                            - <a class="unregister" href="" data-id={{ sortie.id }}>Se désister</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if registred == 0 and sortie.etat.libelle == 'Ouverte' %}
+                        - <a class="register" href="" data-id={{ sortie.id }}>S'inscrire</a>
                     {% endif %}
-                    {% if sortie.organisateur.id == app.user.id  %}
-                        - <a href="">Annuler</a>
+                    {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Ouverte' %}
+                        - <a class="cancel" href="" data-id={{ sortie.id }}>Annuler</a>
                     {% endif %}
                 </td>
             </tr>
