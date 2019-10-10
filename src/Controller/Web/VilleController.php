@@ -3,6 +3,8 @@
 namespace App\Controller\Web;
 
 use App\Entity\Ville;
+use App\Repository\VillesRepository;
+use App\Service\PaginatorService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VilleController extends Controller
 {
+
+    //     * methods={"GET"}
+    const ORIGIN_HOME       = 'home';
+    const ORIGIN_PAGINATOR  = 'paginator';
+    const ORIGIN_SEARCHBAR  = 'searchbar';
+    const ORIGIN_REMOVE     = 'remove';
+    const ORIGIN_ADD        = 'add';
+    const ORIGIN_EDIT       = 'edit';
     /**
      * @Route(
      * "/admin/ville",
@@ -18,34 +28,89 @@ class VilleController extends Controller
      * methods={"GET"}
      * )
      */
-    public function adminVille( PaginatorInterface $paginator, Request $request )
+    public function adminVille(
+        PaginatorInterface $paginator,
+        Request $request,
+        VillesRepository $cityRepo,
+        PaginatorService $paginatorService
+    )
     {
-        $allVilles = $this -> getRepo() -> findAllVilles();
-        return $this->render('admin/admin_ville.html.twig', [
-            'allVilles' => $this -> getPaginatedList( $allVilles, $paginator, $request )
+        $search         = $request -> query -> get( 'citysearch', '' );
+        $origin         = $request -> query -> get( 'origin', self::ORIGIN_HOME );
+        $currentPage    = $request -> query -> get( 'currentpage', 1 );
+        $destination    = 'admin/admin_ville.html.twig';
+
+        switch( $origin ) {
+            case self::ORIGIN_HOME :
+                $destination = 'admin/admin_ville.html.twig';
+                break;
+            case self::ORIGIN_PAGINATOR :
+            case self::ORIGIN_SEARCHBAR :
+            case self::ORIGIN_REMOVE :
+            case self::ORIGIN_ADD :
+            case self::ORIGIN_EDIT :
+                $destination = 'admin/admin_ville_table.html.twig';
+                break;
+            default:
+                $destination = 'home.html.twig';
+                break;
+        }
+
+        // NOMBRE DE VILLES
+        // Dénombre les villes de la table idoine, ce qui sera utile pour l'évaluation de la variable offset
+        $rowCount = 0;
+        if(
+            ( $origin == self::ORIGIN_SEARCHBAR || $origin == self::ORIGIN_PAGINATOR )
+            && $search
+            && $search != ''
+            && $search != 'empty'
+        ) {
+            $rowCount = $cityRepo -> getCityCountByName( $search );
+        } else {
+            $rowCount = $cityRepo -> getCityCount();
+        }
+
+        // PARAMETRES DE PAGINATION
+        $maxByPage      = 15;
+        $numberOfRange  = 5;
+        $viewParams     = $paginatorService -> getViewParams( $currentPage, $maxByPage, $rowCount, $numberOfRange );
+        $offset         = $paginatorService -> getOffset( $currentPage, $maxByPage );
+
+        // LISTE DE VILLES
+        $allVilles = [];
+        if(
+            ( $origin == self::ORIGIN_SEARCHBAR || $origin == self::ORIGIN_PAGINATOR )
+            && $search
+            && $search != ''
+            && $search != 'empty'
+        ) {
+            $allVilles  = $cityRepo -> getByVilleName( $search, $offset, $maxByPage );
+        } else {
+            $allVilles  = $cityRepo -> findAllVilles( $offset, $maxByPage );
+        }
+
+        return $this->render( $destination, [
+            'allVilles'     => $this -> getPaginatedList( $allVilles, $paginator, $request ),
+            'viewParams'    => $viewParams
         ]);
     }
 
     /**
      * @Route(
-     * "/admin/ville/ajouter/ville/{nomVille}/cp/{codePostal}",
+     * "/admin/ville/ajouter",
      * name="ville_add",
      * methods={"GET"}
      * )
      */
-    public function addVille( $nomVille = '', $codePostal = '', PaginatorInterface $paginator, Request $request )
+    public function addVille( PaginatorInterface $paginator, Request $request )
     {
         $newVille = new Ville();
-        $newVille -> setNomVille( $nomVille );
-        $newVille -> setCodePostal( $codePostal );
+        $newVille -> setNomVille( $request -> query -> get( 'nom', '' ) );
+        $newVille -> setCodePostal( $request -> query -> get( 'cp', '' )  );
         $this -> getEm() -> persist( $newVille );
         $this -> getEm() -> flush();
 
-        $allVilles = $this -> getRepo() -> findAllVilles();
-
-        return $this->render('admin/admin_ville_table.html.twig', [
-            'allVilles' => $this -> getPaginatedList( $allVilles, $paginator, $request )
-        ]);
+        return $this -> redirectToRoute( 'gestion_ville', $request -> query -> all() );
     }
 
     /**
@@ -55,39 +120,31 @@ class VilleController extends Controller
      * methods={"GET"}
      * )
      */
-    public function removeVille( $id = '', PaginatorInterface $paginator, Request $request )
+    public function removeVille( $id = '', PaginatorInterface $paginator, Request $request, VillesRepository $cityRepo )
     {
-        $villeToRemove = $this -> getRepo() -> find( $id );
+        $villeToRemove = $cityRepo -> find( $id );
         $this -> getEm() -> remove( $villeToRemove );
         $this -> getEm() -> flush();
 
-        $allVilles = $this -> getRepo() -> findAllVilles();
-
-        return $this->render('admin/admin_ville_table.html.twig', [
-            'allVilles' => $this -> getPaginatedList( $allVilles, $paginator, $request )
-        ]);
+        return $this -> redirectToRoute( 'gestion_ville', $request -> query -> all() );
     }
 
     /**
      * @Route(
-     * "/admin/ville/editer/{id}/nom/{nomVille}/code-postal/{codePostal}",
+     * "/admin/ville/editer",
      * name="ville_edit",
      * methods={"GET"}
      * )
      */
-    public function editVille( $id = '', $nomVille = '', $codePostal = '', PaginatorInterface $paginator, Request $request )
+    public function editVille( PaginatorInterface $paginator, Request $request, VillesRepository $cityRepo )
     {
-        $villeToEdit = $this -> getRepo() -> find( $id );
-        $villeToEdit -> setNomVille( $nomVille );
-        $villeToEdit -> setCodePostal( $codePostal );
+        $villeToEdit = $cityRepo -> find( $request -> query -> get( 'id', '' ) );
+        $villeToEdit -> setNomVille( $request -> query -> get( 'nom', '' ) );
+        $villeToEdit -> setCodePostal( $request -> query -> get( 'cp', '' ) );
         $this -> getEm() -> persist( $villeToEdit );
         $this -> getEm() -> flush();
 
-        $allVilles = $this -> getRepo() -> findAllVilles();
-
-        return $this->render('admin/admin_ville_table.html.twig', [
-            'allVilles' => $this -> getPaginatedList( $allVilles, $paginator, $request )
-        ]);
+        return $this -> redirectToRoute( 'gestion_ville', $request -> query -> all() );
     }
 
     /**
@@ -97,13 +154,13 @@ class VilleController extends Controller
      * methods={"GET"}
      * )
      */
-    public function searchVille( $nomVille = '', PaginatorInterface $paginator, Request $request )
+    public function searchVille( $nomVille = '', PaginatorInterface $paginator, Request $request, VillesRepository $cityRepo )
     {
-        $foundCities = $this -> getRepo() -> getByVilleName( $nomVille, 0, 15 );
+        $foundCities = $cityRepo -> getByVilleName( $nomVille, 0, 15 );
 
         if( $nomVille === 'empty' )
         {
-            $foundCities = $this -> getRepo() -> findAllVilles();
+            $foundCities = $cityRepo -> findAllVilles();
         }
 
         return $this->render('admin/admin_ville_table.html.twig', [
@@ -118,13 +175,13 @@ class VilleController extends Controller
      * methods={"GET"}
      * )
      */
-    public function searchVilleAsJson( $nomVille = '' )
+    public function searchVilleAsJson( $nomVille = '', VillesRepository $cityRepo )
     {
-        $foundCities = $this -> getRepo() -> getByVilleNameStartingWith( $nomVille, 0, 5 );
+        $foundCities = $cityRepo -> getByVilleNameStartingWith( $nomVille, 0, 5 );
 
         if( $nomVille === 'empty' )
         {
-            $foundCities = $this -> getRepo() -> findAllVilles();
+            $foundCities = $cityRepo -> findAllVilles();
         }
 
         $cities = [];
@@ -148,20 +205,17 @@ class VilleController extends Controller
         return $response;
     }
 
-    public function getAllVilles()
+    public function getAllVilles( VillesRepository $cityRepo )
     {
-        return $this -> getRepo() -> findAll();
+        return $cityRepo -> findAll();
     }
 
     public function getPaginatedList( Array $listOfObjectsToPaginate, PaginatorInterface $paginator, Request $request )
     {
-        $paginatedObjects = $paginator -> paginate(
-            $listOfObjectsToPaginate,
-            $request -> query -> getInt( 'page', 1 ),
-            15
+        $paginatedObjects = $paginator -> paginate( $listOfObjectsToPaginate
         );
 
-        $paginatedObjects -> setTemplate( 'pagination/twitter_bootstrap_v4_pagination.html.twig' );
+        $paginatedObjects -> setTemplate( 'pagination/pagination.html.twig' );
         $paginatedObjects -> setUsedRoute( 'gestion_ville' );
 
         return $paginatedObjects;
@@ -170,9 +224,9 @@ class VilleController extends Controller
     public function getEm() {
         return $this -> getDoctrine() -> getManager();
     }
-
-    public function getRepo()
-    {
-        return $this -> getDoctrine() -> getRepository( Ville::class );
-    }
+//
+//    public function getRepo()
+//    {
+//        return $this -> getDoctrine() -> getRepository( Ville::class );
+//    }
 }

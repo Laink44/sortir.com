@@ -43,12 +43,13 @@ class VillesRepository extends ServiceEntityRepository
 
 
     public function getCPVilleByNameVille($nomville){
-        $qb = $this->createQueryBuilder('v');
-        $qb->select('v.codePostal')
-            ->where('v.nomVille LIKE :nomville')
-            ->setParameter('nomville',$nomville);
-        $qb-> setMaxResults(1);
-        $query = $qb->getQuery();
+        $qb = $this
+                -> createQueryBuilder('v')
+                -> select('v.codePostal')
+                -> where('v.nomVille LIKE :nomville')
+                -> setParameter('nomville',$nomville)
+                -> setMaxResults( 1 );
+        $query = $qb -> getQuery();
         return $query->getResult();
 
 
@@ -97,10 +98,44 @@ class VillesRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getCityCount() : int {
+        return $this
+                ->createQueryBuilder( 'p' )
+                ->select( 'COUNT( p )' )
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+
+    /**
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getCityCountByName( $villeName ) : int {
+        $qb =   $this
+                    ->createQueryBuilder( 'c' )
+                    ->select( 'COUNT( c )' );
+
+        if( $villeName != null ) {
+            $qb
+                -> setParameter( 'nom_ville', '%' . $villeName . '%' )
+                -> andWhere( 'c.nomVille LIKE :nom_ville' );
+        }
+
+        return $qb -> getQuery() ->getSingleScalarResult();
+    }
+
    /** @return array */
-    public function findAllVilles() : array
+    public function findAllVilles( int $offset, int $maxByPage ) : array
     {
-        return $this -> findAllQuery() -> getResult();
+        return  $this
+                    -> findAllQuery()
+                    -> setFirstResult( $offset )
+                    -> setMaxResults( $maxByPage )
+                    -> getResult();
     }
 
     /** @return Query */
