@@ -125,10 +125,9 @@ class SortieController extends Controller
             'nomVille'=> $nomSiteParticicpant
         ])->getCodePostal();
 
-        $ville =  $sortie->getLieu()->getVille();
-
         $SortieForm = $this->createForm('App\Form\CreateSortieType', $sortie,[
-           'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
+           'cpville'=>substr($CPVilleOrganisateur,0,2).'%'
+
 
 
         ]);
@@ -159,9 +158,7 @@ class SortieController extends Controller
 
         }
         return $this->render("sortie/edit.html.twig", [
-            'siteParticipantEncours' => strtoupper($nomSiteParticicpant),
             "sortie"=>$sortie,
-            "ville"=>$ville,
             "form" => $SortieForm->createView(),
 
         ]);
