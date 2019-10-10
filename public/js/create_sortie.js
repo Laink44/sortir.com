@@ -5,7 +5,7 @@ $("#create_sortie_lieu").prop("disabled", true);
 
      $("#create_sortie_lieu").prop("disabled", false);
    var elemLieu =  $("#create_sortie_lieu")
-   $.get( "http://localhost/sortir.com/public/api/lieu/byVille/".concat($("#create_sortie_ville").val()), function(){
+   $.get( "/api/lieu/byVille/".concat($("#create_sortie_ville").val()), function(){
    }).done(
        function( lieux ){
            _lieux = lieux;

@@ -34,7 +34,7 @@ class SortiesRepository extends ServiceEntityRepository
      * @param RequestFindSeries|null $dto
      * @return array
      */
-    public function findAll(RequestFindSeries $dto = null,  Participant $participant = null) : array
+    public function findAllOpened(RequestFindSeries $dto = null,  Participant $participant = null) : array
     {
          $query = $this -> createQueryBuilder( 's' );
          if ($dto != null) {
@@ -62,6 +62,12 @@ class SortiesRepository extends ServiceEntityRepository
                  $query = $query->andWhere('s.etat = :etat')
                      ->setParameter('etat', $passedState);
              }
+             else {
+                 $openState = $this->etatsRepository->findOneBy(array('libelle' => "Créée"));
+                 $query = $query->andWhere('s.etat != :etat or s.organisateur = :organisateur')
+                     ->setParameter('etat', $openState)
+                    ->setParameter('organisateur', $participant);
+             }
              if ($dto->isManagerFilter()) {
                  $query = $query->andWhere('s.organisateur = :participant')
                      ->setParameter('participant', $participant);
@@ -80,6 +86,12 @@ class SortiesRepository extends ServiceEntityRepository
                          ->andWhere("i.participant != :participantInscription")
                          ->setParameter('participantInscription', $participant);
              }
+         }
+         else {
+             $openState = $this->etatsRepository->findOneBy(array('libelle' => "Créée"));
+             $query = $query->andWhere('s.etat != :etat or s.organisateur = :organisateur')
+                 ->setParameter('etat', $openState)
+                 ->setParameter('organisateur', $participant);
          }
          return $query->getQuery()->getResult();
     }
