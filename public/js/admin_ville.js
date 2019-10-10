@@ -1,5 +1,3 @@
-    const tableVille = '#table-ville';
-
 // ADD
     $('body').on('click', '#btn-add-ville', addVille );
 
