@@ -50,7 +50,33 @@ class ParticipantControllerTest extends WebTestCase
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Se déconnecter user_fake")')->count());
     }
+    public function testPublishSortie()
+    {
+        $this->logInForm("admin","pass_1234");
+        $crawler = $this->client->followRedirect();
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->request('GET', '/sortie/create');
+        $form = $crawler->filter('form[name="create_sortie"]')->form();
+        $token = $crawler->filter('input[name="create_sortie[_token]"]')
+            ->extract(array('value'))[0];
+        $this->client->submit($form,[
+            "create_sortie[nom]" => "Fake_Create_Sortie_Test",
+            "create_sortie[datedebut]" => "2019-10-30T15:45:00",
+            "create_sortie[datecloture]" => "2019-10-29 15:46",
+            "create_sortie[nbinscriptionsmax]" => "4",
+            "create_sortie[duree]" => "31",
+            "create_sortie[descriptioninfos]" => "<p>Fake_Create_Sortie_Test</p>\r\n",
+            "create_sortie[ville]" => "15179",
+            "create_sortie[lieu]" => "3"
+        ] );
 
+        file_put_contents("output1.html", $this->client->getResponse()->getContent());
+        $crawler = $this->client->followRedirect();
+        file_put_contents("output2.html", $this->client->getResponse()->getContent());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("La sortie est publié")')->count());
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+
+    }
 
     private function logInForm($username, $password){
 
@@ -77,7 +103,8 @@ class ParticipantControllerTest extends WebTestCase
             'register[mail]' => 'user_fake@sortir.com',
             'register[password][first]' => 'pass_1234',
             'register[password][second]' => 'pass_1234',
-            'register[site]' => '1'
+            'register[site]' => '1',
+            'register[_token]' => '1'
 
         ]);
         $this->client->submit($form);
