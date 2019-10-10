@@ -59,6 +59,9 @@
                     {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Ouverte' %}
                         - <a class="cancel" href="" data-id={{ sortie.id }}>Annuler</a>
                     {% endif %}
+                    {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
+                        - <a class="edit" href={{ path("sortie_edit", {id: sortie.id})}}>Modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
