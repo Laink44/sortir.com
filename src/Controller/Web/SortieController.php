@@ -120,7 +120,8 @@ class SortieController extends Controller
 
         $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
 
-        $sortie->getLieu()->getId();
+
+
 
 
         $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
@@ -133,6 +134,10 @@ class SortieController extends Controller
 
 
         ]);
+
+        $SortieForm->get('ville')->setData($sortie->getLieu()->getVille());
+        $SortieForm->get('lieu')->setData($sortie->getLieu());
+
 
         $SortieForm->handleRequest($request);
 

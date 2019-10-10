@@ -51,7 +51,7 @@ function hookSubcribe_unsubcribe() {
         $(".loader").show();
         $.ajax({
             type: 'post',
-            url: 'sortie/unregister',
+            url: 'unregister',
             data: _data,
             success: function (response) {
                 $(".loader").hide();
@@ -69,7 +69,7 @@ function hookSubcribe_unsubcribe() {
         $(".loader").show();
         $.ajax({
             type: 'post',
-            url: 'sortie/register',
+            url: 'register',
             data: _data,
             success: function (response) {
                 $(".loader").hide();
@@ -89,7 +89,7 @@ function hookSubcribe_unsubcribe() {
         $("#table-ville" ).hide();
         $.ajax({
             type: 'post',
-            url: 'sortie/cancel',
+            url: 'cancel',
             data: _data,
             success: function (response) {
 
