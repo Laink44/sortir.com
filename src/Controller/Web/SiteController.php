@@ -118,7 +118,7 @@ class SiteController extends Controller
         $paginatedObjects = $paginator -> paginate(
             $listOfObjectsToPaginate,
             $request -> query -> getInt( 'page', 1 ),
-            5
+            15
         );
 
         $paginatedObjects -> setTemplate( 'pagination/twitter_bootstrap_v4_pagination.html.twig' );

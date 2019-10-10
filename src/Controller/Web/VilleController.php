@@ -13,8 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VilleController extends Controller
 {
-
-    //     * methods={"GET"}
     const ORIGIN_HOME       = 'home';
     const ORIGIN_PAGINATOR  = 'paginator';
     const ORIGIN_SEARCHBAR  = 'searchbar';
@@ -35,7 +33,7 @@ class VilleController extends Controller
         PaginatorService $paginatorService
     )
     {
-        $search         = $request -> query -> get( 'citysearch', '' );
+        $search         = $request -> query -> get( 'search', '' );
         $origin         = $request -> query -> get( 'origin', self::ORIGIN_HOME );
         $currentPage    = $request -> query -> get( 'currentpage', 1 );
         $destination    = 'admin/admin_ville.html.twig';
@@ -212,8 +210,7 @@ class VilleController extends Controller
 
     public function getPaginatedList( Array $listOfObjectsToPaginate, PaginatorInterface $paginator, Request $request )
     {
-        $paginatedObjects = $paginator -> paginate( $listOfObjectsToPaginate
-        );
+        $paginatedObjects = $paginator -> paginate( $listOfObjectsToPaginate );
 
         $paginatedObjects -> setTemplate( 'pagination/pagination.html.twig' );
         $paginatedObjects -> setUsedRoute( 'gestion_ville' );
