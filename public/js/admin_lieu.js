@@ -5,6 +5,7 @@
     $('body').on( 'click', '#btn-add-lieu', addLieu );
 
     function addLieu( event ){
+        debugger;
         // NomLieu
         let nom         = $( '#inpt-add-lieu' ).val();
         // Rue

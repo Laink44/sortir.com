@@ -43,5 +43,9 @@ $("#create_sortie_lieu").change(function(){
     $("#create_sortie_lon").text(_lieux[$("#create_sortie_lieu").prop('selectedIndex')].longitude);
 });
 
+$('body').on('click', '#btn-pop-lieu', popLieu );
 
+function popLieu( event ){
+    debugger;
+}
 
