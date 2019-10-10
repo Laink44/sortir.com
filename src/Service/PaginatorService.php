@@ -114,7 +114,6 @@ class PaginatorService
      */
     public function getNext( int $currentPage,  int $numberOfPages ) : int
     {
-        dump( $currentPage );
         return min( $numberOfPages , $currentPage + 1 );
     }
 

@@ -117,8 +117,6 @@ class LieuController extends Controller
         $newLieu -> setLongitude( $request -> query -> get( 'longitude', '' ) );
         $newLieu -> setVille( $ville );
 
-        dump( $newLieu );
-
         $this -> getEm() -> persist( $newLieu );
         $this -> getEm() -> flush();
 

@@ -188,7 +188,6 @@ class ParticipantController extends Controller
         if( $isDirty ) {
             $em -> persist( $actualUser );
             $em -> flush();
-            dump( 'nouveau profil persisté en base ');
         }
 
         return $this->render('participant/profil_details.html.twig', [
