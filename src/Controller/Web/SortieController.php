@@ -12,6 +12,7 @@ use App\Form\FindSorties;
 use App\Repository\EtatsRepository;
 use App\Repository\SitesRepository;
 use App\Repository\SortiesRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -75,9 +76,7 @@ class SortieController extends Controller
             $em->flush();
             $this->addFlash('success', $sortie_alert);
             return $this->redirectToRoute('sorties',[
-
             ]);
-
 
         }
 
@@ -89,19 +88,58 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("/sortie/{id}/edit",name="sortie_edit", requirements={"id"="\d+"},methods={"GET"})
-     * @param SortiesRepository $sortiesRepository
+     * @Route("/sortie/edit/{id}",name="sortie_edit", requirements={"id"="\d+"},methods={"GET"})
+     * @param $id
+     * @param EntityManager $em
+     * @param Request $request
      * @return Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function edit($id, SortiesRepository $sortiesRepository){
+    public function edit($id,EntityManagerInterface $em,
+                           Request $request)
+    {
+        $sortie = $em->getRepository('App:Sortie')->find($id);
+        if ($sortie == null) {
+            throw $this->createNotFoundException('La Sortie n\'est pas référencée');
 
-        $sortie = $sortiesRepository->find($id);
+        }
 
 
-        return $this->render('sortie/edit.html.twig',[
-            'sortie'=>$sortie,
+        $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
+        $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
+
+        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
+            'nomVille'=> $nomSiteParticicpant
+        ])->getCodePostal();
+
+        $SortieForm = $this->createForm('App\Form\CreateSortieType', $sortie,[
+            'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
+        ]);
+        $SortieForm->handleRequest($request);
+
+
+        if ($SortieForm->isSubmitted() && $SortieForm->isValid()) {
+            if ($SortieForm->get('save')->isClicked()) {
+                // permet de recuperer l'etat associé a un libelle
+                $etat = $em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Créée'));
+                $sortie_alert = "La sortie est sauvegardé";
+
+            } else {
+                // permet de recuperer l'etat associé a un libelle
+                $etat = $em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Ouverte'));
+                $sortie_alert = "La sortie est publié";
+
+            }
+        }
+        return $this->render("sortie/edit.html.twig", [
+            'siteParticipantEncours' => strtoupper($nomSiteParticicpant),
+            "form" => $SortieForm->createView()
         ]);
     }
+
+
+
 
 
 
