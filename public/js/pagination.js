@@ -1,3 +1,5 @@
+const tableVille = '#table';
+
 // PAGINATION
 $( 'body' ).on( 'click', '.btn-pagination', routePaginator );
 
