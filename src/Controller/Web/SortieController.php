@@ -16,15 +16,18 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * @Route("/sortie")
+ */
 class SortieController extends Controller
 {
     /**
-     * @Route("/create_sortie",name="create_sortie")
+     * @Route("/create",name="create_sortie")
      * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response
@@ -50,10 +53,12 @@ class SortieController extends Controller
         $sortieForm->handleRequest($request);
 
 
+
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             if($sortieForm->get('save')->isClicked()){
                 // permet de recuperer l'etat associé a un libelle
                 $etat =$em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Créée'));
+                $sortie->setDescriptioninfos(strip_tags($sortie->getDescriptioninfos()));
                 $sortie_alert= "La sortie est sauvegardé";
 
             }else{
@@ -88,7 +93,7 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("/sortie/edit/{id}",name="sortie_edit", requirements={"id"="\d+"},methods={"GET"})
+     * @Route("/edit/{id}",name="sortie_edit", requirements={"id"="\d+"},methods={"POST","GET"})
      * @param $id
      * @param EntityManager $em
      * @param Request $request
@@ -105,10 +110,9 @@ class SortieController extends Controller
 
         }
 
-
-
-
         $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
+
+        //Check si l'organisateur est bien le propriétaire de la sortie
         if($sortie->getOrganisateur() != $this->getUser()){
             return  $this->redirectToRoute('sorties');
         }
@@ -116,14 +120,20 @@ class SortieController extends Controller
 
         $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
 
+
         $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
             'nomVille'=> $nomSiteParticicpant
         ])->getCodePostal();
 
         $SortieForm = $this->createForm('App\Form\CreateSortieType', $sortie,[
-            'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
+           'cpville'=>substr($CPVilleOrganisateur,0,2).'%'
+
+
+
         ]);
+
         $SortieForm->handleRequest($request);
+
 
 
         if ($SortieForm->isSubmitted() && $SortieForm->isValid()) {
@@ -132,17 +142,46 @@ class SortieController extends Controller
                 $etat = $em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Créée'));
                 $sortie_alert = "La sortie est sauvegardé";
 
-            } else {
+            } else{
                 // permet de recuperer l'etat associé a un libelle
                 $etat = $em->getRepository(Etat::class)->findOneBy(array('libelle' => 'Ouverte'));
                 $sortie_alert = "La sortie est publié";
 
             }
+            $sortie->setDescriptioninfos(strip_tags($sortie->getDescriptioninfos()));
+            $sortie->setEtat($etat);
+
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', $sortie_alert);
+            return $this->redirectToRoute('sorties');
+
         }
         return $this->render("sortie/edit.html.twig", [
-            'siteParticipantEncours' => strtoupper($nomSiteParticicpant),
-            "form" => $SortieForm->createView()
+            "sortie"=>$sortie,
+            "form" => $SortieForm->createView(),
+
         ]);
+    }
+
+
+    /**
+     * @Route("/edit/{id}", name="sortie_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, EntityManagerInterface $em, $id){
+        $sortie = $em->getRepository('App:Sortie')->find($id);
+        if ($sortie == null) {
+            throw $this->createNotFoundException('La Sortie n\'est pas référencée ou a été supprimé');
+
+        }
+        if ($this->isCsrfTokenValid('delete'.$sortie->getId(),
+            $request->request->get('_token'))) {
+            $em->remove($sortie);
+            $em->flush();
+            $this->addFlash('success', "La sortie a été supprimé");
+        }
+        return $this->redirectToRoute('sorties');
+
     }
 
 
@@ -152,7 +191,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/sorties",
+     * "/",
      * name="sorties",
      * methods={"GET"}
      * )
@@ -178,7 +217,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/table_sorties",
+     * "/table",
      * name="table_sorties",
      * )
      * @param PaginatorInterface $paginator
@@ -221,7 +260,7 @@ class SortieController extends Controller
 
 
     /**
-     * @Route("/sortie/{id}",name="sortie_detail",requirements={"id"="\d+"}, methods={"POST","GET"})
+     * @Route("/{id}",name="sortie_detail",requirements={"id"="\d+"}, methods={"POST","GET"})
      */
     public function detail($id, Request $request){
         // récupérer la fiche Sortie dans la base de données
@@ -238,7 +277,7 @@ class SortieController extends Controller
 
 
     /**
-     * @Route("sortie/unregister",name="sortie_unregister", methods={"POST"})
+     * @Route("/unregister",name="sortie_unregister", methods={"POST"})
      */
     public function Unsubscribe(Request $request, EntityManagerInterface $entityManager){
         // récupérer la fiche Sortie dans la base de données
@@ -266,7 +305,7 @@ class SortieController extends Controller
 
 
     /**
-     * @Route("sortie/register",name="sortie_register", methods={"POST"})
+     * @Route("/register",name="sortie_register", methods={"POST"})
      */
     public function subscribe(Request $request, EntityManagerInterface $entityManager){
         // récupérer la fiche Sortie dans la base de données
@@ -301,7 +340,7 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("sortie/cancel",name="sortie_cancel", methods={"POST"})
+     * @Route("/cancel",name="sortie_cancel", methods={"POST"})
      */
     public function Cancel(Request $request, EtatsRepository $etatsRepository, EntityManagerInterface $entityManager){
         // récupérer la fiche Sortie dans la base de données

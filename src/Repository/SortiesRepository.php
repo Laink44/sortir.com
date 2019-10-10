@@ -82,9 +82,10 @@ class SortiesRepository extends ServiceEntityRepository
              else  if ($dto->isNotRegisterFilter())
              {
                      $query = $query
-                         ->leftJoin("s.inscriptions","i")
-                         ->andWhere("i.participant != :participantInscription")
+                         ->leftJoin("s.inscriptions","i", "WITH", " i.participant = :participantInscription")
+                         ->andWhere("i.participant is NULL")
                          ->setParameter('participantInscription', $participant);
+                 dump($query->getQuery()->getDQL());
              }
          }
          else {
