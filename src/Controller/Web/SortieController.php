@@ -106,7 +106,14 @@ class SortieController extends Controller
         }
 
 
+
+
         $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
+        if($sortie->getOrganisateur() != $this->getUser()){
+            return  $this->redirectToRoute('sorties');
+        }
+
+
         $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
 
         $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
