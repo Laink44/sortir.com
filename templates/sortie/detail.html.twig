@@ -49,6 +49,15 @@
 
     </div>
 
+    <div>
+        <label><b>Participants:</b><br>
+            {% for inscription in sortie.inscriptions %}
+                {{ inscription.participant.nom }} <br>
+            {% endfor %}
+        </label>
+
+    </div>
+
 
 </div>
 {% endblock %}
