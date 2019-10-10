@@ -159,7 +159,7 @@ class SortieController extends Controller
         $form = $this->createForm(FindSorties::class, $dto, array(
             'action' => $this->generateUrl($request->get('_route'))
         ));
-        $allSorties = $sortiesRepository->findAll();
+        $allSorties = $sortiesRepository->findAllOpened(null, $this->getUser());
         $allSites = $sitesRepository->findAllSites();
         return $this->render('sortie/index.html.twig', [
             'allSites' => $allSites,
@@ -198,13 +198,13 @@ class SortieController extends Controller
         $form->handleRequest($request);
         $allSites = $sitesRepository->findAllSites();
         if ($form->isSubmitted() && $form->isValid()) {
-            $allSorties = $sortiesRepository->findAll($dto,$this->getUser());
+            $allSorties = $sortiesRepository->findAllOpened($dto, $this->getUser());
             return $this->render('sortie/sorties_table.html.twig', [
                 'allSites' => $allSites,
                 'allSorties' => $allSorties
             ]);
         }
-        $allSorties = $sortiesRepository->findAll();
+        $allSorties = $sortiesRepository->findAllOpened(null, $this->getUser());
         return $this->render('sortie/sorties_table.html.twig', [
             'allSites' => $allSites,
             'allSorties' => $allSorties,

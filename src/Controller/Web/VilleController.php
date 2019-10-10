@@ -139,7 +139,6 @@ class VilleController extends Controller
         }
 
         $json_response = json_encode( $cities );
-        dump( $json_response );
 
         $response = new Response();
         $response -> setContent( $json_response );

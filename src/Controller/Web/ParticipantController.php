@@ -122,7 +122,6 @@ class ParticipantController extends Controller
                             $fileName
                         );
                     } catch (FileException $e) {
-                        dump( $e );
                     }
                 }
             }

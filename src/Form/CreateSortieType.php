@@ -28,7 +28,6 @@ class CreateSortieType extends AbstractType
 
 
         $CPVILLE= $options['cpville'];
-        dump( $CPVILLE);
         $builder
             ->add('nom',null,[
                 'label'=> "Nom de la sortie"
@@ -79,11 +78,10 @@ class CreateSortieType extends AbstractType
             ->add('ville', EntityType::class, [
 
                 'class'=> 'App\Entity\Ville',
-                'choice_label' => 'nom_ville',
                 'placeholder' => 'Choisir une ville',
                 'mapped'=>false,
                'query_builder'=>function(EntityRepository $er) use ($CPVILLE) {
-                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')->setParameter('cp',$CPVILLE)->groupBy('v.nomVille');
+                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')->setParameter('cp',$CPVILLE);
                 }
             ])
 
