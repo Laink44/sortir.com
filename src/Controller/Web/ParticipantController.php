@@ -6,12 +6,11 @@ use App\Entity\Participant;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
 
 class ParticipantController extends Controller
 {
@@ -110,37 +109,89 @@ class ParticipantController extends Controller
         EntityManagerInterface $em,
         UserPasswordEncoderInterface $encoder
     ) {
-        $images = $request -> files;
-        $fileName = '';
+        $actualUser = $this -> getUser();
+
+        if( !$actualUser ){ // Pour le cas ou il serait impossible de récupérer l'utilisateur
+            throw $this -> createNotFoundException( "L'utilisateur n'a pas pu être récupéré" );
+        }
+
+        $isDirty    = false;
+
+        // AVATAR
+        $images     = $request -> files;
+
         if( $images ) {
             foreach ( $images as $img ) {
                 if( $img ) {
-                    $fileName = uniqid().$img->getClientOriginalName();
-                    try {
-                        $img -> move(
-                            $this->getParameter('avatar_directory'),
-                            $fileName
-                        );
-                    } catch (FileException $e) {
+                    switch( $img -> guessExtension() ) {
+                        case 'jpg'  :
+                        case 'png'  :
+                        case 'jpeg' :
+                            $fileName = uniqid() . $img -> getClientOriginalName();
+                            try {
+                                $img -> move(
+                                    $this->getParameter('avatar_directory'),
+                                    $fileName
+                                );
+                                $actualUser -> setAvatar( $fileName );
+                                $isDirty = true;
+                            } catch ( FileException $e ) {
+                                throw $this -> createNotFoundException( "Problème lors de l'ajout de l'image" );
+                            }
+                            break;
+                        default:
+                            throw $this -> createNotFoundException( "Extension non acceptée" );
                     }
                 }
             }
         }
 
-        $actualUser = $this -> getUser();
-        $actualUser -> setUserName( $request -> request -> get( 'inputPseudo' ) );
-        $actualUser -> setPrenom( $request -> request -> get( 'inputPrenom' ) );
-        $actualUser -> setNom( $request -> request -> get( 'inputPseudo' ) );
-        $actualUser -> setTelephone( $request -> request -> get( 'inputTelephone' ) );
-        $actualUser -> setMail( $request -> request -> get( 'inputEmail' ) );
-        $hash = $encoder->encodePassword( $actualUser, $request -> request -> get( 'inputMotDePasse' ) );
-        $actualUser -> setPassword( $hash );
-        $actualUser -> setAvatar( $fileName );
+        // PSEUDO
+        $pseudo = $request -> request -> get( 'inputPseudo' );
+        if( $pseudo && $pseudo != $actualUser -> getUserName() ) {
+            $actualUser -> setUserName( $pseudo );
+            $isDirty = true;
+        }
+        // PRENOM
+        $prenom = $request -> request -> get( 'inputPrenom' );
+        if( $prenom && $prenom != $actualUser -> getPrenom() ) {
+            $actualUser -> setPrenom( $prenom );
+            $isDirty = true;
+        }
+        // NOM
+        $nom = $request -> request -> get( 'inputNom' );
+        if( $nom && $nom != $actualUser -> getNom() ) {
+            $actualUser -> setNom( $nom );
+            $isDirty = true;
+        }
+        // TELEPHONE
+        $telephone = $request -> request -> get( 'inputTelephone' );
+        if( $telephone && $telephone != $actualUser -> getTelephone() ) {
+            $actualUser -> setTelephone( $telephone );
+            $isDirty = true;
+        }
+        // EMAIL
+        $mail = $request -> request -> get( 'inputEmail' );
+        if( $mail && $mail != $actualUser -> getMail() ) {
+            $actualUser -> setMail( $mail );
+            $isDirty = true;
+        }
+        // PASSWORD
+        $password = $request -> request -> get( 'inputMotDePasse' );
+        $confirmation = $request -> request -> get( 'inputConfirmation' );
+        if( $password && $password === $confirmation ) {
+            $hash = $encoder->encodePassword( $password );
+            $actualUser -> setPassword( $hash );
+            $isDirty = true;
+        }
 
-        $em -> persist( $actualUser );
-        $em -> flush();
+        if( $isDirty ) {
+            $em -> persist( $actualUser );
+            $em -> flush();
+            dump( 'nouveau profil persisté en base ');
+        }
 
-        return $this->render('participant/profil_edit.html.twig', [
+        return $this->render('participant/profil_details.html.twig', [
             'actualUser' => $actualUser
         ]);
     }

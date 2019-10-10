@@ -22,20 +22,13 @@
                             <i class="fas fa-search"></i>
                         </div>
                     </div>
-                    <input id="inpt-ville-search" type="text" class="form-control" placeholder="Chercher une ville" aria-label="chercher-un-ville" aria-describedby="basic-addon1" data-url="{{ path( 'ville_search' ) }}">
+                    <input id="inpt-ville-search" type="text" class="form-control" placeholder="Chercher une ville" aria-label="chercher-un-ville" aria-describedby="basic-addon1" data-origin="searchbar" data-url="{{ path( 'gestion_ville' ) }}">
                 </div>
                 </form>
             </div>
         </div>
-        <div class="row">
-            <div id="table-ville" class="col-md-12">
-                {% include 'admin/admin_ville_table.html.twig' %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="pagination col-md-12">
-                {{ knp_pagination_render( allVilles ) }}
-            </div>
+        <div id="table-ville">
+            {% include 'admin/admin_ville_table.html.twig' %}
         </div>
     </div>
 {% endblock %}

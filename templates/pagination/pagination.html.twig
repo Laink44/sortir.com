@@ -1,0 +1,35 @@
+<ul class="pagination">
+    {% set firstPage    = 1 %}
+    {% set lastPage     = numberOfPages %}
+    {% if firstPage is defined and currentPage != firstPage %}
+    <li class="previous">
+        <a class="btn-pagination page-link" href="{{ path( route ) }}" data-page="{{ previousPage }}" data-currentpage="{{ previousPage }}" data-origin="paginator">&laquo;&nbsp;Précédent </a>
+    </li>
+    {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&laquo;&nbsp;Précédent </span>
+        </li>
+    {% endif %}
+
+    {% for page in pagesRange %}
+        {% if page != currentPage %}
+            <li >
+                <a class="btn-pagination page-link" href="{{ path( route ) }}"  data-page="{{ page }}" data-currentpage="{{ page }}" data-origin="paginator">{{ page }}</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">{{ page }}</span>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {% if lastPage is defined and currentPage != lastPage %}
+        <li >
+            <a class="btn-pagination page-link" href="{{ path( route ) }}" data-page="{{ nextPage }}" data-currentpage="{{ nextPage }}" data-origin="paginator">Suivant&nbsp;&raquo;</a>
+        </li>
+    {% else %}
+        <li class="disabled">
+            <span class="page-link">Suivant&nbsp;&raquo;</span>
+        </li>
+    {% endif %}
+</ul>

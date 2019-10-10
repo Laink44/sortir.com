@@ -1,35 +1,44 @@
 {#TABLE DES VILLES#}
-    <table>
-        {# Ajouter une ville #}
-        <tr>
-            <td>
-                <input type="text" id="inpt-add-ville" class="inpt-table" placeholder="Nom ville : Toulon">
-                <input type="text" id="inpt-add-cp" class="inpt-table" placeholder="Code Postal : 83000">
-            </td>
-            <td class="td-action">
-                <button class="btn-common add btn-add-ville" id="btn-add-ville" data-url="{{ path( 'gestion_ville' ) }}">
-                    <i class="fas fa-plus-square"></i>
-                </button>
-            </td>
-        </tr>
-        {# liste des villes #}
-        {% for ville in allVilles %}
-            <tr>
-                <td>
-                    <input id="inpt-{{ ville.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ ville.nomVille }}" disabled="true">
-                    <input id="inpt-cp-{{ ville.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ ville.codePostal }}" disabled="true">
-                </td>
-                <td>
-                    <button id="btn-edit-ville-{{ ville.id }}" class="btn-common btn-edit-ville" data-id="{{ ville.id }}">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button id="btn-remove-ville-{{ ville.id }}"  class="btn-common btn-remove-ville" data-url="{{ path( 'ville_remove',{ id : ville.id } ) }}">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                    <button id="btn-save-ville-{{ ville.id }}" class="btn-common btn-save-ville btn-common-disabled" data-id="{{ ville.id }}"  data-url="{{ path( 'gestion_ville' ) }}" disabled="true">
-                        <i class="fas fa-save"></i>
-                    </button>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <table>
+                {# Ajouter une ville #}
+                <tr>
+                    <td>
+                        <input type="text" id="inpt-add-ville" class="inpt-table" placeholder="Nom ville : Toulon">
+                        <input type="text" id="inpt-add-cp" class="inpt-table" placeholder="Code Postal : 83000">
+                    </td>
+                    <td class="td-action">
+                        <button class="btn-common add btn-add-ville" id="btn-add-ville" data-url="{{ path( 'ville_add' ) }}" data-origin="add">
+                            <i class="fas fa-plus-square"></i>
+                        </button>
+                    </td>
+                </tr>
+                {# liste des villes #}
+                {% for ville in allVilles %}
+                    <tr>
+                        <td>
+                            <input id="inpt-{{ ville.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ ville.nomVille }}" disabled="true">
+                            <input id="inpt-cp-{{ ville.id }}" class="form-control form-control-sm form-control-borderless inpt-table" type="search" value="{{ ville.codePostal }}" disabled="true">
+                        </td>
+                        <td>
+                            <button id="btn-edit-ville-{{ ville.id }}" class="btn-common btn-edit-ville" data-id="{{ ville.id }}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button id="btn-remove-ville-{{ ville.id }}"  class="btn-common btn-remove-ville" data-url="{{ path( 'ville_remove',{ id : ville.id } ) }}" data-origin="remove">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button id="btn-save-ville-{{ ville.id }}" class="btn-common btn-save-ville btn-common-disabled" data-id="{{ ville.id }}"  data-url="{{ path( 'ville_edit' ) }}" disabled="true" data-origin="edit">
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pagination col-md-12">
+            {{ knp_pagination_render( allVilles, null, [], viewParams ) }}
+        </div>
+    </div>

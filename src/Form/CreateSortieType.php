@@ -28,8 +28,6 @@ class CreateSortieType extends AbstractType
 
 
         $CPVILLE= $options['cpville'];
-
-
         $builder
             ->add('nom',null,[
                 'label'=> "Nom de la sortie"
@@ -83,9 +81,7 @@ class CreateSortieType extends AbstractType
                 'placeholder' => 'Choisir une ville',
                 'mapped'=>false,
                'query_builder'=>function(EntityRepository $er) use ($CPVILLE) {
-                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')
-                    ->setParameter('cp',$CPVILLE);
-
+                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')->setParameter('cp',$CPVILLE)->orderBy("v.nomVille", "ASC");
                 }
             ])
 
@@ -120,8 +116,6 @@ class CreateSortieType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Sortie::class,
             'cpville'=> 0,
-
-
 
 
 

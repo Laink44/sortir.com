@@ -10,8 +10,14 @@
         let inputCodePostal = $( '#inpt-add-cp' );
         let inputCodePostalValue = inputCodePostal.val();
 
-        let btnAdd = $( this );
-        let url = btnAdd.attr( 'data-url' ) + '/ajouter/ville/' + inputVilleValue + '/cp/' + inputCodePostalValue;
+        let origin  = $( this ).attr( 'data-origin' );
+        let url     = $( this ).attr( 'data-url' )
+                    .concat( '?' )
+                    .concat( 'nom=', inputVilleValue )
+                    .concat( '&')
+                    .concat( 'cp=', inputCodePostalValue )
+                    .concat( '&')
+                    .concat( 'origin=', origin );
 
         $.get( url, function(){
             // alert( 'success' );
@@ -28,9 +34,12 @@
     $('body').on('click', '.btn-remove-ville', removeVille );
 
     function removeVille( event ){
-        let btnRemove = $( this );
-        let url = btnRemove.attr( 'data-url' );
-
+        // let btnRemove = $( this );
+        let origin  = $( this ).attr( 'data-origin' );
+        let url     =   $( this ).attr( 'data-url' )
+                        .concat( '?')
+                        .concat( 'origin=', origin );
+        debugger;
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -69,11 +78,21 @@
     function saveVille( event ){
         let btnSave = $( this );
         let villeId = btnSave.attr( 'data-id' );
-        let inputVille = $( '#inpt-' + villeId );
-        let inputCodePostal = $( '#inpt-cp-' + villeId );
-        let btnAdd = $( this );
-        let url = btnAdd.attr( 'data-url' ) + '/editer/' + villeId + '/nom/' + inputVille.val() + '/code-postal/' + inputCodePostal.val();
+        let villeNom = $( '#inpt-' + villeId ).val();
+        let villeCP = $( '#inpt-cp-' + villeId ).val();
+        let origin  = $( this ).attr( 'data-origin' );
+        let url     =   $( this ).attr( 'data-url' )
+                        .concat( '?')
+                        .concat( 'nom=', villeNom )
+                        .concat( '&')
+                        .concat( 'id=', villeId )
+                        .concat( '&')
+                        .concat( 'cp=', villeCP )
+                        .concat( '&')
+                        .concat( 'origin=', origin );
+
         debugger;
+
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -89,16 +108,18 @@
     $('body').on( 'input', '#inpt-ville-search', searchVille );
 
     function searchVille( event ){
-        debugger;
-        let inptSearch = $(this);
-        let stringToSearch = inptSearch.val();
-
-        if( stringToSearch == null || stringToSearch == '' ) {
-            stringToSearch = 'empty';
+        let search =  $(this).val().trim();
+        if( search == null || search == '' ) {
+            search = 'empty';
         }
+        let origin  =   $( this ).attr( 'data-origin' );
+        let url     =   $(this).attr( 'data-url' )
+                        .concat( '?')
+                        .concat( 'citysearch=', search )
+                        .concat( '&')
+                        .concat( 'origin=', origin );
 
-        let url = inptSearch.attr( 'data-url' ) + '/' + stringToSearch;
-
+        debugger;
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -108,4 +129,55 @@
         }).always( function( response ){
             // alert( 'alway' );
         });
+    }
+
+// PAGINATION
+    $( 'body' ).on( 'click', '.btn-pagination', routePaginator );
+
+    function routePaginator( event ){
+        event.preventDefault();
+        let href        = $( this ).attr( 'href' );
+        let currentPage = $( this ).attr( 'data-currentpage' );
+        let origin      = $( this ).attr( 'data-origin' );
+        let search      =  $( '#inpt-ville-search' ).val().trim();
+        search          =   search || search.length !== 0
+                            ? $( '#inpt-ville-search' ).val()  : 'empty';
+        let url         =   href
+                            .concat( '?')
+                            .concat( 'citysearch=', search)
+                            .concat( '&')
+                            .concat( 'origin=', origin)
+                            .concat( '&')
+                            .concat( 'currentpage=', currentPage);
+        debugger;
+        $.get( url, function(){
+            // alert( 'success' );
+        }).done( function( response ){
+            $( tableVille ).html( response );
+        }).fail( function( response ){
+            // alert( 'fail' );
+        }).always( function( response ){
+            // alert( 'alway' );
+        });
+
+        // let data = {
+        //     'page'          : page,
+        //     'search'        : search,
+        //     'origin'        : origin,
+        //     'currentpage'   : currentPage
+        // };
+        //
+        // debugger;
+        // $.ajax({
+        //     url: href,
+        //     data: data,
+        //     type: "GET",
+        //     success : function( response ){
+        //         debugger;
+        //         $( tableVille ).html( response );
+        //     },
+        //     error: function( xhr ) {
+        //
+        //     }
+        // });
     }
