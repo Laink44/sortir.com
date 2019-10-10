@@ -5,6 +5,24 @@ $(function () {
         $('.js-datepicker').datepicker({
             format: 'yyyy-mm-dd HH:mm'
         });
+
+        $( "#find_sorties_NotRegisterFilter").change(function() {
+            if( $( "#find_sorties_NotRegisterFilter").is(":checked")) {
+                if ($("#find_sorties_RegisterFilter").is(":checked")){
+                    $("#find_sorties_RegisterFilter").prop("checked", false);
+                }
+            }
+        });
+
+        $( "#find_sorties_RegisterFilter").change(function() {
+
+            if($( "#find_sorties_RegisterFilter").is(":checked")) {
+
+                if ($("#find_sorties_NotRegisterFilter").is(":checked")){
+                    $("#find_sorties_NotRegisterFilter").prop("checked", false);
+                }
+            }
+        });
     });
     $('form').on('submit', function (e) {
 
@@ -12,7 +30,7 @@ $(function () {
 
         $.ajax({
             type: 'post',
-            url: 'table_sorties',
+            url: 'sorties/table',
             data: $('form').serialize(),
             success: function (response) {
                 console.log(response);

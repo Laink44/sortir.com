@@ -17,7 +17,7 @@ class LieuApiController extends Controller
 {
     /**
      *
-     * @Route("/", name="lieu",methods={"GET"})
+     * @Route("/", name="api_lieu",methods={"GET"})
      * @param EntityManagerInterface $em
      * @param SerializerInterface $serializer
      * @param LieuxRepository $lieuxRepository

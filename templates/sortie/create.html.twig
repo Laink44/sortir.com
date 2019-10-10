@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-		{{ form_start(form,  { 'attr': {'class': 'row'} }) }}
+		{{ form_start(form,  { 'attr':{'class': 'row'}}) }}
 
 		<div class="col-md-6">
 			<div class="form-group">
@@ -45,7 +45,7 @@
 				<input class="form-control" type="text" placeholder={{ siteParticipantEncours }} readonly name="vileOrganisatrice">
 			</div>
 			<div class="form-group">
-				{{ form_row(form.ville) }}
+				{{ form_row(form.ville,{ 'attr':{'data-api': path('api_lieu')}}) }}
 			</div>
 			<div class="form-group">
 				{{ form_row(form.lieu) }}
