@@ -120,6 +120,8 @@ class SortieController extends Controller
 
         $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
 
+        $sortie->getLieu()->getId();
+
 
         $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
             'nomVille'=> $nomSiteParticicpant
