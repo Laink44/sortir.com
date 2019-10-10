@@ -15,13 +15,17 @@
         <label><b>Nom de la sortie:</b> {{ sortie.nom}}</label>
     </div>
    <div>
-       <label><b>Date et heure de début :</b>  01/10/2019 </label>
+       <label><b>Date et heure de début :</b>{{ sortie.datedebut | date('d/m/Y H:i')}} </label>
    </div>
     <diV>
-        <label><b>Date limite d'inscription:</b></label>
+        <label><b>Date limite d'inscription:</b>{{ sortie.datecloture | date('d/m/Y H:i') }}</label>
     </diV>
     <div>
         <label><b>Nombre de places:</b> {{ sortie.nbinscriptionsmax }}</label>
+    </div>
+
+    <div>
+        <label><b>Nombre de places:</b> {{ sortie.etat.libelle }}</label>
     </div>
 
     <div>
