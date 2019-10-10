@@ -6,8 +6,8 @@ variables:
   MYSQL_DATABASE: sortir
   DB_HOST: mysql
 stages:
-  - test
   - deploy
+  - test
   
 deploy:
   stage: deploy
