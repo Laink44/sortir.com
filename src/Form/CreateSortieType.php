@@ -28,7 +28,6 @@ class CreateSortieType extends AbstractType
 
 
         $CPVILLE= $options['cpville'];
-        dump( $CPVILLE);
         $builder
             ->add('nom',null,[
                 'label'=> "Nom de la sortie"
