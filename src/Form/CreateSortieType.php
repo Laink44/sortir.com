@@ -81,7 +81,7 @@ class CreateSortieType extends AbstractType
                 'placeholder' => 'Choisir une ville',
                 'mapped'=>false,
                'query_builder'=>function(EntityRepository $er) use ($CPVILLE) {
-                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')->setParameter('cp',$CPVILLE);
+                return $er->createQueryBuilder('v')->where('v.codePostal like :cp')->setParameter('cp',$CPVILLE)->orderBy("v.nomVille", "ASC");
                 }
             ])
 
