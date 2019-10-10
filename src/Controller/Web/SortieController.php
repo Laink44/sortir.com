@@ -191,7 +191,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/sorties",
+     * "/",
      * name="sorties",
      * methods={"GET"}
      * )
@@ -217,7 +217,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/table_sorties",
+     * "/table",
      * name="table_sorties",
      * )
      * @param PaginatorInterface $paginator

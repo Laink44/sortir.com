@@ -30,7 +30,7 @@ $(function () {
 
         $.ajax({
             type: 'post',
-            url: 'sorties/table',
+            url: 'table',
             data: $('form').serialize(),
             success: function (response) {
                 console.log(response);
