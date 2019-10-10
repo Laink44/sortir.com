@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends Controller
 {
     /**
-     * @Route("/sortie/create",name="create_sortie")
+     * @Route("/create",name="create_sortie")
      * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response
@@ -217,7 +217,7 @@ class SortieController extends Controller
 
     /**
      * @Route(
-     * "/sortie/table",
+     * "/table_sorties",
      * name="table_sorties",
      * )
      * @param PaginatorInterface $paginator
