@@ -88,7 +88,7 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("/sortie/{id}/edit",name="sortie_edit", requirements={"id"="\d+"},methods={"GET"})
+     * @Route("/sortie/edit/{id}",name="sortie_edit", requirements={"id"="\d+"},methods={"GET"})
      * @param $id
      * @param EntityManager $em
      * @param Request $request
@@ -104,9 +104,18 @@ class SortieController extends Controller
             throw $this->createNotFoundException('La Sortie n\'est pas référencée');
 
         }
+
+
         $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
         $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
-        $SortieForm = $this->createForm('App\Form\CreateSortieType', $sortie);
+
+        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
+            'nomVille'=> $nomSiteParticicpant
+        ])->getCodePostal();
+
+        $SortieForm = $this->createForm('App\Form\CreateSortieType', $sortie,[
+            'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
+        ]);
         $SortieForm->handleRequest($request);
 
 
