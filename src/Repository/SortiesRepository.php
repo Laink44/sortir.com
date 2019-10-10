@@ -85,7 +85,6 @@ class SortiesRepository extends ServiceEntityRepository
                          ->leftJoin("s.inscriptions","i", "WITH", " i.participant = :participantInscription")
                          ->andWhere("i.participant is NULL")
                          ->setParameter('participantInscription', $participant);
-                 dump($query->getQuery()->getDQL());
              }
          }
          else {
