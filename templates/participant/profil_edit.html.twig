@@ -12,7 +12,7 @@
         <div class="row">
             <div id="table-lieu" class="col-md-4">
                 <div class="text-center">
-                    <img src="/img/avatar/{{ actualUser.avatar }}" class="rounded" alt="Une image de profil">
+                    <img src="{{ app.request.getBaseURL() }}/img/avatar/{{ actualUser.avatar }}" class="rounded" alt="Une image de profil">
                 </div>
             </div>
             <div id="table-lieu" class="col-md-4">

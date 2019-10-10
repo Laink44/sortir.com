@@ -51,10 +51,44 @@ class LieuxRepository extends ServiceEntityRepository
         return $query -> getResult();
     }
 
+    /**
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLocationCount() : int {
+        return $this
+            ->createQueryBuilder( 'p' )
+            ->select( 'COUNT( p )' )
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return int
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLocationCountByName( $locationName ) : int {
+        $qb =   $this
+            ->createQueryBuilder( 'c' )
+            ->select( 'COUNT( c )' );
+
+        if( $locationName != null ) {
+            $qb
+                -> setParameter( 'nom_lieu', '%' . $locationName . '%' )
+                -> andWhere( 'c.nomLieu LIKE :nom_lieu' );
+        }
+
+        return $qb -> getQuery() ->getSingleScalarResult();
+    }
+
     /** @return array */
-    public function findAllLieux() : array
+    public function findAllLieux( int $offset, int $maxByPage ) : array
     {
-        return $this -> findAllQuery() -> getResult();
+        return  $this
+            -> findAllQuery()
+            -> setFirstResult( $offset )
+            -> setMaxResults( $maxByPage )
+            -> getResult();
     }
 
     /** @return Query */

@@ -1,0 +1,54 @@
+<!-- Modal -->
+<div class="modal fade" id="modal-lieu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">AJOUTER UN LIEU</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="inpt-modal">
+                    {# Ajouter un lieu #}
+                    <tr>
+                        <td>
+                            <input type="text" id="inpt-add-lieu" class="inpt-modal" placeholder="Nom lieu : ENI Ecole" maxlength="255" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="inpt-add-rue" class="inpt-modal" placeholder="Rue : Rue Franklin" maxlength="255" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" id="inpt-add-latitude" class="inpt-modal" placeholder="Latitude : 47.2267535" maxlength="15" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" id="inpt-add-longitude" class="inpt-modal" placeholder="Longitude : -1.6209101,15" maxlength="15" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="inpt-add-ville" class="inpt-modal" placeholder="Ville : Toulon" data-url="{{ path( 'ville_search_json' ) }}"  maxlength="255" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-action">
+                            <button class="btn-common add btn-add-lieu" id="inpt-modal" data-url="{{ path( 'lieu_add' ) }}" data-origin="add">
+                                <i class="fas fa-plus-square"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+{#            <div class="modal-footer">#}
+{#                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#                <button type="button" class="btn btn-primary">Save changes</button>#}
+{#            </div>#}
+        </div>
+    </div>
+</div>

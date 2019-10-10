@@ -84,3 +84,17 @@ body,html{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+#modal-lieu {
+    z-index: 1050 !important;
+}
+
+.inpt-modal {
+    width: 100%;
+    z-index: 2000 !important;
+}
+
+.ui-autocomplete.ui-menu {
+    z-index: 2000;
+}

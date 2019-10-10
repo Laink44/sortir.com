@@ -5,29 +5,32 @@
     $('body').on( 'click', '#btn-add-lieu', addLieu );
 
     function addLieu( event ){
-        // url
-        let url =   $( this ).attr( 'data-url' );
-        url = url.concat( slash , 'ajouter' , slash );
+        debugger;
         // NomLieu
-        let inputLieu = $( '#inpt-add-lieu' );
-        let inputLieuValue = inputLieu.val();
-        url = url.concat( inputLieuValue );
+        let nom         = $( '#inpt-add-lieu' ).val();
         // Rue
-        let inputRue = $( '#inpt-add-rue' );
-        let inputRueValue = inputRue.val();
-        url = url.concat( slash , inputRueValue );
+        let rue         = $( '#inpt-add-rue' ).val();
         // Latitude
-        let inputLatitude = $( '#inpt-add-latitude' );
-        let inputLatitudeValue = inputLatitude.val();
-        url = url.concat( slash , inputLatitudeValue );
+        let latitude    = $( '#inpt-add-latitude' ).val();
         // Longitude
-        let inputLongitude = $( '#inpt-add-longitude' );
-        let inputLongitudeValue = inputLongitude.val();
-        url = url.concat( slash , inputLongitudeValue );
+        let longitude   =  $( '#inpt-add-longitude' ).val();
         // Ville
-        let inputVille = $( '#inpt-add-ville' );
-        let inputVilleValue = inputVille.val();
-        url = url.concat( slash , inputVilleValue );
+        let villeId     = $( '#inpt-add-ville' ).val();
+
+        let origin      = $( this ).attr( 'data-origin' );
+        let url         =   $( this ).attr( 'data-url' )
+                            .concat( '?' )
+                            .concat( 'nom=', nom )
+                            .concat( '&')
+                            .concat( 'rue=', rue )
+                            .concat( '&')
+                            .concat( 'latitude=', latitude )
+                            .concat( '&')
+                            .concat( 'longitude=', longitude )
+                            .concat( '&')
+                            .concat( 'villeid=', villeId )
+                            .concat( '&')
+                            .concat( 'origin=', origin );
 
         $.get( url, function(){
             // alert( 'success' );
@@ -44,9 +47,10 @@
     $('body').on('click', '.btn-remove-lieu', removeLieu );
 
     function removeLieu( event ){
-        let btnRemove = $( this );
-        let url = btnRemove.attr( 'data-url' );
-        debugger;
+        let origin  = $( this ).attr( 'data-origin' );
+        let url     =   $( this ).attr( 'data-url' )
+                        .concat( '?')
+                        .concat( 'origin=', origin );
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -92,35 +96,37 @@
     $('body').on('click', '.btn-save-lieu', saveLieu );
 
     function saveLieu( event ){
+        // ID lieu
         let lieuId = $( this ).attr( 'data-id' );
-
-        // url
-        let url = $( this ).attr( 'data-url' );
-        url = url.concat( slash , 'editer' , slash );
-        url = url.concat( lieuId );
         // NomLieu
-        let inputLieu = $( '#inpt-nom-'.concat( lieuId ) );
-        let inputLieuValue = inputLieu.val().trim();
-        while ( inputLieuValue.slice(-1) == '.') {
-            inputLieuValue = inputLieuValue.substr( 0, inputLieuValue.length - 1 );
+        let nom = $( '#inpt-nom-'.concat( lieuId ) ).val().trim();
+        while ( nom.slice(-1) == '.') {
+            nom = nom.substr( 0, nom.length - 1 );
         }
-        url = url.concat( slash , inputLieuValue );
         // Rue
-        let inputRue = $( '#inpt-rue-'.concat( lieuId ) );
-        let inputRueValue = inputRue.val().trim();
-        while ( inputRueValue.slice(-1) == '.') {
-            inputRueValue = inputRueValue.substr( 0, inputLieuValue.length - 1 );
+        let rue = $( '#inpt-rue-'.concat( lieuId ) ).val().trim();
+        while ( rue.slice(-1) == '.') {
+            rue = rue.substr( 0, rue.length - 1 );
         }
-        url = url.concat( slash , inputRueValue );
         // Latitude
-        let inputLatitude = $( '#inpt-latitude-'.concat( lieuId ) );
-        let inputLatitudeValue = inputLatitude.val().trim();
-        url = url.concat( slash , inputLatitudeValue );
+        let latitude = $( '#inpt-latitude-'.concat( lieuId ) ).val().trim();
         // Longitude
-        let inputLongitude = $( '#inpt-longitude-'.concat( lieuId ) );
-        let inputLongitudeValue = inputLongitude.val().trim();
-        url = url.concat( slash , inputLongitudeValue );
-        debugger;
+        let longitude = $( '#inpt-longitude-'.concat( lieuId ) ).val().trim();
+
+        let origin  = $( this ).attr( 'data-origin' );
+        let url     =   $( this ).attr( 'data-url' )
+            .concat( '?')
+            .concat( 'nom=', nom )
+            .concat( '&')
+            .concat( 'id=', lieuId )
+            .concat( '&')
+            .concat( 'rue=', rue )
+            .concat( '&')
+            .concat( 'latitude=', latitude )
+            .concat( '&')
+            .concat( 'longitude=', longitude )
+            .concat( '&')
+            .concat( 'origin=', origin );
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -133,18 +139,21 @@
     }
 
 // SEARCH
-    $('body').on( 'input', '#inpt-location-search', searchLieu );
+    $('body').on( 'input', '#inpt-search', searchLieu );
 
     function searchLieu( event ){
-        debugger;
-        let inptSearch = $(this);
-        let stringToSearch = inptSearch.val();
-
-        if( stringToSearch == null || stringToSearch == '' ) {
-            stringToSearch = 'empty';
+        let search =  $(this).val().trim();
+        if( search == null || search == '' ) {
+            search = 'empty';
         }
+        let origin  =   $( this ).attr( 'data-origin' );
+        let url     =   $(this).attr( 'data-url' )
+                        .concat( '?')
+                        .concat( 'search=', search )
+                        .concat( '&')
+                        .concat( 'origin=', origin );
 
-        let url = inptSearch.attr( 'data-url' ) + '/' + stringToSearch;
+        debugger;
 
         $.get( url, function(){
             // alert( 'success' );
