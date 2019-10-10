@@ -128,6 +128,9 @@ class Ville
 
         public  function __toString()
         {
-            return $this->getNomVille();
+            return $this->getNomVille() . " - " . $this->getCodePostal() ;
         }
+
+
+
 }
