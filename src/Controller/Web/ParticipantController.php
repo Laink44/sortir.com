@@ -180,7 +180,7 @@ class ParticipantController extends Controller
         $password = $request -> request -> get( 'inputMotDePasse' );
         $confirmation = $request -> request -> get( 'inputConfirmation' );
         if( $password && $password != '' && $password === $confirmation ) {
-            $hash = $encoder->encodePassword( $password );
+            $hash = $encoder->encodePassword($actualUser, $password );
             $actualUser -> setPassword( $hash );
             $isDirty = true;
         }

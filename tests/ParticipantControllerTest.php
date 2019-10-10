@@ -50,6 +50,7 @@ class ParticipantControllerTest extends WebTestCase
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Se déconnecter user_fake")')->count());
     }
+
     public function testPublishSortie()
     {
         $this->logInForm("admin","pass_1234");
@@ -76,6 +77,35 @@ class ParticipantControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("La sortie est publié")')->count());
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
+    }
+    public function testUpdatePassword()
+    {
+        $this->logInForm("admin","pass_1234");
+        $crawler = $this->client->followRedirect();
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->request('GET', '/profil/editer');
+        $form = $crawler->filter('form[name="edit_form"]')->form();
+        //$token = $crawler->filter('input[name="create_sortie[_token]"]')
+          //  ->extract(array('value'))[0];
+        $this->client->submit($form,[
+            "inputMotDePasse" => "pass_4321",
+            "inputConfirmation" => "pass_4321",
+        ] );
+        $crawler = $this->client->request('GET', '/logout');
+        $crawler = $this->client->followRedirect();
+        $this->logInForm("admin","pass_4321");
+        $crawler = $this->client->followRedirect();
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se déconnecter admin")')->count());
+        $crawler = $this->client->request('GET', '/profil/editer');
+        $form = $crawler->filter('form[name="edit_form"]')->form();
+        //$token = $crawler->filter('input[name="create_sortie[_token]"]')
+        //  ->extract(array('value'))[0];
+        $this->client->submit($form,[
+            "inputMotDePasse" => "pass_1234",
+            "inputConfirmation" => "pass_1234",
+        ] );
+        $this->assertSame(200, $this->client->getResponse()->getStatusCode());
     }
 
     private function logInForm($username, $password){
