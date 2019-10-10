@@ -187,7 +187,7 @@ class VilleController extends Controller
         foreach( $foundCities as $city ) {
             $cityToShow = array(
                 "value" => $city -> getId(),
-                "label" => $city -> getNomVille()
+                "label" => $city -> getNomVille() . ' (' . $city -> getCodePostal() . ')'
             );
 
             array_push( $cities, $cityToShow );
