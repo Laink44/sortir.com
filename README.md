@@ -6,7 +6,7 @@ Symfony project
 
 ### Production: http://sortir-com.herokuapp.com
 
-#### Already registred user in database (Prod)
+#### Sample user already registred in database (Prod)
     - admin pass_1234
     - user pass_1234
 
