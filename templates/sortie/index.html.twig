@@ -3,49 +3,51 @@
 {% block title %}Accueil - Les sorties {% endblock %}
 
 {% block main %}
-    <div class="container-fluid">
+    <div id="index-sorties">
         <div class="row">
             <div class="col-md-12">
-                <h2 align="right">Date du jour : {{ "now"|date("m/d/Y") }}</h2>
-                <h2 align="right">Participant : {{ app.user.prenom ~ " " ~ app.user.nom| slice(0, 1) |upper ~ '.'  }}</h2>
+                <h2>Bienvenue {{ app.user.prenom ~ " " ~ app.user.nom| slice(0, 1) |upper ~ '.'  }} ! </h2>
+                <h3>nous sommes le {{ "now"|date("m/d/Y") }}</h3>
             </div>
         </div>
-        <div class="row">
+        <div>
             {{ form_start(form) }}
             <div class="my-custom-class-for-errors">
                 {{ form_errors(form) }}
             </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    {{ form_row(form.site) }}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.site) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.keyword) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.dateDebut) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.dateFin) }}
+                    </div>
                 </div>
-                <div class="form-group">
-                    {{ form_row(form.keyword) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.dateDebut) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.dateFin) }}
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    {{ form_row(form.ManagerFilter) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.RegisterFilter) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.NotRegisterFilter) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.OutDatedFilter) }}
-                </div>
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary" data-label="Enregistrer">
-                        Enregistrer
-                    </button>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ form_row(form.ManagerFilter) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.RegisterFilter) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.NotRegisterFilter) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.OutDatedFilter) }}
+                    </div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-common" data-label="Enregistrer">
+                            Enregistrer
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

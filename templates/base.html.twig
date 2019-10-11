@@ -20,11 +20,11 @@
 </head>
 <body>
 {% block body %}
-    <div class="container-fluid">
+    <div>
         <header>
             {{ include("inc/_navbar.html.twig") }}
         </header>
-        <main>
+        <main  class="container-fluid">
             <div id="msgErreurs">
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
@@ -37,7 +37,7 @@
             {% block main %}
             {% endblock %}
         </main>
-        <footer class="centrage">
+        <footer>
             &copy {{ "now" | date('Y') }}
         </footer>
     </div>

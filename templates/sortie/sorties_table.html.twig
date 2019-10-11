@@ -38,7 +38,7 @@
                 <td scope="row">
                     {% for inscription in sortie.inscriptions %}
                         {%  if inscription in app.user.inscriptions %}
-                            <i class="fas fa-thumbs-up " style="color:green"></i>
+                            <i class="fas fa-fist-raised"></i>
                         {% endif %}
                     {% endfor %}
                 </td>
@@ -46,21 +46,21 @@
                     {{ sortie.organisateur.nom }}
                 </td>
                 <td scope="row">
-                    <a href={{ path("sortie_detail", {id: sortie.id})}}>Afficher</a>
+                    <a href={{ path("sortie_detail", {id: sortie.id})}}><i class="fas fa-eye"></i></a>
                     {% for inscription in sortie.inscriptions %}
                         {%  if inscription in app.user.inscriptions and sortie.etat.libelle == 'Ouverte' %}
                             {% set registred = 1 %}
-                            - <a class="unregister" href="" data-id={{ sortie.id }}>Se désister</a>
+                            <a class="unregister" href="" data-id={{ sortie.id }}><i class="fas fa-ban"></i></a>
                         {% endif %}
                     {% endfor %}
                     {% if registred == 0 and sortie.etat.libelle == 'Ouverte' %}
-                        - <a class="register" href="" data-id={{ sortie.id }}>S'inscrire</a>
+                        <a class="register" href="" data-id={{ sortie.id }}><i class="fas fa-sign-in-alt"></i></a>
                     {% endif %}
                     {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Ouverte' %}
-                        - <a class="cancel" href="" data-id={{ sortie.id }}>Annuler</a>
+                        <a class="cancel" href="" data-id={{ sortie.id }}><i class="fas fa-fist-raised"></i></a>
                     {% endif %}
                     {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
-                        - <a class="edit" href={{ path("sortie_edit", {id: sortie.id})}}>Modifier</a>
+                        <a class="edit" href={{ path("sortie_edit", {id: sortie.id})}}><i class="fas fa-edit"></i></a>
                     {% endif %}
                 </td>
             </tr>
