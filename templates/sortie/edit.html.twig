@@ -53,19 +53,19 @@
 
             <div class="form-group" >
                 <label for="create_sortie[rue]">Rue</label>
-                <span class="form-control bg-light"  id="create_sortie_rue"></span>
+                <span class="form-control bg-light"  id="create_sortie_rue">{{ sortie.lieu.rue}}</span>
             </div>
             <div class="form-group">
                 <label for="create_sortie[codePostal]">Code Postal</label>
-                <span class="form-control bg-light"  id="create_sortie_cp"></span>
+                <span class="form-control bg-light"  id="create_sortie_cp">{{ sortie.lieu.ville.codePostal}}</span>
             </div>
             <div class="form-group">
                 <label for="create_sortie[longitude]">longitude</label>
-                <span class="form-control bg-light"  id="create_sortie_lon"></span>
+                <span class="form-control bg-light"  id="create_sortie_lon">{{ sortie.lieu.longitude}}</span>
             </div>
             <div class="form-group">
                 <label for="create_sortie[latitude]">latitude</label>
-                <span class="form-control bg-light"  id="create_sortie_lat"></span>
+                <span class="form-control bg-light"  id="create_sortie_lat">{{ sortie.lieu.latitude}}</span>
             </div>
 
 
