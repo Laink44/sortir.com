@@ -49,12 +49,12 @@
             </div>
             <div class="form-group">
                 {{ form_row(form.lieu) }}
-                {% if is_granted('ROLE_ADMIN')%}
+
                     <button id="btn-pop-lieu" class="btn-common btn-add-lieu" data-toggle="modal" data-target="#modal-lieu">
                         <i class="fas fa-plus-square"></i>
                     </button>
                     {% include 'lieu/lieu_modal.html.twig' %}
-                {% endif %}
+
             </div>
             <div class="form-group">
                 {{ form_row(form.lieu) }}
