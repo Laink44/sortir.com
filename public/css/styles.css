@@ -127,6 +127,10 @@ i {
     color: var(--gris-moyen);
 }
 
+body > div:nth-child(1) > header > nav > a > i {
+    color: var(--bleu-turquoise);
+}
+
 
 button > i {
     color: var(--jaune-fluo);
