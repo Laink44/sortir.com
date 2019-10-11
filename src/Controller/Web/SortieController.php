@@ -208,6 +208,7 @@ class SortieController extends Controller
      * @return Response
      */
     public function sorties(PaginatorInterface $paginator, SortiesRepository $sortiesRepository,SitesRepository $sitesRepository, Request $request){
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $dto = new RequestFindSeries();
         $form = $this->createForm(FindSorties::class, $dto, array(
             'action' => $this->generateUrl($request->get('_route'))
