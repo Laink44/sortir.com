@@ -155,8 +155,6 @@
                         .concat( '&')
                         .concat( 'origin=', origin );
 
-        debugger;
-
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){

@@ -111,7 +111,7 @@ class LieuController extends Controller
         VillesRepository $villeRepo
     )
     {
-        $ville = $villeRepo->find($request->query->get('villeid'));
+        $ville = $villeRepo -> find( $request->query->get('villeid') );
 
         $newLieu = new Lieu();
         $newLieu->setNomLieu($request->query->get('nom', ''));
@@ -170,25 +170,25 @@ class LieuController extends Controller
         return $this->redirectToRoute('gestion_lieu', $request->query->all());
     }
 
-    /**
-     * @Route(
-     * "/admin/lieu/search/nom/{nomLieu}",
-     * name="lieu_search",
-     * methods={"GET"}
-     * )
-     */
-    public function searchLieu($nomLieu = '', PaginatorInterface $paginator, Request $request, LieuxRepository $lieuxRepo )
-    {
-        $foundLocations = $lieuxRepo -> getByLocationName($nomLieu, 0, 5);
-
-        if ($nomLieu === 'empty') {
-            $foundLocations = $lieuxRepo -> findAllLieux();
-        }
-
-        return $this->render('admin/admin_lieu_table.html.twig', [
-            'allLieux' => $this->getPaginatedList($foundLocations, $paginator, $request)
-        ]);
-    }
+//    /**
+//     * @Route(
+//     * "/admin/lieu/search/nom",
+//     * name="lieu_search",
+//     * methods={"GET"}
+//     * )
+//     */
+//    public function searchLieu($nomLieu = '', PaginatorInterface $paginator, Request $request, LieuxRepository $lieuxRepo )
+//    {
+//        $foundLocations = $lieuxRepo -> getByLocationName( $request->query->get('search'), 0, 5);
+//
+//        if ($nomLieu === 'empty') {
+//            $foundLocations = $lieuxRepo -> findAllLieux();
+//        }
+//
+//        return $this->render('admin/admin_lieu_table.html.twig', [
+//            'allLieux' => $this->getPaginatedList($foundLocations, $paginator, $request)
+//        ]);
+//    }
 
     public function getAllLieux()
     {
