@@ -58,17 +58,19 @@ footer{
         width: 400px !important;
     }
 
-h1, h2, h3, h4, h5 {
+h2, h3, h4, h5 {
     color: var(--bleu-turquoise-fonce);
 }
 
 h1 {
     text-align: left;
+    color: var(--gris-moyen);
 }
 
 .title-div {
-    border-bottom: 1px solid var(--bleu-turquoise-fonce);
+    border-bottom: 1px solid var(--gris-moyen);
     margin-bottom: 30px;
+    margin-top: 15px;
 }
 
 .my-custom-scrollbar {
