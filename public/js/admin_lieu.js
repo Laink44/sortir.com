@@ -1,4 +1,4 @@
-    const tableLieu = '#table-lieu';
+    const tableLieu = '#table';
     const slash = '/';
 
 // ADD
@@ -31,7 +31,7 @@
                             .concat( 'villeid=', villeId )
                             .concat( '&')
                             .concat( 'origin=', origin );
-
+    debugger;
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -51,6 +51,7 @@
         let url     =   $( this ).attr( 'data-url' )
                         .concat( '?')
                         .concat( 'origin=', origin );
+    debugger;
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -127,6 +128,7 @@
             .concat( 'longitude=', longitude )
             .concat( '&')
             .concat( 'origin=', origin );
+    debugger;
         $.get( url, function(){
             // alert( 'success' );
         }).done( function( response ){
@@ -152,8 +154,6 @@
                         .concat( 'search=', search )
                         .concat( '&')
                         .concat( 'origin=', origin );
-
-        debugger;
 
         $.get( url, function(){
             // alert( 'success' );

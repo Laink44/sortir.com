@@ -3,7 +3,12 @@
 {% block title %}Accueil - Les sorties {% endblock %}
 
 {% block main %}
-    <div id="index-sorties">
+    <div id="index-sorties" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 title-div">
+                <h1> VOS SORTIES </h1>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <h2>Bienvenue {{ app.user.prenom ~ " " ~ app.user.nom| slice(0, 1) |upper ~ '.'  }} ! </h2>
