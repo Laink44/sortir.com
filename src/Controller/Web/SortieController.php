@@ -38,10 +38,10 @@ class SortieController extends Controller
         $this->denyAccessUnlessGranted('ROLE_USER');
         $sortie = new Sortie();
 
-        $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
-        $ParticipantEnCours = $this->getUser();
+        $OrganisateurEncours= $this->getUser();
+        $SiteOrganisateur = $em->getRepository('App:Site')->find($OrganisateurEncours->getSite()->getId());
 
-       $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
+       $nomSiteParticicpant = $em->getRepository('App:Site')->find($OrganisateurEncours->getSite()->getId())->getNomSite();
        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
           'nomVille'=> $nomSiteParticicpant
        ])->getCodePostal();
@@ -71,8 +71,8 @@ class SortieController extends Controller
 
            $escapeDescription = str_replace('<p>','',$sortie->getDescriptioninfos());
            $sortie->setDescriptioninfos(str_replace('</p>','',$escapeDescription));
-            $sortie->setOrganisateur($ParticipantEnCours);
 
+            $sortie->setOrganisateur($OrganisateurEncours);
 
             $sortie->setEtat($etat);
 
@@ -87,7 +87,7 @@ class SortieController extends Controller
 
         return $this->render('sortie/create.html.twig', [
             'siteParticipantEncours' => strtoupper($nomSiteParticicpant),
-
+            'organisateur' => $SiteOrganisateur,
 
             "form" => $sortieForm->createView()]);
     }

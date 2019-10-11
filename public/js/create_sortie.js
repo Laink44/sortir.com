@@ -1,6 +1,6 @@
 
 let _lieux = [];
-$("#create_sortie_lieu").prop("disabled", true);
+$("#create_sortie_lieu").prop("disabled", false);
  $("#create_sortie_ville").change(function() {
 
      $("#create_sortie_lieu").prop("disabled", false);

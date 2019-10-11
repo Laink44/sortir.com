@@ -42,7 +42,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="vileOrganisatrice">Ville organisatrice</label>
-                <input class="form-control uppecase" type="text" placeholder={{sortie.organisateur.site.nomSite}} readonly name="vileOrganisatrice">
+                <input class="form-control uppecase" type="text" placeholder="{{sortie.organisateur.site.nomSite}}" readonly name="vileOrganisatrice">
             </div>
             <div class="form-group">
                 {{ form_row(form.ville,{ 'attr':{'data-api': path('api_lieu')}}) }}
@@ -72,12 +72,7 @@
 
 
 
-            <div class="form-group">
-                {{ form_row(form.duree) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(form.descriptioninfos) }}
-            </div>
+
         </div>
 
 

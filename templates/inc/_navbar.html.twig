@@ -17,13 +17,13 @@
                 </li>
                 {% if is_granted('ROLE_ADMIN')%}
                     <li class="nav-item">
-                        <a class="nav-link" href={{ path("gestion_ville") }}>Editer Ville</a>
+                        <a class="nav-link" href={{ path("gestion_ville") }}>Villes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href={{ path("gestion_site") }}>Editer Site</a>
+                        <a class="nav-link" href={{ path("gestion_site") }}>Sites</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href={{ path("gestion_lieu") }}>Editer lieu</a>
+                        <a class="nav-link" href={{ path("gestion_lieu") }}>Lieux</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
