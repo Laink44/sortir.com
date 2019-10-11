@@ -50,7 +50,6 @@ class LieuController extends Controller
             case self::ORIGIN_REMOVE :
             case self::ORIGIN_ADD :
             case self::ORIGIN_EDIT :
-                dump( "I'M IN" );
                 $destination = 'admin/admin_lieu_table.html.twig';
                 break;
             default:
@@ -90,8 +89,6 @@ class LieuController extends Controller
         } else {
             $allLieux = $lieuxRepo->findAllLieux($offset, $maxByPage);
         }
-        dump( $destination );
-        dump( $allLieux );
         return $this->render($destination, [
             'allLieux' => $this->getPaginatedList($allLieux, $paginator, $request),
             'viewParams' => $viewParams
