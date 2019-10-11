@@ -183,7 +183,6 @@ button > i {
 /* TABLE */
     table {
         background-color: var(--gris-clair);
-        width: 90%;
     }
 
     #table-sorties > thead:nth-child(1) {

@@ -57,7 +57,7 @@
                         <a class="register" href="" data-id={{ sortie.id }}><i class="fas fa-sign-in-alt"></i></a>
                     {% endif %}
                     {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Ouverte' %}
-                        <a class="cancel" href="" data-id={{ sortie.id }}><i class="fas fa-fist-raised"></i></a>
+                        <a class="cancel" href="" data-id={{ sortie.id }}><i class="fas fa-trash-alt"></i></a>
                     {% endif %}
                     {% if sortie.organisateur.id == app.user.id and sortie.etat.libelle == 'Créée' %}
                         <a class="edit" href={{ path("sortie_edit", {id: sortie.id})}}><i class="fas fa-edit"></i></a>
