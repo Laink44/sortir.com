@@ -47,7 +47,7 @@ class SortieController extends Controller
        ])->getCodePostal();
 
         $sortieForm = $this->createForm(CreateSortieType::class, $sortie,[
-            'cpville'=>substr($CPVilleOrganisateur,0,2).'%',
+            'cpville'=>substr($CPVilleOrganisateur,0,2).'___%',
         ]) ;
 
         $sortieForm->handleRequest($request);
