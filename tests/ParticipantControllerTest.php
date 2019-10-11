@@ -51,7 +51,7 @@ class ParticipantControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Se déconnecter user_fake")')->count());
     }
 
-    public function testPublishSortie()
+   /* public function testPublishSortie()
     {
         $this->logInForm("admin","pass_1234");
         $crawler = $this->client->followRedirect();
@@ -77,7 +77,7 @@ class ParticipantControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("La sortie est publié")')->count());
         $this->assertSame(200, $this->client->getResponse()->getStatusCode());
 
-    }
+    } */
     public function testUpdatePassword()
     {
         $this->logInForm("admin","pass_1234");
@@ -134,8 +134,6 @@ class ParticipantControllerTest extends WebTestCase
             'register[password][first]' => 'pass_1234',
             'register[password][second]' => 'pass_1234',
             'register[site]' => '1',
-            'register[_token]' => '1'
-
         ]);
         $this->client->submit($form);
     }

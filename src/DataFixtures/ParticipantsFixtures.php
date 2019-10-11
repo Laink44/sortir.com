@@ -62,8 +62,7 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
         $participant ->setPassword($password);
         $participant -> setActif(true);
         $participant -> setAdministrateur(true);
-        $idSite = $this->sitesRepository->findOneBy([])->getId() + rand ( 1 , 7 );
-        $participant -> setSite($this->sitesRepository->find($idSite));
+        $participant -> setSite($this->sitesRepository->find(6));
         $participant -> setAvatar( 'avatar.jpg' );
         $manager->persist($participant);
 
@@ -78,7 +77,7 @@ class ParticipantsFixtures extends Fixture implements OrderedFixtureInterface
         $participant ->setPassword($password);
         $participant -> setActif(true);
         $participant -> setAdministrateur(false);
-        $idSite = $this->sitesRepository->findOneBy([])->getId() + rand ( 1 , 7 );
+        $participant -> setSite($this->sitesRepository->find(6));
         $participant -> setSite($this->sitesRepository->find($idSite));
         $participant -> setAvatar( 'avatar.jpg' );
         $manager->persist($participant);

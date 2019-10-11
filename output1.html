@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Créer une Sortie | SORTIR</title>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="/libs/fontawesome-free-5.11.2-web/css/all.css">
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" integrity="sha256-p6xU9YulB7E2Ic62/PX+h59ayb3PBJ0WFTEQxq0EjHw=" crossorigin="anonymous" />
+        <head>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <link href=/libs/air-datepicker/css/datepicker.min.css rel="stylesheet" type="text/css">
+        <script src=/libs/air-datepicker/js/datepicker.js></script>
+        <script src="//cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+        <!-- Include French language -->
+        <script src=/libs/air-datepicker/js/i18n/datepicker.fr.js></script>
+    </head>
+</head>
+<body>
+    <div class="container-fluid">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">SORTIR.COM</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href=/>Home</a>
+            </li>
+
+                            <li class="nav-item">
+                    <a class="nav-link" href=/sortie/>Voir les Sorties</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href=/sortie/create>Créer une sortie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href=/profil/consulter>Mon profil</a>
+                </li>
+                                    <li class="nav-item">
+                        <a class="nav-link" href=/admin/ville>Villes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=/admin/site>Sites</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=/admin/lieu>Lieux</a>
+                    </li>
+                                <li class="nav-item">
+                    <a class="nav-link" href=/logout>Se déconnecter admin</a>
+                </li>
+            
+        </ul>
+    </div>
+</nav>
+        </header>
+        <main>
+            <div id="msgErreurs">
+                            </div>
+            	<div class="my-custom-class-for-errors">
+		<span class="alert alert-danger d-block"><span class="d-block">
+                    <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span> <span class="form-error-message">Le jeton CSRF est invalide. Veuillez renvoyer le formulaire.</span>
+                </span></span>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center">
+					Crée une sortie
+				</h3>
+			</div>
+		</div>
+
+		<form name="create_sortie" method="post" class="row css-selector-to-form">
+		<div class="col-md-6">
+			<div class="form-group">
+				<div class="form-group"><label for="create_sortie_nom" class="required">Nom de la sortie</label><input type="text" id="create_sortie_nom" name="create_sortie[nom]" required="required" maxlength="255" class="form-control" value="Fake_Create_Sortie_Test" /></div>
+			</div>
+			<div class="form-group">
+				<div class="form-group"><label for="create_sortie_datedebut">Date de début</label><input type="text" id="create_sortie_datedebut" name="create_sortie[datedebut]" class="datepicker-here form-control" data-timepicker="true" data-language="fr" data-date-format="yyyy-mm-dd" value="2019-10-30T15:45:00" /></div>
+			</div>
+			<div class="form-group">
+				<div class="form-group"><label for="create_sortie_datecloture">Date limite d&#039;enregistrement</label><input type="text" id="create_sortie_datecloture" name="create_sortie[datecloture]" class="datepicker-here form-control" data-timepicker="true" data-language="fr" data-date-format="yyyy-mm-dd" value="2019-10-29T15:46:00" /></div>
+			</div>
+			<div class="form-group">
+				<div class="form-group"><label for="create_sortie_nbinscriptionsmax" class="required">Nombre de place</label><input type="number" id="create_sortie_nbinscriptionsmax" name="create_sortie[nbinscriptionsmax]" required="required" class="form-control" value="4" /></div>
+			</div>
+			<div class="form-group">
+				<div class="form-group"><label for="create_sortie_duree">Durée</label><input type="number" id="create_sortie_duree" name="create_sortie[duree]" class="form-control" value="31" /></div>
+			</div>
+			<div class="form-group">
+								<div class="form-group"><label for="create_sortie_descriptioninfos" class="required">Description et infos</label>    <textarea id="create_sortie_descriptioninfos" name="create_sortie[descriptioninfos]" required="required">&lt;p&gt;Fake_Create_Sortie_Test&lt;/p&gt;</textarea>
+
+                        <script type="text/javascript">
+            var CKEDITOR_BASEPATH = "/bundles/fosckeditor/";
+        </script>
+        <script type="text/javascript" src="/bundles/fosckeditor/ckeditor.js"></script>
+                <script type="text/javascript">
+        
+        
+        if (CKEDITOR.instances["create_sortie_descriptioninfos"]) { CKEDITOR.instances["create_sortie_descriptioninfos"].destroy(true); delete CKEDITOR.instances["create_sortie_descriptioninfos"]; }
+
+        
+        
+        
+        
+        CKEDITOR.replace("create_sortie_descriptioninfos", {"toolbar":[["Cut","Copy","Paste","PasteText","PasteFromWord","-","Undo","Redo"],["Scayt"],["Link","Unlink","Anchor"],["Image","Table","HorizontalRule","SpecialChar"],["Maximize"],["Source"],"\/",["Bold","Italic","Strike","-","RemoveFormat"],["NumberedList","BulletedList","-","Outdent","Indent","-","Blockquote"],["Styles","Format","About"]],"basicEntities":false,"resize_enabled":false,"entities":false,"entities_additional":"#39","language":"fr"});
+
+        
+            </script>
+
+    </div>
+							</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="vileOrganisatrice">Ville organisatrice</label>
+				<input class="form-control" type="text" placeholder=NANTES readonly name="vileOrganisatrice">
+			</div>
+			<div class="form-group">
+				<div class="form-group"><label class="required" for="create_sortie_ville">Ville</label><select id="create_sortie_ville" name="create_sortie[ville]" required="required" data-api="/api/lieu/" class="form-control"><option value="">Choisir une ville</option><option value="15179" selected="selected">ABBARETZ - 44170</option><option value="18086">AIGREFEUILLE SUR MAINE - 44140</option><option value="25214">ANCENIS - 44150</option><option value="18339">ARCHAIL - 4420</option><option value="25215">ASSERAC - 44410</option><option value="25216">ASSERAC - 44410</option><option value="14949">AVESSAC - 44460</option><option value="36928">BARCELONNETTE - 4400</option><option value="25217">BASSE GOULAINE - 44115</option><option value="17353">BATZ SUR MER - 44740</option><option value="19699">BEAUJEU - 4420</option><option value="17355">BESNE - 44160</option><option value="14950">BLAIN - 44130</option><option value="14951">BLAIN - 44130</option><option value="17357">BLAIN - 44130</option><option value="25218">BONNOEUVRE - 44540</option><option value="18087">BOUAYE - 44830</option><option value="14952">BOUEE - 44260</option><option value="17359">BOUGUENAIS - 44340</option><option value="17360">BOUGUENAIS - 44340</option><option value="17363">BOUSSAY - 44190</option><option value="15181">BOUVRON - 44130</option><option value="14953">BRAINS - 44830</option><option value="15182">CAMPBON - 44750</option><option value="17364">CARQUEFOU - 44470</option><option value="25220">CASSON - 44390</option><option value="17367">CHATEAU THEBAUD - 44690</option><option value="14955">CHATEAUBRIANT - 44110</option><option value="15180">CHAUMES EN RETZ - 44320</option><option value="14947">CHAUMES EN RETZ - 44320</option><option value="14948">CHAUMES EN RETZ - 44680</option><option value="15185">CHAUVE - 44320</option><option value="18091">CHEIX EN RETZ - 44640</option><option value="15186">CLISSON - 44190</option><option value="25222">CONQUEREUIL - 44290</option><option value="18520">CORCOUE SUR LOGNE - 44650</option><option value="14985">CORCOUE SUR LOGNE - 44650</option><option value="25245">CORCOUE SUR LOGNE - 44650</option><option value="17369">CORDEMAIS - 44360</option><option value="18092">CORSEPT - 44560</option><option value="14956">COUERON - 44220</option><option value="18093">COUERON - 44220</option><option value="25223">COUFFE - 44521</option><option value="17370">CROSSAC - 44160</option><option value="15188">DERVAL - 44590</option><option value="15183">DIVATTE SUR LOIRE - 44450</option><option value="17365">DIVATTE SUR LOIRE - 44450</option><option value="15189">DONGES - 44480</option><option value="36978">DRAIX - 4420</option><option value="14957">DREFFEAC - 44530</option><option value="36983">ENCHASTRAYES - 4400</option><option value="22521">ENCHASTRAYES - 4400</option><option value="17371">ERBRAY - 44110</option><option value="22567">FAUCON DE BARCELONNETTE - 4400</option><option value="18094">FAY DE BRETAGNE - 44130</option><option value="15191">FEGREAC - 44460</option><option value="25224">FERCE - 44660</option><option value="25225">FROSSAY - 44320</option><option value="18538">GENESTON - 44140</option><option value="15193">GETIGNE - 44190</option><option value="25226">GORGES - 44190</option><option value="15194">GRAND AUVERNE - 44520</option><option value="18095">GRANDCHAMPS DES FONTAINES - 44119</option><option value="15195">GUEMENE PENFAO - 44290</option><option value="25227">GUEMENE PENFAO - 44290</option><option value="18096">GUEMENE PENFAO - 44290</option><option value="18097">GUENROUET - 44530</option><option value="17372">GUENROUET - 44530</option><option value="14958">GUERANDE - 44350</option><option value="14959">GUERANDE - 44350</option><option value="25228">GUERANDE - 44350</option><option value="18098">GUERANDE - 44350</option><option value="18099">HAUTE GOULAINE - 44115</option><option value="14961">HERBIGNAC - 44410</option><option value="14962">HERBIGNAC - 44410</option><option value="17373">HERIC - 44810</option><option value="14963">INDRE - 44610</option><option value="25229">INDRE - 44610</option><option value="17374">INDRE - 44610</option><option value="15196">ISSE - 44520</option><option value="18100">JANS - 44170</option><option value="17375">JOUE SUR ERDRE - 44440</option><option value="17376">JOUE SUR ERDRE - 44440</option><option value="14964">JUIGNE DES MOUTIERS - 44670</option><option value="15190">LA BAULE ESCOUBLAC - 44500</option><option value="17354">LA BERNERIE EN RETZ - 44760</option><option value="17358">LA BOISSIERE DU DORE - 44430</option><option value="15184">LA CHAPELLE DES MARAIS - 44410</option><option value="18088">LA CHAPELLE GLAIN - 44670</option><option value="18089">LA CHAPELLE HEULIN - 44330</option><option value="17366">LA CHAPELLE LAUNAY - 44260</option><option value="18090">LA CHAPELLE SUR ERDRE - 44240</option><option value="14994">LA CHEVALLERAIS - 44810</option><option value="25221">LA CHEVROLIERE - 44118</option><option value="17368">LA CHEVROLIERE - 44118</option><option value="15633">LA GRIGONNAIS - 44170</option><option value="14960">LA HAIE FOUASSIERE - 44690</option><option value="20131">LA JAVIE - 4420</option><option value="15197">LA LIMOUZINIERE - 44310</option><option value="17377">LA MARNE - 44270</option><option value="14967">LA MEILLERAYE DE BRETAGNE - 44520</option><option value="15603">LA MONTAGNE - 44620</option><option value="17383">LA PLAINE SUR MER - 44770</option><option value="15609">LA PLANCHE - 44140</option><option value="15614">LA REGRIPPIERE - 44330</option><option value="17389">LA REMAUDIERE - 44430</option><option value="17808">LA ROCHE BLANCHE - 44522</option><option value="15631">LA TURBALLE - 44420</option><option value="17802">LA TURBALLE - 44420</option><option value="25230">LAVAU SUR LOIRE - 44260</option><option value="17356">LE BIGNON - 44140</option><option value="18337">LE BRUSQUET - 4420</option><option value="14954">LE CELLIER - 44850</option><option value="15187">LE CROISIC - 44490</option><option value="15192">LE GAVRE - 44130</option><option value="18501">LE LANDREAU - 44430</option><option value="25231">LE LOROUX BOTTEREAU - 44430</option><option value="18514">LE PALLET - 44330</option><option value="18515">LE PELLERIN - 44640</option><option value="15608">LE PIN - 44540</option><option value="17388">LE POULIGUEN - 44510</option><option value="15630">LE TEMPLE DE BRETAGNE - 44360</option><option value="18502">LEGE - 44650</option><option value="25235">LES MOUTIERS EN RETZ - 44760</option><option value="18529">LES SORINIERES - 44840</option><option value="20162">LES THUILES - 4400</option><option value="25258">LES TOUCHES - 44390</option><option value="18503">LIGNE - 44850</option><option value="18533">LOIREAUXENCE - 44370</option><option value="18534">LOIREAUXENCE - 44370</option><option value="18535">LOIREAUXENCE - 44370</option><option value="17804">LOIREAUXENCE - 44370</option><option value="18504">LOUISFERT - 44110</option><option value="18505">LUSANGER - 44590</option><option value="18506">MACHECOUL ST MEME - 44270</option><option value="15198">MACHECOUL ST MEME - 44270</option><option value="25232">MAISDON SUR SEVRE - 44690</option><option value="15199">MALVILLE - 44260</option><option value="37403">MARCOUX - 4420</option><option value="18507">MARSAC SUR DON - 44170</option><option value="18508">MASSERAC - 44290</option><option value="14965">MAUMUSSON - 44540</option><option value="14966">MAUVES SUR LOIRE - 44470</option><option value="25233">MESANGER - 44522</option><option value="15200">MESQUER - 44420</option><option value="15601">MESQUER - 44420</option><option value="17378">MISSILLAC - 44780</option><option value="15602">MOISDON LA RIVIERE - 44520</option><option value="17379">MONNIERES - 44690</option><option value="18509">MONTBERT - 44140</option><option value="18510">MONTOIR DE BRETAGNE - 44550</option><option value="15604">MONTRELAIS - 44370</option><option value="25234">MOUAIS - 44590</option><option value="18511">MOUZEIL - 44850</option><option value="25236">MOUZILLON - 44330</option><option value="18512">NANTES - 44100</option><option value="18513">NANTES - 44300</option><option value="14968">NANTES - 44000</option><option value="15605">NANTES - 44200</option><option value="17380">NORT SUR ERDRE - 44390</option><option value="17381">NOTRE DAME DES LANDES - 44130</option><option value="14969">NOYAL SUR BRUTZ - 44110</option><option value="15606">NOZAY - 44170</option><option value="14970">ORVAULT - 44700</option><option value="25237">OUDON - 44521</option><option value="15607">PAIMBOEUF - 44560</option><option value="14971">PANNECE - 44440</option><option value="14972">PAULX - 44270</option><option value="25238">PETIT AUVERNE - 44670</option><option value="14973">PETIT MARS - 44390</option><option value="17382">PIERRIC - 44290</option><option value="14974">PIRIAC SUR MER - 44420</option><option value="14975">PLESSE - 44630</option><option value="25239">PLESSE - 44630</option><option value="17384">PLESSE - 44630</option><option value="17385">PONT ST MARTIN - 44860</option><option value="17386">PONT ST MARTIN - 44860</option><option value="18516">PONTCHATEAU - 44160</option><option value="18517">PONTCHATEAU - 44160</option><option value="14976">PONTCHATEAU - 44160</option><option value="14977">PORNIC - 44210</option><option value="25240">PORNIC - 44210</option><option value="15610">PORNIC - 44210</option><option value="15611">PORNICHET - 44380</option><option value="15612">PORT ST PERE - 44710</option><option value="17387">POUILLE LES COTEAUX - 44522</option><option value="20104">PRADS HAUTE BLEONE - 4420</option><option value="412">PRADS HAUTE BLEONE - 4420</option><option value="416">PRADS HAUTE BLEONE - 4420</option><option value="15613">PREFAILLES - 44770</option><option value="25241">PRINQUIAU - 44260</option><option value="14978">PUCEUL - 44390</option><option value="418">PUIMOISSON - 4410</option><option value="14979">QUILLY - 44750</option><option value="15615">REMOUILLE - 44140</option><option value="15616">REZE - 44400</option><option value="25242">REZE - 44400</option><option value="14980">RIAILLE - 44440</option><option value="17390">ROUANS - 44640</option><option value="17391">ROUGE - 44660</option><option value="14981">RUFFIGNE - 44660</option><option value="17392">SAFFRE - 44390</option><option value="25256">SAUTRON - 44880</option><option value="18528">SAVENAY - 44260</option><option value="25257">SEVERAC - 44530</option><option value="14991">SION LES MINES - 44590</option><option value="15627">SOUDAN - 44110</option><option value="15628">SOULVACHE - 44660</option><option value="14982">ST AIGNAN GRANDLIEU - 44860</option><option value="18518">ST ANDRE DES EAUX - 44117</option><option value="14984">ST AUBIN DES CHATEAUX - 44110</option><option value="15617">ST BREVIN LES PINS - 44250</option><option value="15618">ST BREVIN LES PINS - 44250</option><option value="25243">ST BREVIN LES PINS - 44250</option><option value="18519">ST COLOMBAN - 44310</option><option value="25244">ST COLOMBAN - 44310</option><option value="15619">ST ETIENNE DE MER MORTE - 44270</option><option value="17393">ST ETIENNE DE MONTLUC - 44360</option><option value="25246">ST FIACRE SUR MAINE - 44690</option><option value="17394">ST GEREON - 44150</option><option value="25247">ST GILDAS DES BOIS - 44530</option><option value="25248">ST HERBLAIN - 44800</option><option value="18522">ST HILAIRE DE CHALEONS - 44680</option><option value="14986">ST HILAIRE DE CLISSON - 44190</option><option value="15620">ST JEAN DE BOISEAU - 44640</option><option value="18523">ST JOACHIM - 44720</option><option value="14987">ST JULIEN DE CONCELLES - 44450</option><option value="17396">ST JULIEN DE VOUVANTES - 44670</option><option value="18323">ST JURS - 4410</option><option value="14988">ST LEGER LES VIGNES - 44710</option><option value="25249">ST LUMINE DE CLISSON - 44190</option><option value="15622">ST LUMINE DE COUTAIS - 44310</option><option value="15623">ST LYPHARD - 44410</option><option value="14989">ST MALO DE GUERSAC - 44550</option><option value="18524">ST MARS DE COUTAIS - 44680</option><option value="15624">ST MARS DU DESERT - 44850</option><option value="15625">ST MARS LA JAILLE - 44540</option><option value="15626">ST MICHEL CHEF CHEF - 44730</option><option value="18525">ST MICHEL CHEF CHEF - 44730</option><option value="25250">ST MOLF - 44350</option><option value="18526">ST NAZAIRE - 44600</option><option value="25251">ST NAZAIRE - 44600</option><option value="25252">ST NICOLAS DE REDON - 44460</option><option value="25253">ST PERE EN RETZ - 44320</option><option value="18527">ST PHILBERT DE GRAND LIEU - 44310</option><option value="37424">ST PONS - 4400</option><option value="25254">ST SEBASTIEN SUR LOIRE - 44230</option><option value="17398">ST SULPICE DES LANDES - 44540</option><option value="25255">ST VIAUD - 44320</option><option value="17399">ST VINCENT DES LANDES - 44590</option><option value="14983">STE ANNE SUR BRIVET - 44160</option><option value="15621">STE LUCE SUR LOIRE - 44980</option><option value="14990">STE PAZANNE - 44680</option><option value="17397">STE REINE DE BRETAGNE - 44160</option><option value="18530">SUCE SUR ERDRE - 44240</option><option value="15629">TEILLE - 44440</option><option value="18531">THOUARE SUR LOIRE - 44470</option><option value="14992">TOUVOIS - 44650</option><option value="25259">TRANS SUR ERDRE - 44440</option><option value="18532">TREFFIEUX - 44170</option><option value="17400">TREILLIERES - 44119</option><option value="17801">TRIGNAC - 44570</option><option value="37415">UVERNET FOURS - 4400</option><option value="37418">UVERNET FOURS - 4400</option><option value="23004">UVERNET FOURS - 4400</option><option value="18521">VAIR SUR LOIRE - 44150</option><option value="17395">VAIR SUR LOIRE - 44150</option><option value="17803">VALLET - 44330</option><option value="25260">VAY - 44170</option><option value="18536">VERTOU - 44120</option><option value="17805">VERTOU - 44120</option><option value="17806">VIEILLEVIGNE - 44116</option><option value="14993">VIGNEUX DE BRETAGNE - 44360</option><option value="25261">VIGNEUX DE BRETAGNE - 44360</option><option value="25219">VILLENEUVE EN RETZ - 44580</option><option value="17361">VILLENEUVE EN RETZ - 44580</option><option value="17362">VILLENEUVE EN RETZ - 44580</option><option value="17807">VILLEPOT - 44110</option><option value="18537">VRITZ - 44540</option><option value="15632">VUE - 44640</option></select></div>
+			</div>
+			<div class="form-group">
+				<div class="form-group"><label class="required" for="create_sortie_lieu">Lieu</label><select id="create_sortie_lieu" name="create_sortie[lieu]" required="required" class="form-control"><option value="">Choisir une lieu</option><option value="1">Rey</option><option value="2">Breton Duhamel S.A.S.</option><option value="3" selected="selected">Couturier</option><option value="4">Roy</option><option value="5">Roy</option><option value="6">Blin</option><option value="7">Peron</option><option value="8">Leduc SARL</option><option value="9">Poirier Buisson S.A.R.L.</option><option value="10">Pereira Pires et Fils</option><option value="11">Leroux</option><option value="12">Pinto SA</option><option value="13">Brun</option><option value="14">Lambert S.A.</option><option value="15">Le Goff</option><option value="16">Lelievre David S.A.R.L.</option><option value="17">Barre Leconte SA</option><option value="18">Marchand S.A.</option><option value="19">Martineau</option><option value="20">Roche</option></select></div>
+				<button id="btn-pop-lieu" class="btn-common btn-add-lieu" data-toggle="modal" data-target="#modal-lieu">
+					<i class="fas fa-plus-square"></i>
+				</button>
+				<!-- Modal -->
+<div class="modal fade" id="modal-lieu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">AJOUTER UN LIEU</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="inpt-modal">
+                                        <tr>
+                        <td>
+                            <input type="text" id="inpt-add-lieu" class="inpt-modal" placeholder="Nom lieu : ENI Ecole" maxlength="255" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="inpt-add-rue" class="inpt-modal" placeholder="Rue : Rue Franklin" maxlength="255" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" id="inpt-add-latitude" class="inpt-modal" placeholder="Latitude : 47.2267535" maxlength="15" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" id="inpt-add-longitude" class="inpt-modal" placeholder="Longitude : -1.6209101,15" maxlength="15" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" id="inpt-add-ville" class="inpt-modal" placeholder="Ville : Toulon" data-url="/admin/ville/search/json/nom"  maxlength="255" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-action">
+                            <button class="btn-common add btn-add-lieu" id="inpt-modal" data-url="/admin/lieu/ajouter" data-origin="add">
+                                <i class="fas fa-plus-square"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>			</div>
+
+			<div class="form-group" >
+				<label for="create_sortie[rue]">Rue</label>
+				<span class="form-control bg-light"  id="create_sortie_rue"></span>
+			</div>
+			<div class="form-group">
+				<label for="create_sortie[codePostal]">Code Postal</label>
+				<span class="form-control bg-light"  id="create_sortie_cp"></span>
+			</div>
+			<div class="form-group">
+				<label for="create_sortie[longitude]">longitude</label>
+				<span class="form-control bg-light"  id="create_sortie_lon"></span>
+			</div>
+			<div class="form-group">
+				<label for="create_sortie[latitude]">latitude</label>
+				<span class="form-control bg-light"  id="create_sortie_lat"></span>
+			</div>
+
+
+
+
+		</div>
+
+
+	<div class="mx-auto">
+
+		<div class="row">
+			<div class="col-md-4">
+					<div class="form-group"><button type="submit" id="create_sortie_save" name="create_sortie[save]" class="btn-primary btn">Enregistrer</button></div>
+			</div>
+			<div class="col-md-4">
+
+					<div class="form-group"><button type="submit" id="create_sortie_publish" name="create_sortie[publish]" class="btn-primary btn">Publier une sortie</button></div>
+
+			</div>
+			<div class="col-md-4">
+
+				<button type="button" class="btn  btn-block bg-danger"  onclick="location.href='/sortie/'">
+					Annuler
+				</button>
+			</div>
+
+		</div>
+
+
+	</div>
+
+
+	</div>
+	<input type="hidden" id="create_sortie__token" name="create_sortie[_token]" value="GifaL0f1PRaayFDfsEWG-DxAQeL7s0UCNKo1GiElTvs" /></form>
+
+        </main>
+        <footer class="centrage">
+            &copy 2019
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/libs/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="/js/admin_site.js"></script>
+    <script src="/js/admin_ville.js"></script>
+    <script src="/js/admin_lieu.js"></script>
+    <script src="/js/pagination.js"></script>
+    <script src="/js/create_sortie.js"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"
+    >
+    </script>
+</body>
+</html>
