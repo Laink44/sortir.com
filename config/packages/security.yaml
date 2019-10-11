@@ -24,7 +24,7 @@ security:
                 csrf_parameter: _csrf_security_token
                 login_path: participant_login
                 check_path: participant_login
-                default_target_path: home_index
+                default_target_path: sorties
             logout:
                 path: participant_logout
                 target: home_index
