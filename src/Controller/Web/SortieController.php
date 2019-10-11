@@ -38,10 +38,10 @@ class SortieController extends Controller
         $this->denyAccessUnlessGranted('ROLE_USER');
         $sortie = new Sortie();
 
-        $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
-        $SiteOrganisateur = $em->getRepository('App:Site')->find($ParticipantEnCoursID);
+        $OrganisateurEncours= $this->getUser();
+        $SiteOrganisateur = $em->getRepository('App:Site')->find($OrganisateurEncours->getSite()->getId());
 
-       $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
+       $nomSiteParticicpant = $em->getRepository('App:Site')->find($OrganisateurEncours->getSite()->getId())->getNomSite();
        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
           'nomVille'=> $nomSiteParticicpant
        ])->getCodePostal();
@@ -72,7 +72,7 @@ class SortieController extends Controller
            $escapeDescription = str_replace('<p>','',$sortie->getDescriptioninfos());
            $sortie->setDescriptioninfos(str_replace('</p>','',$escapeDescription));
 
-
+            $sortie->setOrganisateur($OrganisateurEncours);
 
             $sortie->setEtat($etat);
 
