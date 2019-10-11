@@ -39,7 +39,7 @@ class SortieController extends Controller
         $sortie = new Sortie();
 
         $ParticipantEnCoursID = $this->getUser()->getSite()->getId();
-        $ParticipantEnCours = $this->getUser();
+        $SiteOrganisateur = $em->getRepository('App:Site')->find($ParticipantEnCoursID);
 
        $nomSiteParticicpant = $em->getRepository('App:Site')->find($ParticipantEnCoursID)->getNomSite();
        $CPVilleOrganisateur = $em->getRepository('App:Ville')->findOneBy([
@@ -71,7 +71,7 @@ class SortieController extends Controller
 
            $escapeDescription = str_replace('<p>','',$sortie->getDescriptioninfos());
            $sortie->setDescriptioninfos(str_replace('</p>','',$escapeDescription));
-            $sortie->setOrganisateur($ParticipantEnCours);
+
 
 
             $sortie->setEtat($etat);
@@ -87,7 +87,7 @@ class SortieController extends Controller
 
         return $this->render('sortie/create.html.twig', [
             'siteParticipantEncours' => strtoupper($nomSiteParticicpant),
-
+            'organisateur' => $SiteOrganisateur,
 
             "form" => $sortieForm->createView()]);
     }
