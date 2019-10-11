@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LieuController extends Controller
 {
-    const ORIGIN_HOME       = 'home';
-    const ORIGIN_PAGINATOR  = 'paginator';
-    const ORIGIN_SEARCHBAR  = 'searchbar';
-    const ORIGIN_REMOVE     = 'remove';
-    const ORIGIN_ADD        = 'add';
-    const ORIGIN_EDIT       = 'edit';
+    const ORIGIN_HOME = 'home';
+    const ORIGIN_PAGINATOR = 'paginator';
+    const ORIGIN_SEARCHBAR = 'searchbar';
+    const ORIGIN_REMOVE = 'remove';
+    const ORIGIN_ADD = 'add';
+    const ORIGIN_EDIT = 'edit';
 
     /**
      * @Route(
@@ -35,13 +35,13 @@ class LieuController extends Controller
         Request $request,
         LieuxRepository $lieuxRepo,
         PaginatorService $paginatorService
-    ) {
-        $search         = $request -> query -> get( 'search', '' );
-        $origin         = $request -> query -> get( 'origin', self::ORIGIN_HOME );
-        $currentPage    = $request -> query -> get( 'currentpage', 1 );
-        $destination    = 'admin/admin_lieu.html.twig';
-
-        switch( $origin ) {
+    )
+    {
+        $search = $request->query->get('search', '');
+        $origin = $request->query->get('origin', self::ORIGIN_HOME);
+        $currentPage = $request->query->get('currentpage', 1);
+        $destination = 'admin/admin_lieu.html.twig';
+        switch ($origin) {
             case self::ORIGIN_HOME :
                 $destination = 'admin/admin_lieu.html.twig';
                 break;
@@ -50,6 +50,7 @@ class LieuController extends Controller
             case self::ORIGIN_REMOVE :
             case self::ORIGIN_ADD :
             case self::ORIGIN_EDIT :
+                dump( "I'M IN" );
                 $destination = 'admin/admin_lieu_table.html.twig';
                 break;
             default:
@@ -60,39 +61,40 @@ class LieuController extends Controller
         // NOMBRE DE LIEUX
         // Dénombre les lieux de la table idoine, ce qui sera utile pour l'évaluation de la variable offset
         $rowCount = 0;
-        if(
-            ( $origin == self::ORIGIN_SEARCHBAR || $origin == self::ORIGIN_PAGINATOR )
+        if (
+            ($origin == self::ORIGIN_SEARCHBAR || $origin == self::ORIGIN_PAGINATOR)
             && $search
             && $search != ''
             && $search != 'empty'
         ) {
-            $rowCount = $lieuxRepo -> getLocationCountByName( $search );
+            $rowCount = $lieuxRepo->getLocationCountByName($search);
         } else {
-            $rowCount = $lieuxRepo -> getLocationCount();
+            $rowCount = $lieuxRepo->getLocationCount();
         }
 
         // PARAMETRES DE PAGINATION
-        $maxByPage      = 15;
-        $numberOfRange  = 5;
-        $viewParams     = $paginatorService -> getViewParams( $currentPage, $maxByPage, $rowCount, $numberOfRange );
-        $offset         = $paginatorService -> getOffset( $currentPage, $maxByPage );
+        $maxByPage = 15;
+        $numberOfRange = 5;
+        $viewParams = $paginatorService->getViewParams($currentPage, $maxByPage, $rowCount, $numberOfRange);
+        $offset = $paginatorService->getOffset($currentPage, $maxByPage);
 
         // LISTE DE VILLES
         $allLieux = [];
-        if(
-            ( $origin == self::ORIGIN_SEARCHBAR || $origin == self::ORIGIN_PAGINATOR )
+        if (
+            ($origin == self::ORIGIN_SEARCHBAR || $origin == self::ORIGIN_PAGINATOR)
             && $search
             && $search != ''
             && $search != 'empty'
         ) {
-            $allLieux  = $lieuxRepo -> getByLocationName( $search, $offset, $maxByPage );
+            $allLieux = $lieuxRepo->getByLocationName($search, $offset, $maxByPage);
         } else {
-            $allLieux  = $lieuxRepo -> findAllLieux( $offset, $maxByPage );
+            $allLieux = $lieuxRepo->findAllLieux($offset, $maxByPage);
         }
-
-        return $this->render( $destination, [
-            'allLieux'      => $this -> getPaginatedList( $allLieux, $paginator, $request ),
-            'viewParams'    => $viewParams
+        dump( $destination );
+        dump( $allLieux );
+        return $this->render($destination, [
+            'allLieux' => $this->getPaginatedList($allLieux, $paginator, $request),
+            'viewParams' => $viewParams
         ]);
     }
 
@@ -107,40 +109,41 @@ class LieuController extends Controller
         PaginatorInterface $paginator,
         Request $request,
         VillesRepository $villeRepo
-    ) {
-        $ville = $villeRepo -> find( $request -> query -> get( 'villeid' ) );
+    )
+    {
+        $ville = $villeRepo->find($request->query->get('villeid'));
 
         $newLieu = new Lieu();
-        $newLieu -> setNomLieu( $request -> query -> get( 'nom', '' ) );
-        $newLieu -> setRue( $request -> query -> get( 'rue', '' ) );
-        $newLieu -> setLatitude( $request -> query -> get( 'latitude', '' ) );
-        $newLieu -> setLongitude( $request -> query -> get( 'longitude', '' ) );
-        $newLieu -> setVille( $ville );
+        $newLieu->setNomLieu($request->query->get('nom', ''));
+        $newLieu->setRue($request->query->get('rue', ''));
+        $newLieu->setLatitude($request->query->get('latitude', ''));
+        $newLieu->setLongitude($request->query->get('longitude', ''));
+        $newLieu->setVille($ville);
 
-        $this -> getEm() -> persist( $newLieu );
-        $this -> getEm() -> flush();
+        $this->getEm()->persist($newLieu);
+        $this->getEm()->flush();
 
-        return $this -> redirectToRoute( 'gestion_lieu', $request -> query -> all() );
+        return $this->redirectToRoute('gestion_lieu', $request->query->all());
     }
 
     /**
      * @Route(
-     * "/admin/lieu/supprimer/{id}",
+     * "/admin/lieu/supprimer",
      * name="lieu_remove",
      * methods={"GET"}
      * )
      */
     public function removeLieu(
-        $id = '',
         PaginatorInterface $paginator,
         Request $request,
         LieuxRepository $lieuxRepo
-    ) {
-        $lieuToRemove = $lieuxRepo -> find( $id );
-        $this -> getEm() -> remove( $lieuToRemove );
-        $this -> getEm() -> flush();
+    )
+    {
+        $lieuToRemove = $lieuxRepo->find($request->query->get('id'));
+        $this->getEm()->remove($lieuToRemove);
+        $this->getEm()->flush();
 
-        return $this -> redirectToRoute( 'gestion_lieu', $request -> query -> all() );
+        return $this->redirectToRoute( 'gestion_lieu', $request -> query -> all() );
     }
 
     /**
@@ -152,17 +155,19 @@ class LieuController extends Controller
      */
     public function editLieu(
         PaginatorInterface $paginator,
-        Request $request
-    ) {
-        $lieuToEdit = $this -> getRepo() -> find( $request -> query -> get( 'id' ) );
-        $lieuToEdit -> setNomLieu( $request -> query -> get( 'nom', '' ) );
-        $lieuToEdit -> setRue( $request -> query -> get( 'rue', '' ) );
-        $lieuToEdit -> setLatitude( $request -> query -> get( 'latitude', '' ) );
-        $lieuToEdit  -> setLongitude( $request -> query -> get( 'longitude', '' ));
-        $this -> getEm() -> persist( $lieuToEdit );
-        $this -> getEm() -> flush();
+        Request $request,
+        LieuxRepository $lieuxRepo
+    )
+    {
+        $lieuToEdit = $lieuxRepo -> find($request->query->get('id'));
+        $lieuToEdit->setNomLieu($request->query->get('nom', ''));
+        $lieuToEdit->setRue($request->query->get('rue', ''));
+        $lieuToEdit->setLatitude($request->query->get('latitude', ''));
+        $lieuToEdit->setLongitude($request->query->get('longitude', ''));
+        $this->getEm()->persist($lieuToEdit);
+        $this->getEm()->flush();
 
-        return $this -> redirectToRoute( 'gestion_lieu', $request -> query -> all() );
+        return $this->redirectToRoute('gestion_lieu', $request->query->all());
     }
 
     /**
@@ -172,41 +177,36 @@ class LieuController extends Controller
      * methods={"GET"}
      * )
      */
-    public function searchLieu( $nomLieu = '', PaginatorInterface $paginator, Request $request )
+    public function searchLieu($nomLieu = '', PaginatorInterface $paginator, Request $request, LieuxRepository $lieuxRepo )
     {
-        $foundLocations = $this -> getRepo() -> getByLocationName( $nomLieu, 0, 5 );
+        $foundLocations = $lieuxRepo -> getByLocationName($nomLieu, 0, 5);
 
-        if( $nomLieu === 'empty' )
-        {
-            $foundLocations = $this -> getRepo() -> findAllLieux();
+        if ($nomLieu === 'empty') {
+            $foundLocations = $lieuxRepo -> findAllLieux();
         }
 
         return $this->render('admin/admin_lieu_table.html.twig', [
-            'allLieux' => $this -> getPaginatedList( $foundLocations, $paginator, $request )
+            'allLieux' => $this->getPaginatedList($foundLocations, $paginator, $request)
         ]);
     }
 
     public function getAllLieux()
     {
-        return $this -> getRepo() -> findAll();
+        return $this->getRepo()->findAll();
     }
 
-    public function getPaginatedList( Array $listOfObjectsToPaginate, PaginatorInterface $paginator, Request $request )
+    public function getPaginatedList(Array $listOfObjectsToPaginate, PaginatorInterface $paginator, Request $request)
     {
-        $paginatedObjects = $paginator -> paginate( $listOfObjectsToPaginate );
+        $paginatedObjects = $paginator->paginate($listOfObjectsToPaginate);
 
-        $paginatedObjects -> setTemplate( 'pagination/pagination.html.twig' );
-        $paginatedObjects -> setUsedRoute( 'gestion_lieu' );
+        $paginatedObjects->setTemplate('pagination/pagination.html.twig');
+        $paginatedObjects->setUsedRoute('gestion_lieu');
 
         return $paginatedObjects;
     }
 
-    public function getEm() {
-        return $this -> getDoctrine() -> getManager();
-    }
-
-    public function getRepo()
+    public function getEm()
     {
-        return $this -> getDoctrine() -> getRepository( Lieu::class );
+        return $this->getDoctrine()->getManager();
     }
 }

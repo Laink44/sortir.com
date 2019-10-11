@@ -5,8 +5,8 @@
 {% block main %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center"> Gérer les lieux </h1>
+            <div class="col-md-12 title-div">
+                <h1>GERER LES LIEUX</h1>
             </div>
         </div>
         <div class="row">
@@ -22,7 +22,7 @@
                             <i class="fas fa-search"></i>
                         </div>
                     </div>
-                    <input id="inpt-search" type="text" class="form-control" placeholder="Chercher un lieu" aria-label="Chercher un lieu" aria-describedby="basic-addon1" data-origin="searchbar" data-url="{{ path( 'gestion_lieu' ) }}">
+                    <input id="inpt-search" type="text" class="form-control" placeholder="Chercher un lieu" aria-label="Chercher un lieu" aria-describedby="basic-addon1" data-origin="searchbar" data-url="{{ path( 'lieu_add' ) }}">
                 </div>
                 </form>
             </div>
